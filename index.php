@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
+    <link rel="stylesheet" href="css/main.css">
+    </head>
 <body>
-    <h1 style="font-size: 50px; color: red;">HEY</h1>
-    <p>http://localhost/Github/dnd_Above_And_Beyond/index.php</p>
+    <header>
+        <nav>
+            <a href="#">PLACEHOLDER1</a>
+            <a href="#">PLACEHOLDER2</a>
+            <a href="#">PLACEHOLDER3</a>
+            <a href="#">PLACEHOLDER4</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h2>PLACEHOLDER TEXT</h2>
+        </section>
+    </main>
+
+    <footer>
+        
+    </footer>
 </body>
 </html>
