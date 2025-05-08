@@ -7,10 +7,17 @@ Free D&D Toolkit aims to provide a clean, fast, and fully accessible alternative
 This project is built for the community, by the community.
 
 ✨ Features
+
 🧝 Character builder and editor
+
 📘 Complete SRD-based rules and spells database
+
 🐉 Monster manual with filters and search
+
 📜 Digital character sheets with autosave
+
 🗺️ Campaign and session management tools
+
 🎲 Dice roller and initiative tracker
+
 🎨 Homebrew content support (maybe)

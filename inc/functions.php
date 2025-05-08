@@ -17,8 +17,3 @@ function dbConnect()
 
     return $conn;
 }
-
-function download()
-{
-    $filepath = "files/copyright.pdf";
-}
