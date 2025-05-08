@@ -1,14 +1,16 @@
+:root {
+    --mainColorDarker: #391849;
+}
 body {
     background-color: #ffffff;  
     margin: 0;
 }
 
 header {
-    background-color: #391849;
+    background-color: var(--mainColorDarker);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    
 }
