@@ -13,4 +13,6 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    position: stikcy;
+    height: 120.5px;    
 }
