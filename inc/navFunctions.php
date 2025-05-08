@@ -11,6 +11,8 @@ function displayHeader()
         <nav>
             <ul>
                 <li><a href="index.php">Home</a></li>
+                <li><a href="classes.php">Classes</a></li>
+                <li><a href="races.php">Races</a></li>
                 <li><a href="login.php">login</a></li>
             </ul>
         </nav>

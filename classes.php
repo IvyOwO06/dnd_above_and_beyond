@@ -12,6 +12,8 @@
     </head>
     <body>
         <?php
+        displayHeader();
+
         if (isset($_GET['classId']) && is_numeric($_GET['classId'])) {
             displayClass($_GET['classId']);
 
@@ -19,6 +21,8 @@
         } else {
             displayClasses();
         }
+
+        displayFooter();
         ?>
     </body>
 </html>

@@ -17,15 +17,34 @@ function getRaces(){
 }
 
 // display all races
+// function displayRaces() {
+//     $races = getRaces();
+
+    // foreach($races as $race) {
+        ?>
+            <!-- <a href="?raceId=<?php echo $race['raceId']; ?>">
+                <div>
+                    <h1><?php echo $race['raceName'] ?></h1>
+                    <p><?php echo$race['raceShortInformation'];  ?></p>
+                </div>
+            </a> -->
+        <?php
+    // }
+// }
 function displayRaces() {
     $races = getRaces();
+    $selectedRaceId = isset($_GET['raceId']) && is_numeric($_GET['raceId']) ? (int)$_GET['raceId'] : null;
 
-    foreach($races as $race) {
+    foreach ($races as $race) {
+        // Skip the selected race if its raceId matches the one in the URL
+        if ($selectedRaceId !== null && $race['raceId'] == $selectedRaceId) {
+            continue;
+        }
         ?>
             <a href="?raceId=<?php echo $race['raceId']; ?>">
                 <div>
                     <h1><?php echo $race['raceName'] ?></h1>
-                    <p><?php echo$race['raceShortInformation'];  ?></p>
+                    <p><?php echo $race['raceShortInformation'];  ?></p>
                 </div>
             </a>
         <?php

@@ -15,11 +15,10 @@
         displayHeader();
 
         if (isset($_GET['raceId']) && is_numeric($_GET['raceId'])) {
-            displayrace($_GET['raceId']);
-
-            displayraces();
+            displayRace($_GET['raceId']);
+            displayRaces();
         } else {
-            displayraces();
+            displayRaces();
         }
 
         displayFooter();
