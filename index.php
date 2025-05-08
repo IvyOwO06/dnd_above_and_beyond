@@ -17,6 +17,15 @@ require 'inc/navFunctions.php';
     displayHeader();
     ?>
 
+<header class="hero">
+  <div class="hero-overlay">
+    <h1>Welcome to the Realm</h1>
+    <p>Your gateway to unforgettable adventures</p>
+    <a href="#main-content" class="hero-button">Enter</a>
+  </div>
+</header>
+
+
     <main>
         <section class="welcome">
             <h2>PLACEHOLDER TEXT</h2>
