@@ -23,7 +23,8 @@
     </main>
 
     <footer>
-        
+        <p>&copy; 2025 Dungeons and Monsters</p>
+        <a href="https://media.wizards.com/2016/downloads/DND/SRD-OGL_V5.1.pdf" target="_blank">COPYRIGHT PDF</a>
     </footer>
 </body>
 </html>
