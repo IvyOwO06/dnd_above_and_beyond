@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 function dbConnect()
 {
     $serverName = "localhost";
@@ -14,4 +16,9 @@ function dbConnect()
     }
 
     return $conn;
+}
+
+function download()
+{
+    $filepath = "files/copyright.pdf";
 }

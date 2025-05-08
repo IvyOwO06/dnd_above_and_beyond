@@ -1,7 +1,6 @@
 <?php
 
 require 'inc/loginFunctions.php';
-session_start();
 
 signup();
 

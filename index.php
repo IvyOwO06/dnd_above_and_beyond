@@ -1,3 +1,9 @@
+<?php
+
+require 'inc/navFunctions.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,14 +13,9 @@
     <link rel="stylesheet" href="css/main.css">
     </head>
 <body>
-    <header>
-        <nav>
-            <a href="#">PLACEHOLDER1</a>
-            <a href="#">PLACEHOLDER2</a>
-            <a href="#">PLACEHOLDER3</a>
-            <a href="#">PLACEHOLDER4</a>
-        </nav>
-    </header>
+    <?php
+    displayHeader();
+    ?>
 
     <main>
         <section class="welcome">
@@ -22,9 +23,8 @@
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Dungeons and Monsters</p>
-        <a href="https://media.wizards.com/2016/downloads/DND/SRD-OGL_V5.1.pdf" target="_blank">COPYRIGHT PDF</a>
-    </footer>
+    <?php
+    displayFooter();
+    ?>
 </body>
 </html>
