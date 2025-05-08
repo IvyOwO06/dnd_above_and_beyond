@@ -9,7 +9,7 @@ function dbConnect()
     $password = "";
     $dbName = "dnm";
 
-    $conn = new mysqli($serverName, $username, $password, $dbName, 3307);
+    $conn = new mysqli($serverName, $username, $password, $dbName, 3306);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
