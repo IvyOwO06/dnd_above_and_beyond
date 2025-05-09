@@ -17,20 +17,7 @@ function getRaces(){
 }
 
 // display all races
-// function displayRaces() {
-//     $races = getRaces();
-
-    // foreach($races as $race) {
-        ?>
-            <!-- <a href="?raceId=<?php echo $race['raceId']; ?>">
-                <div>
-                    <h1><?php echo $race['raceName'] ?></h1>
-                    <p><?php echo$race['raceShortInformation'];  ?></p>
-                </div>
-            </a> -->
-        <?php
-    // }
-// }
+// dont display selected race
 function displayRaces() {
     $races = getRaces();
     $selectedRaceId = isset($_GET['raceId']) && is_numeric($_GET['raceId']) ? (int)$_GET['raceId'] : null;
@@ -45,6 +32,7 @@ function displayRaces() {
                 <div>
                     <h1><?php echo $race['raceName'] ?></h1>
                     <p><?php echo $race['raceShortInformation'];  ?></p>
+                    <img src="<?php echo $race['raceImage'];?>">
                 </div>
             </a>
         <?php

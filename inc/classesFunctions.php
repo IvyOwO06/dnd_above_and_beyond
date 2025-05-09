@@ -17,15 +17,22 @@ function getClasses(){
 }
 
 // display all classes
+// dont display selected class
 function displayClasses() {
     $classes = getClasses();
+    $selectedClassId = isset($_GET['classId']) && is_numeric($_GET['classId']) ? (int)$_GET['classId'] : null;
 
     foreach($classes as $class) {
+        // Skip the selected race if its raceId matches the one in the URL
+        if ($selectedClassId !== null && $class['classId'] == $selectedClassId) {
+            continue;
+        }
         ?>
             <a href="?classId=<?php echo $class['classId']; ?>">
                 <div>
                     <h1><?php echo $class['className'] ?></h1>
                     <p><?php echo$class['classShortInformation'];  ?></p>
+                    <img src="<?php echo $class['classImage'];?>">
                 </div>
             </a>
         <?php
