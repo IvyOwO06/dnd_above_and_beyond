@@ -4,7 +4,8 @@ require_once "functions.php";
 
 ////races////
 // get all races
-function getRaces(){
+function getRaces()
+{
     $db = dbConnect();
 
     $sql = "SELECT * FROM race";
@@ -18,9 +19,10 @@ function getRaces(){
 
 // display all races
 // dont display selected race
-function displayRaces() {
+function displayRaces()
+{
     $races = getRaces();
-    $selectedRaceId = isset($_GET['raceId']) && is_numeric($_GET['raceId']) ? (int)$_GET['raceId'] : null;
+    $selectedRaceId = isset($_GET['raceId']) && is_numeric($_GET['raceId']) ? (int) $_GET['raceId'] : null;
 
     foreach ($races as $race) {
         // Skip the selected race if its raceId matches the one in the URL
@@ -28,19 +30,20 @@ function displayRaces() {
             continue;
         }
         ?>
-            <a href="?raceId=<?php echo $race['raceId']; ?>">
-                <div>
-                    <h1><?php echo $race['raceName'] ?></h1>
-                    <p><?php echo $race['raceShortInformation'];  ?></p>
-                    <img src="<?php echo $race['raceImage'];?>">
-                </div>
-            </a>
+        <a href="?raceId=<?php echo $race['raceId']; ?>">
+            <div>
+                <h1><?php echo $race['raceName'] ?></h1>
+                <p><?php echo $race['raceShortInformation']; ?></p>
+                <img src="<?php echo $race['raceImage']; ?>">
+            </div>
+        </a>
         <?php
     }
 }
 
 // get a singular race
-function getRace($raceId) {
+function getRace($raceId)
+{
     $db = dbConnect();
 
     $sql = "SELECT * FROM race WHERE raceId =" . $raceId;
@@ -53,13 +56,14 @@ function getRace($raceId) {
 }
 
 // display a singular race
-function displayRace($raceId) {
+function displayRace($raceId)
+{
     $race = getRace($raceId);
 
     ?>
-        <h1><?php echo $race['raceName'] ?></h1>
-        <p><?php echo nl2br($race['raceInformation']);  ?></p>
-        <img src="<?php echo $race['raceImage'];?>">
+    <h1><?php echo $race['raceName'] ?></h1>
+    <p><?php echo nl2br($race['raceInformation']); ?></p>
+    <img src="<?php echo $race['raceImage']; ?>">
     <?php
 }
 ?>

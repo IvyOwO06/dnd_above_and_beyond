@@ -84,8 +84,8 @@ function login()
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 $_SESSION['user'] = [
-                    'username' => $row['username'],
-                    'id' => $row['id'],
+                    'username' => $row['userName'],
+                    'id' => $row['userId'],
                 ];
                 echo '<script>alert("Log in Success!"); window.location.href = "index.php";</script>';
                 exit();

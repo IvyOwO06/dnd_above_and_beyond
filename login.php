@@ -1,6 +1,7 @@
 <?php
 
 require 'inc/loginFunctions.php';
+require 'inc/navFunctions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     login();
@@ -18,7 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login</title>
 </head>
 
-<body class="login">
+<body>
+    <?php
+    displayHeader();
+    ?>
     <main>
         <form method="POST" action="login.php">
             <h2>LOGIN</h2>
@@ -32,6 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="register.php">Sign Up</a>
         </form>
     </main>
+    <?php
+    displayFooter();
+    ?>
 </body>
 
 </html>

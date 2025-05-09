@@ -13,7 +13,8 @@ function displayHeader()
                 <li><a href="index.php">Home</a></li>
                 <li><a href="classes.php">Classes</a></li>
                 <li><a href="races.php">Races</a></li>
-                <li><a href="login.php">login</a></li>
+                <li><a href="login.php">Log In</a></li>
+                <li><a href="logout.php">Log Out</a></li>
             </ul>
         </nav>
     </header>
@@ -25,7 +26,9 @@ function displayFooter()
 {
     ?>
 
-    <a href="files/copyright.pdf" target="_blank"><p>&copy; 2025 Dungeons and Monsters</p></a>
+    <a href="files/copyright.pdf" target="_blank">
+        <p>&copy; 2025 Dungeons and Monsters</p>
+    </a>
 
     <?php
 }

@@ -17,3 +17,10 @@ function dbConnect()
 
     return $conn;
 }
+
+function dd($var)
+{
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
+}
