@@ -2,6 +2,7 @@
     --mainColorDarker: #391849;
     --white: #ffffff;
     --textColor: #d3aaff;
+    --purpley: #a66eff;
 }
 body {
     background-color: var(--white);  
@@ -86,5 +87,87 @@ header {
 .hero-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
+    background-color: var(--purpley);
+}
+
+.small-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
     background-color: #a66eff;
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.character-creator:hover {
+    background-color: #9b5bc0;
+    transform: translateY(-2px);
+}
+
+.character-creator:active {
+    transform: translateY(2px);
+}
+
+.image-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem;
+}
+
+.image-container {
+    position: relative;
+    width: 50%; 
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+}
+
+.text-overlay h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.2rem;
+    color: #e1c5f7;
+}
+
+.image-button-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: nowrap; /* don't stack on smaller screens */
+    margin: 2rem auto;
+    overflow-x: auto; /* optional: allow horizontal scroll if too narrow */
+}
+
+.image-with-button {
+    width: 320px; /* fixed width */
+    flex-shrink: 0; /* prevent shrinking */
+}
+
+.image-container {
+    background-color: #f6f0ff;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

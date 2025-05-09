@@ -33,8 +33,29 @@ require 'inc/navFunctions.php';
         </section>
     </main>
 
-    <a href="#" class="character-creator">Create a character</a>
-    <a href="#" class="campaign-management">Manage a campaign</a>
+<section class="image-button-row">
+    <div class="image-with-button">
+        <div class="image-container">
+            <img src="https://placehold.co/300x100" alt="image description">
+            <div class="text-overlay">
+                <h2>Character Creation</h2>
+                <a href="#" class="small-button">Create Now</a>
+            </div>
+            <p>This is where text description goes</p>
+        </div>
+    </div>
+
+    <div class="image-with-button">
+        <div class="image-container">
+            <img src="https://placehold.co/300x100" alt="image description">
+            <div class="text-overlay">
+                <h2>Campaign Management</h2>
+                <a href="#" class="small-button">Create Now</a>
+            </div>
+            <p>This is where text description goes</p>
+        </div>
+    </div>
+</section>
 
     <section class="quick-links">
         <div class="image-link-grid">
