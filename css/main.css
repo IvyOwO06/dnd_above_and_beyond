@@ -113,12 +113,7 @@ header {
     transform: translateY(2px);
 }
 
-.image-with-button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2rem;
-}
+
 
 .image-container {
     position: relative;
@@ -152,17 +147,17 @@ p {
 
 .image-button-row {
     display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: nowrap; /* don't stack on smaller screens */
-    margin: 2rem auto;
-    overflow-x: auto; /* optional: allow horizontal scroll if too narrow */
+    justify-content: center; /* center items */
+    flex-wrap: nowrap;
+    overflow-x: auto; /* enable scrolling if too wide */
+    padding: 1rem; /* optional */
 }
 
 .image-with-button {
-    width: 320px; /* fixed width */
-    flex-shrink: 0; /* prevent shrinking */
+    width: 1000px; /* adjust based on actual image size */
+    flex-shrink: 0; /* don't shrink */
 }
+
 
 .image-container {
     background-color: #f6f0ff;
