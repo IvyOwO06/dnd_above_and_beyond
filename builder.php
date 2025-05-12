@@ -28,5 +28,4 @@ require 'inc/navFunctions.php';
     displayFooter();
     ?>
 </body>
-
 </html>
