@@ -1,7 +1,7 @@
 <?php
 
 require 'inc/navFunctions.php';
-
+dd($_SESSION)
 ?>
 
 <!DOCTYPE html>
