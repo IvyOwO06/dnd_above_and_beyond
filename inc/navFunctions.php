@@ -2,8 +2,14 @@
 
 require_once 'functions.php';
 
+
+
 function displayHeader()
 {
+    if (isset($_SESSION['user']))
+    {
+        $user = getUser(isset($_SESSION['user']['id']));
+    }
     ?>
 
     <header>
@@ -13,8 +19,21 @@ function displayHeader()
                 <li><a href="index.php">Home</a></li>
                 <li><a href="classes.php">Classes</a></li>
                 <li><a href="races.php">Races</a></li>
-                <li><a href="login.php">Log In</a></li>
-                <li><a href="logout.php">Log Out</a></li>
+                <?php
+                if (isset($_SESSION['user']))
+                {
+                    ?>
+                    <li><a href="profile.php?userId=<?php echo $user['userId']; ?>"><?php echo $user['userName']; ?></a></li>
+                    <li><a href="logout.php">Log Out</a></li>
+                    <?php
+                } 
+                else
+                {
+                    ?>
+                    <li><a href="login.php">Log In</a></li>
+                    <?php
+                }
+                ?>
             </ul>
         </nav>
     </header>

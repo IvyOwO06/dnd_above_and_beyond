@@ -7,19 +7,6 @@ if (isset($_SESSION['user'])) {
     header("location: index.php");
 }
 
-function getUser($userId)
-{
-    $db = dbConnect();
-
-    $sql = 'SELECT * FROM user WHERE userId =' . $userId;
-
-    $resource = $db->query($sql) or die($db->error);
-
-    $user = $resource->fetch_assoc();
-
-    return $user;
-}
-
 ?>
 <!DOCTYPE html>
 <html>
