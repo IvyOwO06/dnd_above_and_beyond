@@ -40,7 +40,7 @@ $user = getUser($userId);
             <?php
         }
         ?>
-        <form action="profile.php" method="POST" enctype="multipart/form-data">
+        <form action="profile.php?userId=<?php echo $userId; ?>" method="POST" enctype="multipart/form-data">
             <h3>Update Profile Picture:</h3>
             <input type="file" name="profile_picture" accept="image/*">
             <button type="submit" class="normal-button">Upload</button>
