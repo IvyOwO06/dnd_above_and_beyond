@@ -28,5 +28,18 @@ require 'inc/navFunctions.php';
     displayFooter();
     ?>
 </body>
+<script>
+  function toggleInfo(type, id) {
+    const info = document.getElementById(`${type}-info-${id}`);
+    const arrow = document.getElementById(`arrow`);
 
+    if (info.hidden) {
+      info.hidden = false;
+      arrow.textContent = '▼';
+    } else {
+      info.hidden = true;
+      arrow.textContent = '▶';
+    }
+  }
+</script>
 </html>
