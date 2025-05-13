@@ -6,10 +6,6 @@ require_once 'functions.php';
 
 function displayHeader()
 {
-    if (isset($_SESSION['user']))
-    {
-        $user = getUser(isset($_SESSION['user']['id']));
-    }
     ?>
 
     <header>
@@ -23,7 +19,7 @@ function displayHeader()
                 if (isset($_SESSION['user']))
                 {
                     ?>
-                    <li><a href="profile.php?userId=<?php echo $user['userId']; ?>"><?php echo $user['userName']; ?></a></li>
+                    <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
                     <li><a href="logout.php">Log Out</a></li>
                     <?php
                 } 
