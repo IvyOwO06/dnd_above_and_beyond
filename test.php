@@ -1,42 +1,9 @@
 <?php
-function handleCharacterCreation()
-{
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['characterName'])) {
-        $name = trim($_POST['characterName']);
-        $age = intval($_POST['age']);
-        $classId = intval($_POST['characterClass']);
-        $raceId = intval($_POST['characterRace']);
-        $alignment = trim($_POST['alignment']);
-        $level = intval($_POST['level']);
-        $userId = $_SESSION['user']['id'];
-
-        if (!empty($name) && $classId > 0 && $raceId > 0) {
-            $conn = dbConnect();
-
-            $stmt = $conn->prepare("INSERT INTO characters (characterName, characterAge, classId, raceId, alignment, level, userId) VALUES (?, ?, ?, ?, ?, ?, ?)");
-
-            $stmt->bind_param("siiisii", $name, $age, $classId, $raceId, $alignment, $level, $userId);
-            $stmt->execute();
-
-            if ($stmt->affected_rows > 0) {
-                echo "<p>✅ Character <strong>" . htmlspecialchars($name) . "</strong> created successfully!</p>";
-            } else {
-                echo "<p>❌ Failed to create character.</p>";
-            }
-
-            $stmt->close();
-        } else {
-            echo "<p>❗ Please fill out all fields correctly.</p>";
-        }
-    }
-}
-
-
+require 'inc/classesFunctions.php';
+require 'inc/racesFunctions.php';
+require 'inc/navFunctions.php';
 function homeTabBuilder()
 {
-    //TODO:
-    //make it so that the character submit tab only apears when all the needed things are filled in
-
     $classes = getClasses();
     $races = getRaces();
     ?>
@@ -44,7 +11,9 @@ function homeTabBuilder()
         .tab-content { display: none; }
         .tab-content.active { display: block; }
     </style>
+
     
+
     <h2>Create Your Character</h2>
 
     <!-- Tab Links -->
@@ -52,7 +21,6 @@ function homeTabBuilder()
         <a href="#general">General</a>
         <a href="#class">Class</a>
         <a href="#race">Race</a>
-        <a href="#submit">Submit Character</a>
     </div>
 
     <form action="builder.php" method="POST">
@@ -136,13 +104,17 @@ function homeTabBuilder()
             ?>
         </div>
 
-        <!-- Submit Tab -->
-        <div id="submit" class="tab-content">
-            <label>Submit:</label>
-            <br>
-            <button type="submit">Create Character</button>
-        </div>
+        <br>
+        <button type="submit">Create Character</button>
     </form>
     <?php
 }
 ?>
+<!DOCTYPE html>
+<html>
+    <body>
+        <?php
+homeTabBuilder();
+        ?>
+    </body>
+</html>
