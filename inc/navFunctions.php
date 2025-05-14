@@ -6,6 +6,9 @@ require_once 'functions.php';
 
 function displayHeader()
 {
+?>
+
+<?php
         $currentPage = basename($_SERVER['PHP_SELF']);
 
     ?>
