@@ -1,6 +1,6 @@
 <?php
-    require 'inc/classesFunctions.php';
-    require 'inc/navFunctions.php';
+    require '../inc/classesFunctions.php';
+    require '../inc/navFunctions.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="../css/main.css">
     </head>
     <body>
         <?php
