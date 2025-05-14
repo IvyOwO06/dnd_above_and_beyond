@@ -164,19 +164,18 @@ p {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .image-container img {
-    width: 50px;
+    width: 100px;
     height: 75px;
     position: relative;
-    left: 100;
-    top: -15;
+    left: 75;
 }
 
 .image-container h2 {
     margin-top: 50px;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     color: black;
     position: relative;
-    left: -50;
+    left: -57;
     top: -17;
 }
 
