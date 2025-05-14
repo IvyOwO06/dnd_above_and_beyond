@@ -28,10 +28,41 @@ require 'inc/navFunctions.php';
     displayFooter();
     ?>
 </body>
+<!-- builder tab functionality -->
+<script>
+  function showTabFromHash() {
+      const hash = window.location.hash || '#general';
+      const tabs = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => {
+          tab.classList.remove('active');
+      });
+
+      const activeTab = document.querySelector(hash);
+      if (activeTab) {
+          activeTab.classList.add('active');
+      }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+      showTabFromHash();
+      // Prevent scroll on hash change
+      document.querySelectorAll('.tab-links a').forEach(link => {
+          link.addEventListener('click', e => {
+              e.preventDefault();
+              history.pushState(null, '', link.getAttribute('href'));
+              showTabFromHash();
+          });
+      });
+  });
+
+  window.addEventListener('hashchange', showTabFromHash);
+</script>
+    <!-- more info about classes and races -->
 <script>
   function toggleInfo(type, id) {
     const info = document.getElementById(`${type}-info-${id}`);
-    const arrow = document.getElementById(`arrow`);
+    const arrow = document.getElementById(`${type}-arrow-${id}`);
 
     if (info.hidden) {
       info.hidden = false;
