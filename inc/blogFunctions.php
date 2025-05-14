@@ -1,23 +1,6 @@
 <?php
 
-
-function dbConnect() // Set up connection to database
-{
-    // Database server settings
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "dnm";
-    
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    
-    // Check connection
-    if ($conn->connect_error) { 
-        die("Connection failed: " . $conn->connect_error);
-    }
-    return $conn;
-}
+require_once 'functions.php';
 
 function getBlogs($categoryId = null) //fetch blogs, if no id default to null
 {
@@ -83,9 +66,9 @@ function displayBlog($blogId) //displays blog details from database
             if (count($comments) > 0) {
                 foreach ($comments as $comment) {
                     echo "<div class='comment'>";
-                    echo "<p><strong>" . htmlspecialchars($comment['blogCommenterName']) . "</strong></p>";
-                    echo "<p>" . nl2br(htmlspecialchars($comment['blogComment'])) . "</p>";
-                    echo "<p><em>Posted on " . $comment['blogCommentDate'] . "</em></p>";
+                    echo "<p><strong>" . htmlspecialchars($comment['commenterName']) . "</strong></p>";
+                    echo "<p>" . nl2br(htmlspecialchars($comment['commentContent'])) . "</p>";
+                    echo "<p><em>Posted on " . $comment['commentDate'] . "</em></p>";
                     echo "</div>";
                 }
             } else {
@@ -120,7 +103,7 @@ function displayBlogCategories() //display blog per category
 function getBlogComments($blogId) //fetch blog comments from database
 {
     $db = dbConnect();
-    $sql = "SELECT * FROM blogComments WHERE blogId = ? ORDER BY blogCommentDate DESC";
+    $sql = "SELECT * FROM blogComments WHERE postId = ? ORDER BY commentDate DESC";
     $stmt = $db->prepare($sql);
     $stmt->bind_param('i', $blogId);
     $stmt->execute();
@@ -131,17 +114,17 @@ function getBlogComments($blogId) //fetch blog comments from database
 function submitComment($blogId, $author = null, $comment = null) //insert blog comment into database
 {
     // Check if the form is submitted and if the fields exist
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['blogAuthor']) && isset($_POST['blogContent']))
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['author']) && isset($_POST['content']))
     {
-        $author = trim($_POST['blogAuthor']);
-        $comment = trim($_POST['blogContent']);
+        $author = trim($_POST['author']);
+        $comment = trim($_POST['content']);
         $blogId = intval($blogId);
 
         if (!empty($author) && !empty($comment)) {
             date_default_timezone_set('Europe/Amsterdam');
             $date = date('Y-m-d H:i:s'); // Format for DATETIME
             $conn = dbConnect();
-            $stmt = $conn->prepare("INSERT INTO blogComments (blogId, blogCommentDate, blogCommenterName, blogComment) VALUES (?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO blogComments (postId, commentDate, commenterName, commentContent) VALUES (?, ?, ?, ?)");
             $stmt->bind_param("isss", $blogId, $date, $author, $comment);
             $stmt->execute();
 
@@ -155,12 +138,12 @@ function submitComment($blogId, $author = null, $comment = null) //insert blog c
 function postBlog() //insert blog into database
 {
     if ($_SERVER["REQUEST_METHOD"] === "POST" &&
-        isset($_POST['blogTitle'], $_POST['blogContent'], $_POST['blogAuthor'], $_POST['blogCategoryId']))
+        isset($_POST['title'], $_POST['content'], $_POST['author'], $_POST['categoryId']))
     {
-        $title = trim($_POST['blogTitle']);
-        $content = trim($_POST['blogContent']);
-        $author = trim($_POST['blogAuthor']);
-        $categoryId = intval($_POST['blogCategoryId']); 
+        $title = trim($_POST['title']);
+        $content = trim($_POST['content']);
+        $author = trim($_POST['author']);
+        $categoryId = intval($_POST['categoryId']); 
 
         if (!empty($title) && !empty($content) && !empty($author) && $categoryId > 0) {
             date_default_timezone_set('Europe/Amsterdam');
@@ -180,7 +163,7 @@ function postBlog() //insert blog into database
 function getBlog($blogId) //fetch single blog from database by id
 {
     $db = dbConnect();
-    $sql = "SELECT * FROM blogPosts WHERE id = ?";
+    $sql = "SELECT * FROM blogPosts WHERE blogId = ?";
     $stmt = $db->prepare($sql);
     $stmt->bind_param("i", $blogId);
     $stmt->execute();

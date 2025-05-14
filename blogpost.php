@@ -1,9 +1,11 @@
 <?php
 $blogId = $_GET['id'];
-include("inc/inc.php");
-htmlHead();
+require 'inc/navFunctions.php';
+require 'inc/blogFunctions.php';
+
 displayBlog($blogId); 
 submitComment($blogId);
+displayHeader();
 ?>
 
 <h2>Submit a Comment</h2>
