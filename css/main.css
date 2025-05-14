@@ -146,12 +146,9 @@ p {
 
 .image-button-row {
     display: flex;
-    flex-wrap: nowrap;
+    justify-content: center;
     overflow-x: auto; /* enable scrolling if too wide */
     padding: 1rem; /* optional */
-    height: 250px;
-    width: 1000px;
-    margin-left: 250px;
     gap: 100px;
 }
 
@@ -159,9 +156,28 @@ p {
 .image-container {
     background-color: #f6f0ff;
     padding: 1rem;
+    height: 75px;
+    width: 255px;
+    margin: 10px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.image-container img {
+    width: 50px;
+    height: 75px;
+    position: relative;
+    left: 100;
+    top: -15;
+}
+
+.image-container h2 {
+    margin-top: 50px;
+    font-size: 1.7rem;
+    color: black;
+    position: relative;
+    left: -50;
+    top: -17;
 }
 
 .features {
@@ -219,7 +235,9 @@ p {
     }
 }
 
-.quick-Link {
+.image-link-grid {
+    margin-left: 0px auto;
+    display: flex;
+    justify-content: center;
     gap: 100px;
-
 }
