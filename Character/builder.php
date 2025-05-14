@@ -23,7 +23,7 @@ require '../inc/navFunctions.php';
     displayHeader();
 
     handleCharacterCreation();
-    homeTabBuilder();
+    homeTabBuilder($_GET['characterId']);
 
     displayFooter();
     ?>

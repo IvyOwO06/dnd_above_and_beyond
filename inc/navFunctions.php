@@ -7,7 +7,6 @@ require_once 'functions.php';
 function displayHeader()
 {
     ?>
-
     <header>
         <div id="Logo"><a href="index.php">D&M</a></div>
         <nav>
@@ -19,8 +18,14 @@ function displayHeader()
                 if (isset($_SESSION['user']))
                 {
                     ?>
+<<<<<<< Updated upstream
                     <li><a href="login/profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
                     <li><a href="login/logout.php">Log Out</a></li>
+=======
+                    <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
+                    <li><a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
+                    <li><a href="logout.php">Log Out</a></li>
+>>>>>>> Stashed changes
                     <?php
                 } 
                 else
@@ -33,7 +38,6 @@ function displayHeader()
             </ul>
         </nav>
     </header>
-
     <?php
 }
 
