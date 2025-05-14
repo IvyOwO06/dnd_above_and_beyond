@@ -1,5 +1,5 @@
 <?php
-include("inc/blogFunctions.php");
+include("../inc/blogFunctions.php");
 postBlog();
 $categoryId = isset($_GET['categoryId']) ? intval($_GET['categoryId']) : null;
 $posts = getBlogs($categoryId);

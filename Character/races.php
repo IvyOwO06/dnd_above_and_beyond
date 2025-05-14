@@ -1,7 +1,7 @@
 <?php
     require '../inc/racesFunctions.php';
     require '../inc/navFunctions.php';
-    require '../inc/functions.php'
+    require '../inc/functions.php';
 ?>
 <!DOCTYPE html>
 <html>

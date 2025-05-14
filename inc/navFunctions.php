@@ -6,12 +6,19 @@ require_once 'functions.php';
 
 function displayHeader()
 {
+        $currentPage = basename($_SERVER['PHP_SELF']);
+
     ?>
     <header>
-        <div id="Logo"><a href="index.php">D&M</a></div>
         <nav>
             <ul>
-                <li><a href="index.php">Home</a></li>
+                <li>
+                    <?php if ($currentPage === 'index.php'): ?>
+                    <span class="nav-current">Home</span>
+                    <?php else: ?>
+                    <a href="../index.php">Home</a>
+                    <?php endif; ?>
+                </li>
                 <li><a href="character/classes.php">Classes</a></li>
                 <li><a href="character/races.php">Races</a></li>
                 <?php
@@ -19,12 +26,12 @@ function displayHeader()
                 {
                     ?>
 <<<<<<< Updated upstream
-                    <li><a href="login/profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
-                    <li><a href="login/logout.php">Log Out</a></li>
+                    <li><a href="../login/profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
+                    <li><a href="../login/logout.php">Log Out</a></li>
 =======
-                    <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
-                    <li><a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
-                    <li><a href="logout.php">Log Out</a></li>
+                    <li><a href="../profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
+                    <li><a href="../creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
+                    <li><a href="../logout.php">Log Out</a></li>
 >>>>>>> Stashed changes
                     <?php
                 } 
@@ -47,6 +54,18 @@ function displayFooter()
 
     <a href="files/copyright.pdf" target="_blank">
         <p>&copy; 2025 Dungeons and Monsters</p>
+    </a>
+
+    <a href="#" target="_blank">
+        discord
+    </a>
+
+        <a href="#" target="_blank">
+        discord
+    </a>
+
+        <a href="#" target="_blank">
+        discord
     </a>
 
     <?php
