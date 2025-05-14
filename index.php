@@ -3,8 +3,6 @@
 require 'inc/navFunctions.php';
 require 'inc/blogFunctions.php';
 $posts = getBlogs();
-
-dd($_SESSION)
 ?>
 
 <!DOCTYPE html>

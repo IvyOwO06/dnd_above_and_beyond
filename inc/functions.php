@@ -34,12 +34,6 @@ if (isset($_SESSION['user']))
     }
 }
 
-function dd($var)
-{
-    echo "<pre>";
-    var_dump($var);
-    echo "</pre>";
-}
 if (basename($_SERVER['PHP_SELF']) === 'functions.php') {
 header('location: ../index.php');
 }
