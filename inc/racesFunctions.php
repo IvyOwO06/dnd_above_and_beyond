@@ -1,69 +1,56 @@
 <?php
+require_once 'functions.php';
 
-require_once "functions.php";
+function getRacesFromJson() {
+    $json = file_get_contents('js/json/races.json');
+    $data = json_decode($json, true);
 
-////races////
-// get all races
-function getRaces()
-{
-    $db = dbConnect();
-
-    $sql = "SELECT * FROM race";
-
-    $resourse = $db->query($sql) or die($db->error);
-
-    $races = $resourse->fetch_all(MYSQLI_ASSOC);
-
-    return $races;
+    return $data['races'][0]['race']; // returns the array of races
 }
 
-// display all races
-// dont display selected race
-function displayRaces()
-{
-    $races = getRaces();
+function getRaceFromJson($raceId) {
+    $races = getRacesFromJson();
+
+    return $races[$raceId] ?? null;
+}
+
+function displayRaces() {
+    $races = getRacesFromJson();
     $selectedRaceId = isset($_GET['raceId']) && is_numeric($_GET['raceId']) ? (int) $_GET['raceId'] : null;
 
-    foreach ($races as $race) {
-        // Skip the selected race if its raceId matches the one in the URL
-        if ($selectedRaceId !== null && $race['raceId'] == $selectedRaceId) {
+    foreach ($races as $index => $race) {
+        if ($selectedRaceId !== null && $index === $selectedRaceId) {
             continue;
         }
+
         ?>
-        <a href="?raceId=<?php echo $race['raceId']; ?>">
+        <a href="?raceId=<?php echo $index; ?>">
             <div>
-                <h1><?php echo $race['raceName'] ?></h1>
-                <p><?php echo $race['raceShortInformation']; ?></p>
-                <img src="<?php echo $race['raceImage']; ?>">
+                <h1><?php echo htmlspecialchars($race['name']); ?></h1>
+                <p><?php echo htmlspecialchars($race['source']); ?>, page <?php echo $race['page']; ?></p>
             </div>
         </a>
         <?php
     }
 }
 
-// get a singular race
-function getRace($raceId)
-{
-    $db = dbConnect();
-
-    $sql = "SELECT * FROM race WHERE raceId =" . $raceId;
-
-    $resourse = $db->query($sql) or die($db->error);
-
-    $race = $resourse->fetch_assoc();
-
-    return $race;
-}
-
-// display a singular race
-function displayRace($raceId)
-{
-    $race = getRace($raceId);
+function displayRace($raceId) {
+    $race = getRaceFromJson($raceId);
+    if (!$race) {
+        echo "<p>Race not found.</p>";
+        return;
+    }
 
     ?>
-    <h1><?php echo $race['raceName'] ?></h1>
-    <p><?php echo nl2br($race['raceInformation']); ?></p>
-    <img src="<?php echo $race['raceImage']; ?>">
+    <h1><?php echo htmlspecialchars($race['name']); ?></h1>
+    <p><strong>Source:</strong> <?php echo htmlspecialchars($race['source']); ?>, Page <?php echo $race['page']; ?></p>
     <?php
+    if (isset($race['entries'])) {
+        foreach ($race['entries'] as $entry) {
+            echo "<h2>" . htmlspecialchars($entry['name']) . "</h2>";
+            foreach ($entry['entries'] as $text) {
+                echo "<p>" . htmlspecialchars($text) . "</p>";
+            }
+        }
+    }
 }
-?>

@@ -60,7 +60,7 @@ function homeTabBuilder($characterId)
     //make it so that the character submit tab only apears when all the needed things are filled in
 
     $classes = getClasses();
-    $races = getRaces();
+    $races = getRacesFromJson();
     $character = getCharacter($characterId);
     ?>
     <style>
@@ -135,27 +135,28 @@ function homeTabBuilder($characterId)
         <!-- Race Tab -->
         <div id="race" class="tab-content">
             <label for="characterRace">Race:</label><br>
-            <?php  
-                foreach($races as $race) {
-                    ?>
-                    <div>
-                        <p><?php echo $race['raceName']; ?></p>
-                        <input type="radio" name="characterRace" value="<?php echo $race['raceId']; ?>" <?php if ($character['raceId'] == $race['raceId']) echo 'checked'; ?>>
+            <?php
+                foreach ($races as $index => $race) {
+            ?>
+            <div>
+                <div>
+                    <p><?php echo htmlspecialchars($race['name']); ?></p>
+                    <input type="radio" name="characterRace" value="<?php echo $index; ?>" <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
+                </div>
 
+                <button 
+                    type="button" 
+                    onclick="toggleInfo('race', <?php echo $index; ?>)" 
+                    id="race-arrow-<?php echo $index; ?>">
+                    ▶
+                </button>
 
-                        <button 
-                            type="button" 
-                            onclick="toggleInfo('race', <?php echo $race['raceId']; ?>)" 
-                            id="race-arrow-<?php echo $race['raceId']; ?>">
-                            ▶
-                        </button>
-
-                        <div id="race-info-<?php echo $race['raceId']; ?>" hidden>
-                            <p><?php echo $race['raceShortInformation'] ?></p>
-                            <a href="">Read more</a>
-                        </div><br>
-                    </div>
-                    <?php
+                <div id="race-info-<?php echo $index; ?>" hidden>
+                    <p><?php echo $index ?></p>
+                    <a href="races.php?raceId=<?php echo $index ?>">Read more</a>
+                </div><br>
+            </div>
+            <?php
                 }
             ?>
         </div>
