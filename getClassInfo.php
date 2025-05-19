@@ -1,5 +1,5 @@
 <?php
-require '../inc/functions.php'; // or wherever your dbConnect function is
+require 'inc/functions.php'; // or wherever your dbConnect function is
 
 
 $pdo = dbConnect();

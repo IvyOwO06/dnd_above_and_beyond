@@ -1,8 +1,8 @@
 <?php
-require '../inc/builderFunctions.php';
-require '../inc/classesFunctions.php';
-require '../inc/racesFunctions.php';
-require '../inc/navFunctions.php';
+require 'inc/builderFunctions.php';
+require 'inc/classesFunctions.php';
+require 'inc/racesFunctions.php';
+require 'inc/navFunctions.php';
 ?>
 <!DOCTYPE html>
 <html>

@@ -9,39 +9,28 @@ function displayHeader()
 ?>
 
 <?php
-        $currentPage = basename($_SERVER['PHP_SELF']);
-
     ?>
     <header>
         <nav>
             <ul>
                 <li>
-                    <?php if ($currentPage === 'index.php'): ?>
-                    <span class="nav-current">Home</span>
-                    <?php else: ?>
-                    <a href="../index.php">Home</a>
-                    <?php endif; ?>
+                    <a href="index.php">Home</a>
                 </li>
-                <li><a href="character/classes.php">Classes</a></li>
-                <li><a href="character/races.php">Races</a></li>
+                <li><a href="classes.php">Classes</a></li>
+                <li><a href="races.php">Races</a></li>
                 <?php
                 if (isset($_SESSION['user']))
                 {
                     ?>
-<<<<<<< Updated upstream
-                    <li><a href="../login/profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
-                    <li><a href="../login/logout.php">Log Out</a></li>
-=======
-                    <li><a href="../profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
-                    <li><a href="../creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
-                    <li><a href="../logout.php">Log Out</a></li>
->>>>>>> Stashed changes
+                    <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
+                    <li><a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
+                    <li><a href="logout.php">Log Out</a></li>
                     <?php
                 } 
                 else
                 {
                     ?>
-                    <li><a href="login/login.php">Log In</a></li>
+                    <li><a href="login.php">Log In</a></li>
                     <?php
                 }
                 ?>
