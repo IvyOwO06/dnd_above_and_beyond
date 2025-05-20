@@ -14,6 +14,13 @@
         <?php
         displayHeader();
 
+        ?>
+        <form method="GET" action="">
+            <input type="text" name="search" placeholder="Search races..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+            <button type="submit">Search</button>
+        </form>
+        <?php
+
         if (isset($_GET['raceId']) && is_numeric($_GET['raceId'])) {
             displayRace($_GET['raceId']);
             displayRaces();
