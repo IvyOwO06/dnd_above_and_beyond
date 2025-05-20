@@ -4,11 +4,11 @@ require_once 'functions.php';
 
 
 
+
 function displayHeader()
 {
-?>
-
-<?php
+    $userId = isset($_SESSION['user']['id']);
+    $user = getUser($userId);
     ?>
     <header>
         <a href="index.php" class="logo">
@@ -26,7 +26,8 @@ function displayHeader()
                 {
                     ?>
                     <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>">
-                        <img src="<?= $_SESSION['user']['profile_pic'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture">
+                        <!-- TODO: remove inline styling -->
+                        <img src="<?= $user['profilePicture'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture" style="width: 100px; height: 100px;">
                 <?php echo $_SESSION['user']['username']; ?></a></li>
                     <li><a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
                     <li><a href="logout.php">Log Out</a></li>
