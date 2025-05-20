@@ -64,16 +64,58 @@ function displayRace($raceId) {
         return;
     }
 
-    ?>
-    <h1><?php echo htmlspecialchars($race['name']); ?></h1>
-    <p><strong>Source:</strong> <?php echo htmlspecialchars($race['source']); ?>, Page <?php echo $race['page']; ?></p>
-    <?php
-    if (isset($race['entries'])) {
-        foreach ($race['entries'] as $entry) {
-            echo "<h2>" . htmlspecialchars($entry['name']) . "</h2>";
-            foreach ($entry['entries'] as $text) {
-                echo "<p>" . htmlspecialchars($text) . "</p>";
+    // Inline helper function to recursively render entries safely
+    function renderEntries($entries, $depth = 2) {
+        foreach ($entries as $entry) {
+            if (is_string($entry)) {
+                echo "<p>" . htmlspecialchars($entry) . "</p>";
+            } elseif (is_array($entry)) {
+                if (isset($entry['name'])) {
+                    echo "<h$depth>" . htmlspecialchars($entry['name']) . "</h$depth>";
+                }
+                if (isset($entry['entries']) && is_array($entry['entries'])) {
+                    renderEntries($entry['entries'], min($depth + 1, 6));
+                }
             }
         }
+    }
+
+    // Display core race info
+    echo "<h1>" . htmlspecialchars($race['name']) . "</h1>";
+    echo "<p><strong>Source:</strong> " . htmlspecialchars($race['source']) . ", Page " . $race['page'] . "</p>";
+
+    // Race entries (traits and mechanics)
+    if (isset($race['entries'])) {
+        foreach ($race['entries'] as $entry) {
+            if (isset($entry['name'])) {
+                echo "<h2>" . htmlspecialchars($entry['name']) . "</h2>";
+            }
+            if (isset($entry['entries'])) {
+                renderEntries($entry['entries']);
+            }
+        }
+    }
+
+    // Load fluff and find match
+    $fluffEntries = getRacesFluffFromJson();
+    $matchedFluff = null;
+
+    foreach ($fluffEntries as $fluff) {
+        if (
+            isset($fluff['name'], $fluff['source']) &&
+            $fluff['name'] === $race['name'] &&
+            $fluff['source'] === $race['source']
+        ) {
+            $matchedFluff = $fluff;
+            break;
+        }
+    }
+
+    // Display fluff
+    if ($matchedFluff && isset($matchedFluff['entries'])) {
+        echo "<h2>Lore</h2>";
+        renderEntries($matchedFluff['entries']);
+    } else {
+        echo "<p><em>No fluff available for this version of the race.</em></p>";
     }
 }
