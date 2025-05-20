@@ -36,6 +36,10 @@ header {
     height: 120.5px;    
 }
 
+.logoimg {
+    height:300px;
+}
+
 .welcome {
     background-color: var(--mainColorDarker);
     padding: 2rem;

@@ -12,7 +12,7 @@ function displayHeader()
     ?>
     <header>
         <a href="index.php" class="logo">
-            <img src="assets/logo.png" alt="Campaign Logo">
+            <img src="images/LOGO2.png" class="logoimg">
         </a>
         <nav>
             <ul>
