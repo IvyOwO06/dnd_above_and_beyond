@@ -17,6 +17,33 @@ function getRacesFluffFromJson() {
     return $data['raceFluff']; // returns the array of raceFluff
 }
 
+function getFluffSnippet(array $entries, int $maxParts = 3): string {
+    $snippetParts = [];
+
+    foreach ($entries as $entry) {
+        if (is_string($entry) && trim($entry) !== '') {
+            $snippetParts[] = $entry;
+        } elseif (is_array($entry) && isset($entry['entries']) && is_array($entry['entries'])) {
+            foreach ($entry['entries'] as $subentry) {
+                if (is_string($subentry) && trim($subentry) !== '') {
+                    $snippetParts[] = $subentry;
+                }
+                if (count($snippetParts) >= $maxParts) {
+                    break 2; // stop if we reached max parts
+                }
+            }
+        }
+        if (count($snippetParts) >= $maxParts) {
+            break; // stop if we reached max parts
+        }
+    }
+
+    // Join parts with space (or use "\n" or something else)
+    $snippet = implode(' ', $snippetParts);
+
+    return $snippet ?: ''; // fallback empty string if no snippet found
+}
+
 function getRaceFromJson($raceId) {
     $races = getRacesFromJson();
 
