@@ -18,7 +18,7 @@ $character = getCharacters($userId);
     <body>
         <?php
         displayHeader();
-        dd($character);
+        displayCharacters($userId);
         displayFooter();
         ?>
     </body>
