@@ -7,8 +7,11 @@ require_once 'functions.php';
 
 function displayHeader()
 {
-    $userId = isset($_SESSION['user']['id']);
-    $user = getUser($userId);
+    if (isset($_SESSION['user']))
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = getUser($userId);
+    }
     ?>
     <header>
         <a href="index.php" class="logo">
