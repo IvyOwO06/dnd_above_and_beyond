@@ -14,3 +14,28 @@ function getCharacters($userId)
 
     return $characters;
 }
+
+function displayCharacters($userId)
+{
+    $characters = getCharacters($userId);
+
+    foreach($characters as $character)
+    {
+        ?>
+        <div>
+            <h1><?php echo $character['characterName']; ?></h1>
+            <div>
+                <?php
+                if($_GET['userId'] == $_SESSION['user']['id'])
+                {
+                ?>
+                <a href="builder.php?characterId=<?php echo $character['characterId'] ?>">Edit</a>
+                <a href="#">Sheet</a>
+                <?php
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+    }
+}
