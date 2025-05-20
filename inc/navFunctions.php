@@ -11,6 +11,9 @@ function displayHeader()
 <?php
     ?>
     <header>
+        <a href="index.php" class="logo">
+            <img src="assets/logo.png" alt="Campaign Logo">
+        </a>
         <nav>
             <ul>
                 <li>
@@ -36,6 +39,7 @@ function displayHeader()
                 ?>
             </ul>
         </nav>
+        
     </header>
     <?php
 }
