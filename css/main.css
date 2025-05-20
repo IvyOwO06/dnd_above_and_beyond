@@ -7,6 +7,9 @@
 body {
     background-color: var(--white);  
     margin: 0;
+    background-image: url(https://img.freepik.com/free-vector/purple-watercolour-background-corners_78370-1873.jpg?semt=ais_hybrid&w=740);
+    background-repeat: no-repeat;
+    background-size: cover; 
 }
 
 a {
@@ -57,7 +60,7 @@ header {
 .hero {
     position: relative;
     height: 100vh;
-    background-image: url('https://i.pinimg.com/736x/29/29/80/2929803e82477a25146554fb01c7d266.jpg');
+    background-image: url('https://theglowingfool.com/wp-content/uploads/2018/11/SCAG_Header.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -308,4 +311,50 @@ p {
 
 .blog-post a:hover {
     color: #e1ccff;
+}
+
+nav ul {
+list-style: none;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 1rem; 
+padding: 0;
+margin: 0;
+}
+
+.nav li {
+    margin: 0 1 rem;
+}
+
+
+nav a {
+color: #e6d5ff;
+text-decoration: none;
+font-size: 1.1rem;
+padding: 0.5rem 1rem;
+border-radius: 8px;
+transition: background 0.3s, color 0.3s;
+position: relative;
+}
+
+nav a::after {
+content: '';
+display: block;
+height: 3px;
+background: #9b59b6;
+transition: width 0.3s;
+width: 0%;
+position: absolute;
+bottom: 0;
+left: 0;
+}
+
+nav a:hover::after {
+width: 100%;
+}
+
+nav a:hover {
+background: rgba(111, 66, 193, 0.2);
+color: #ffffff;
 }
