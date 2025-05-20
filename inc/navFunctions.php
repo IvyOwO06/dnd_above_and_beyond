@@ -25,7 +25,9 @@ function displayHeader()
                 if (isset($_SESSION['user']))
                 {
                     ?>
-                    <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"><?php echo $_SESSION['user']['username']; ?></a></li>
+                    <li><a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>">
+                        <img src="<?= $_SESSION['user']['profile_pic'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture">
+                <?php echo $_SESSION['user']['username']; ?></a></li>
                     <li><a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a></li>
                     <li><a href="logout.php">Log Out</a></li>
                     <?php
