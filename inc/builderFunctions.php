@@ -237,21 +237,21 @@ function homeTabBuilder($characterId)
         <div id="class" class="tab-content">
             <label for="characterClass">Classes:</label><br>
             <?php
-            foreach ($classes as $class) {
+            foreach ($classes as $index => $class) {
                 ?>
                 <div>
-                    <p><?php echo $class['className']; ?></p>
-                    <input type="radio" name="characterClass" value="<?php echo $class['classId']; ?>" <?php if ($character['classId'] == $class['classId'])
+                    <p><?php echo htmlspecialchars($class['name']); ?></p>
+                    <input type="radio" name="characterClass" value="<?php echo $index; ?>" <?php if ($character['classId'] == $index)
                         echo 'checked'; ?>>
 
-                    <button type="button" onclick="toggleInfo('class', <?php echo $class['classId']; ?>)"
-                        id="class-arrow-<?php echo $class['classId']; ?>">
+                    <button type="button" onclick="toggleInfo('class', <?php echo $index; ?>)"
+                        id="class-arrow-<?php echo $index; ?>">
                         ▶
                     </button>
 
-                    <div id="class-info-<?php echo $class['classId']; ?>" hidden>
-                        <p><?php echo $class['classShortInformation'] ?></p>
-                        <a href="classes.php?classId=<?php echo $class['classId']; ?>" target="_blank">Read more</a>
+                    <div id="class-info-<?php echo $index ?>" hidden>
+                        <p><?php echo $index ?></p>
+                        <a href="classes.php?classId=<?php echo $index ?>">Read more</a>
                     </div><br>
                 </div>
                 <?php
