@@ -15,7 +15,7 @@ function getClasses()
     $classes = $resourse->fetch_all(MYSQLI_ASSOC);
 
     return $classes;
-}
+}   
 
 // display all classes
 // dont display selected class

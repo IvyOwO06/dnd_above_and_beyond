@@ -1,195 +1,219 @@
-<?php
-function getCharacter($characterId)
-{
-    $db = dbConnect();
+    <?php
+    function getCharacter($characterId)
+    {
+        $db = dbConnect();
 
-    $sql = "SELECT * FROM characters WHERE characterId =" . $characterId;
+        $sql = "SELECT * FROM characters WHERE characterId =" . $characterId;
 
-    $resourse = $db->query($sql) or die($db->error);
+        $resourse = $db->query($sql) or die($db->error);
 
-    $character = $resourse->fetch_assoc();
+        $character = $resourse->fetch_assoc();
 
-    return $character;
-}
+        return $character;
+    }
 
-function handleCharacterCreation()
-{
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['characterName']) && isset($_GET['characterId'])) {
-        $characterId = intval($_GET['characterId']);
-        $name = trim($_POST['characterName']);
-        $age = intval($_POST['age']);
-        $classId = intval($_POST['characterClass']);
-        $raceId = intval($_POST['characterRace']);
-        $alignment = trim($_POST['alignment']);
-        $level = intval($_POST['level']);
-        $userId = $_SESSION['user']['id'];
+    function handleCharacterCreation()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['characterName']) && isset($_GET['characterId'])) {
+            $characterId = intval($_GET['characterId']);
+            $name = trim($_POST['characterName']);
+            $age = intval($_POST['age']);
+            $classId = intval($_POST['characterClass']);
+            $raceId = intval($_POST['characterRace']);
+            $alignment = trim($_POST['alignment']);
+            $level = intval($_POST['level']);
+            $userId = $_SESSION['user']['id'];
+            $str = intval($_POST['strength']);
+            $dex = intval($_POST['dexterity']);
+            $con = intval($_POST['constitution']);
+            $int = intval($_POST['intelligence']);
+            $wis = intval($_POST['wisdom']);
+            $cha = intval($_POST['charisma']);
 
-        if (!empty($name) && $classId > 0 && $raceId > 0 && $characterId > 0) {
-            $conn = dbConnect();
 
-            $stmt = $conn->prepare("
-                UPDATE characters 
-                SET characterName = ?, characterAge = ?, classId = ?, raceId = ?, alignment = ?, level = ?
-                WHERE characterId = ? AND userId = ?
-            ");
+            if (!empty($name) && $classId > 0 && $raceId > 0 && $characterId > 0) {
+                $conn = dbConnect();
 
-            if (!$stmt) {
-                // Show the SQL error and stop the script
-                die("❌ Prepare failed: " . $conn->error);
-            }
+                $stmt = $conn->prepare(" UPDATE characters SET characterName = ?, characterAge = ?, classId = ?, raceId = ?, alignment = ?, level = ?, strength = ?, dexterity = ?, constitution = ?, intelligence = ?, wisdom = ?, charisma = ? WHERE characterId = ? AND userId = ? ");
 
-            $stmt->bind_param("siiisiii", $name, $age, $classId, $raceId, $alignment, $level, $characterId, $userId);
-            $stmt->execute();
+                if (!$stmt) {
+                    // Show the SQL error and stop the script
+                    die("❌ Prepare failed: " . $conn->error);
+                }
 
-            if ($stmt->affected_rows >= 0) {
-                echo "<p>✅ Character <strong>" . htmlspecialchars($name) . "</strong> updated successfully!</p>";
+$stmt->bind_param("siiisiiiiiiiii", $name, $age, $classId, $raceId, $alignment, $level,
+                  $str, $dex, $con, $int, $wis, $cha,
+                  $characterId, $userId);                $stmt->execute();
+
+                if ($stmt->affected_rows >= 0) {
+                    echo "<p>✅ Character <strong>" . htmlspecialchars($name) . "</strong> updated successfully!</p>";
+                } else {
+                    echo "<p>❌ Failed to update character.</p>";
+                }
+
+                $stmt->close();
             } else {
-                echo "<p>❌ Failed to update character.</p>";
+                echo "<p>❗ Please fill out all fields correctly.</p>";
             }
-
-            $stmt->close();
-        } else {
-            echo "<p>❗ Please fill out all fields correctly.</p>";
         }
     }
-}
 
-function homeTabBuilder($characterId)
-{
-    //TODO:
-    //make it so that the character submit tab only apears when all the needed things are filled in
+    function homeTabBuilder($characterId)
+    {
+        //TODO:
+        //make it so that the character submit tab only apears when all the needed things are filled in
 
-    $classes = getClasses();
-    $races = getRacesFromJson();
-    $raceFluff = getRacesFluffFromJson();
-    $character = getCharacter($characterId);
-    ?>
-    <style>
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-    </style>
-
-    <h2>Create Your Character</h2>
-
-    <!-- Tab Links -->
-    <div class="tab-links">
-        <a href="#general">General</a>
-        <a href="#class">Class</a>
-        <a href="#race">Race</a>
-        <a href="#submit">Submit Character</a>
-    </div>
-
-    <form action="builder.php?characterId=<?php echo $character['characterId']; ?>" method="POST">
-        <!-- General Tab -->
-        <div id="general" class="tab-content">
-            <label for="characterName">Character Name:</label>
-            <input type="text" id="characterName" name="characterName" value="<?php echo $character['characterName']; ?>"
-                required><br>
-
-            <label for="age">Age:</label>
-            <input type="text" id="characterAge" name="age" value="<?php echo $character['characterAge']; ?>" required><br>
-
-            <label for="level">Level:</label>
-            <input type="text" id="characterLevel" name="level" value="<?php echo $character['level']; ?>" required><br>
-
-            <label>Alignment:</label>
-            <select name="alignment" required>
-                <option value="">--Choose Option--</option>
-                <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
-                    echo 'selected'; ?>>
-                    Chaotic Neutral</option>
-                <option value="Chaotic Good" <?php if ($character['alignment'] == 'Chaotic Good')
-                    echo 'selected'; ?>>Chaotic
-                    Good</option>
-                <option value="Chaotic Evil" <?php if ($character['alignment'] == 'Chaotic Evil')
-                    echo 'selected'; ?>>Chaotic
-                    Evil</option>
-                <option value="Lawful Neutral" <?php if ($character['alignment'] == 'Lawful Neutral')
-                    echo 'selected'; ?>>
-                    Lawful Neutral</option>
-                <option value="Lawful Good" <?php if ($character['alignment'] == 'Lawful Good')
-                    echo 'selected'; ?>>Lawful
-                    Good</option>
-                <option value="Lawful Evil" <?php if ($character['alignment'] == 'Lawful Evil')
-                    echo 'selected'; ?>>Lawful
-                    Evil</option>
-                <option value="Neutral" <?php if ($character['alignment'] == 'Neutral')
-                    echo 'selected'; ?>>Neutral</option>
-                <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good')
-                    echo 'selected'; ?>>Neutral
-                    Good</option>
-                <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil')
-                    echo 'selected'; ?>>Neutral
-                    Evil</option>
-            </select><br>
-        </div>
-
-        <!-- Class Tab -->
-        <div id="class" class="tab-content">
-            <label for="characterClass">Classes:</label><br>
-            <?php
-            foreach ($classes as $class) {
-                ?>
-                <div>
-                    <p><?php echo $class['className']; ?></p>
-                    <input type="radio" name="characterClass" value="<?php echo $class['classId']; ?>" <?php if ($character['classId'] == $class['classId'])
-                           echo 'checked'; ?>>
-
-                    <button type="button" onclick="toggleInfo('class', <?php echo $class['classId']; ?>)"
-                        id="class-arrow-<?php echo $class['classId']; ?>">
-                        ▶
-                    </button>
-
-                    <div id="class-info-<?php echo $class['classId']; ?>" hidden>
-                        <p><?php echo $class['classShortInformation'] ?></p>
-                        <a href="classes.php?classId=<?php echo $class['classId']; ?>" target="_blank">Read more</a>
-                    </div><br>
-                </div>
-                <?php
+        $classes = getClasses();
+        $races = getRacesFromJson();
+        $raceFluff = getRacesFluffFromJson();
+        $character = getCharacter($characterId);
+        ?>
+        <style>
+            .tab-content {
+                display: none;
             }
-            ?>
+
+            .tab-content.active {
+                display: block;
+            }
+        </style>
+
+        <h2>Create Your Character</h2>
+
+        <!-- Tab Links -->
+        <div class="tab-links">
+            <a href="#general">General</a>
+            <a href="#class">Class</a>
+            <a href="#race">Race</a>
+            <a href="#submit">Submit Character</a>
+            <a href="#abilities">Abilities</a>
         </div>
 
-        <!-- Race Tab -->
-        <div id="race" class="tab-content">
-            <label for="characterRace">Race:</label><br>
-            <?php foreach ($races as $index => $race): ?>
-                <div>
+        <form action="builder.php?characterId=<?php echo $character['characterId']; ?>" method="POST">
+            <!-- General Tab -->
+            <div id="general" class="tab-content">
+                <label for="characterName">Character Name:</label>
+                <input type="text" id="characterName" name="characterName" value="<?php echo $character['characterName']; ?>"
+                    required><br>
+
+                <label for="age">Age:</label>
+                <input type="text" id="characterAge" name="age" value="<?php echo $character['characterAge']; ?>" required><br>
+
+                <label for="level">Level:</label>
+                <input type="text" id="characterLevel" name="level" value="<?php echo $character['level']; ?>" required><br>
+
+                <label>Alignment:</label>
+                <select name="alignment" required>
+                    <option value="">--Choose Option--</option>
+                    <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
+                        echo 'selected'; ?>>
+                        Chaotic Neutral</option>
+                    <option value="Chaotic Good" <?php if ($character['alignment'] == 'Chaotic Good')
+                        echo 'selected'; ?>>Chaotic
+                        Good</option>
+                    <option value="Chaotic Evil" <?php if ($character['alignment'] == 'Chaotic Evil')
+                        echo 'selected'; ?>>Chaotic
+                        Evil</option>
+                    <option value="Lawful Neutral" <?php if ($character['alignment'] == 'Lawful Neutral')
+                        echo 'selected'; ?>>
+                        Lawful Neutral</option>
+                    <option value="Lawful Good" <?php if ($character['alignment'] == 'Lawful Good')
+                        echo 'selected'; ?>>Lawful
+                        Good</option>
+                    <option value="Lawful Evil" <?php if ($character['alignment'] == 'Lawful Evil')
+                        echo 'selected'; ?>>Lawful
+                        Evil</option>
+                    <option value="Neutral" <?php if ($character['alignment'] == 'Neutral')
+                        echo 'selected'; ?>>Neutral</option>
+                    <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good')
+                        echo 'selected'; ?>>Neutral
+                        Good</option>
+                    <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil')
+                        echo 'selected'; ?>>Neutral
+                        Evil</option>
+                </select><br>
+            </div>
+
+            <!-- Class Tab -->
+            <div id="class" class="tab-content">
+                <label for="characterClass">Classes:</label><br>
+                <?php
+                foreach ($classes as $class) {
+                    ?>
                     <div>
-                        <p><?php echo htmlspecialchars($race['name']); ?></p>
-                        <input type="radio" name="characterRace" value="<?php echo $index; ?>" <?php if ($character['raceId'] == $index)
-                               echo 'checked'; ?>>
+                        <p><?php echo $class['className']; ?></p>
+                        <input type="radio" name="characterClass" value="<?php echo $class['classId']; ?>" <?php if ($character['classId'] == $class['classId'])
+                            echo 'checked'; ?>>
+
+                        <button type="button" onclick="toggleInfo('class', <?php echo $class['classId']; ?>)"
+                            id="class-arrow-<?php echo $class['classId']; ?>">
+                            ▶
+                        </button>
+
+                        <div id="class-info-<?php echo $class['classId']; ?>" hidden>
+                            <p><?php echo $class['classShortInformation'] ?></p>
+                            <a href="classes.php?classId=<?php echo $class['classId']; ?>" target="_blank">Read more</a>
+                        </div><br>
                     </div>
+                    <?php
+                }
+                ?>
+            </div>
 
-                    <button type="button" onclick="toggleInfo('race', <?php echo $index; ?>)"
-                        id="race-arrow-<?php echo $index; ?>">
-                        ▶
-                    </button>
+            <!-- Race Tab -->
+            <div id="race" class="tab-content">
+                <label for="characterRace">Race:</label><br>
+                <?php foreach ($races as $index => $race): ?>
+                    <div>
+                        <div>
+                            <p><?php echo htmlspecialchars($race['name']); ?></p>
+                            <input type="radio" name="characterRace" value="<?php echo $index; ?>" <?php if ($character['raceId'] == $index)
+                                echo 'checked'; ?>>
+                        </div>
 
-                    <div id="race-info-<?php echo $index; ?>" hidden>
-                        <p><?php
-                        // Pass the entries array to getFluffSnippet
-                        // Adjust 'entries' to whatever key contains the snippet array
-                        echo htmlspecialchars(getFluffSnippet($race['entries'] ?? []));
-                        ?></p>
-                        <a href="races.php?raceId=<?php echo $index ?>">Read more</a>
-                    </div><br>
-                </div>
-            <?php endforeach; ?>
-        </div>
-        </div>
+                        <button type="button" onclick="toggleInfo('race', <?php echo $index; ?>)"
+                            id="race-arrow-<?php echo $index; ?>">
+                            ▶
+                        </button>
 
-        <!-- Submit Tab -->
-        <div id="submit" class="tab-content">
-            <label>Submit:</label>
-            <br>
-            <button type="submit">Create Character</button>
-        </div>
-    </form>
+                        <div id="race-info-<?php echo $index; ?>" hidden>
+                            <p><?php
+                            // Pass the entries array to getFluffSnippet
+                            // Adjust 'entries' to whatever key contains the snippet array
+                            echo htmlspecialchars(getFluffSnippet($race['entries'] ?? []));
+                            ?></p>
+                            <a href="races.php?raceId=<?php echo $index ?>">Read more</a>
+                        </div><br>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            </div>
+
+            <!-- Abilities Tab -->
+<a href="#abilities">Abilities</a>
+
+<div id="abilities" class="tab-content">
+    <h3>Ability Scores</h3>
+    <button type="button" onclick="rollAbilities()">Roll Ability Scores</button><br><br>
+
     <?php
-}
+    $abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+    foreach ($abilities as $ability):
+        $value = $character[$ability] ?? '';
+    ?>
+        <label for="<?php echo $ability; ?>"><?php echo ucfirst($ability); ?>:</label>
+        <input type="number" name="<?php echo $ability; ?>" class="ability-score" value="<?php echo $value; ?>" required><br>
+    <?php endforeach; ?>
+</div>
+
+
+
+            <!-- Submit Tab -->
+            <div id="submit" class="tab-content">
+                <label>Submit:</label>
+                <br>
+                <button type="submit">Create Character</button>
+            </div>
+        </form>
+        <?php
+    }

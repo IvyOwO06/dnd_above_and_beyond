@@ -11,7 +11,7 @@ function getRacesFromJson() {
 function getRacesFluffFromJson() {
     $json = file_get_contents('js/json/races/fluff-races.json');
     $data = json_decode($json, true);
-
+        
     return $data['raceFluff']; // returns the array of raceFluff
 }
 

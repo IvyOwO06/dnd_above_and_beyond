@@ -30,7 +30,7 @@ function displayCharacters($userId)
                 {
                 ?>
                 <a href="builder.php?characterId=<?php echo $character['characterId'] ?>">Edit</a>
-                <a href="#">Sheet</a>
+                <a href="characterSheet.php?characterId=<?php echo $character['characterId']; ?>">View Sheet</a>
                 <?php
                 }
                 ?>
