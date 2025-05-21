@@ -34,34 +34,6 @@ function getCharacterSkills($characterId) {
     return $skills;
 }
 
-function getAbilityModifier($score) {
-    return floor(($score - 10) / 2);
-}
-
-function getProficiencyBonus($level) {
-    if ($level >= 17) return 6;
-    if ($level >= 13) return 5;
-    if ($level >= 9)  return 4;
-    if ($level >= 5)  return 3;
-    return 2;
-}
-
-function calculateSkillModifier($character, $skill, $proficiencyLevel) {
-    $abilityScore = $character[$skill['abilityName']];
-    $abilityMod = getAbilityModifier($abilityScore);
-    $proficiencyBonus = getProficiencyBonus($character['level']);
-
-    // proficiencyLevel is one of 'none', 'proficient', 'expertise'
-    $profMultiplier = 0;
-    if ($proficiencyLevel === 'proficient') {
-        $profMultiplier = 1;
-    } elseif ($proficiencyLevel === 'expertise') {
-        $profMultiplier = 2;
-    }
-
-    return $abilityMod + ($proficiencyBonus * $profMultiplier);
-}
-
 
 function handleCharacterCreation()
 {
@@ -109,30 +81,6 @@ function handleCharacterCreation()
     }
 }
 
-function handleSkillUpdates($characterId) {
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['skills'])) {
-        $conn = dbConnect();
-
-        foreach ($_POST['skills'] as $skillId => $proficiency) {
-            $skillId = intval($skillId);
-            $proficiency = in_array($proficiency, ['none', 'proficient', 'expertise']) ? $proficiency : 'none';
-
-            // Insert or update the skill entry
-            $stmt = $conn->prepare("INSERT INTO characterskills (characterId, skillId, proficiency)
-                                    VALUES (?, ?, ?)
-                                    ON DUPLICATE KEY UPDATE proficiency = VALUES(proficiency)");
-            if ($stmt) {
-                $stmt->bind_param("iis", $characterId, $skillId, $proficiency);
-                $stmt->execute();
-                $stmt->close();
-            } else {
-                echo "<p>❌ Skill update failed for skill ID {$skillId}: " . $conn->error . "</p>";
-            }
-        }
-
-        echo "<p>✅ Skills updated successfully.</p>";
-    }
-}
 
 
 function homeTabBuilder($characterId)
@@ -216,21 +164,21 @@ function homeTabBuilder($characterId)
         <div id="class" class="tab-content">
             <label for="characterClass">Classes:</label><br>
             <?php
-            foreach ($classes as $class) {
+            foreach ($classes as $index => $class) {
                 ?>
                 <div>
-                    <p><?php echo $class['className']; ?></p>
-                    <input type="radio" name="characterClass" value="<?php echo $class['classId']; ?>" <?php if ($character['classId'] == $class['classId'])
-                        echo 'checked'; ?>>
+                    <p><?php echo htmlspecialchars($class['name']); ?></p>
+                    <input type="radio" name="characterClass" value="<?php echo $index; ?>" <?php if ($character['raceId'] == $index)
+                            echo 'checked'; ?>>
 
-                    <button type="button" onclick="toggleInfo('class', <?php echo $class['classId']; ?>)"
-                        id="class-arrow-<?php echo $class['classId']; ?>">
+                    <button type="button" onclick="toggleInfo('class', <?php echo $index; ?>)"
+                        id="class-arrow-<?php echo $index; ?>">
                         ▶
                     </button>
 
-                    <div id="class-info-<?php echo $class['classId']; ?>" hidden>
-                        <p><?php echo $class['classShortInformation'] ?></p>
-                        <a href="classes.php?classId=<?php echo $class['classId']; ?>" target="_blank">Read more</a>
+                    <div id="class-info-<?php echo $index; ?>" hidden>
+                        <p><?php echo $index; ?></p>
+                        <a href="classes.php?classId=<?php echo $index ?>">Read more</a>
                     </div><br>
                 </div>
                 <?php
@@ -264,7 +212,6 @@ function homeTabBuilder($characterId)
                     </div><br>
                 </div>
             <?php endforeach; ?>
-        </div>
         </div>
 
         <!-- Abilities Tab -->

@@ -7,7 +7,7 @@ if (!isset($_SESSION['user'])) {
 
 $conn = dbConnect();
 
-// Default values for a new placeholder character
+// Step 1: Insert character
 $characterName = "New Character";
 $characterAge = 0;
 $classId = 0;
@@ -22,12 +22,31 @@ $stmt->execute();
 
 if ($stmt->affected_rows > 0) {
     $characterId = $stmt->insert_id;
+    $stmt->close();
+
+    // Step 2: Get all skills
+    $skillsQuery = $conn->query("SELECT skillId FROM skills");
+    if ($skillsQuery && $skillsQuery->num_rows > 0) {
+
+        // Step 3: Prepare insert for characterskills
+        $stmtSkill = $conn->prepare("INSERT INTO characterskills (characterId, skillId, proficiency) VALUES (?, ?, 'none')");
+
+        foreach ($skillsQuery as $skill) {
+            $skillId = $skill['skillId'];
+            $stmtSkill->bind_param("ii", $characterId, $skillId);
+            $stmtSkill->execute();
+        }
+
+        $stmtSkill->close();
+    }
+
+    // Step 4: Redirect to builder
+    $conn->close();
     header("Location: builder.php?characterId=" . $characterId);
     exit;
 } else {
     echo "<p>❌ Failed to create character.</p>";
+    $stmt->close();
+    $conn->close();
 }
-
-$stmt->close();
-$conn->close();
 ?>
