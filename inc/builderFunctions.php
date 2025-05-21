@@ -12,6 +12,75 @@
         return $character;
     }
 
+    
+function getSkills() {
+    $db = dbConnect();
+    $result = $db->query("SELECT * FROM skills ORDER BY skillName ASC");
+    $skills = [];
+    while ($row = $result->fetch_assoc()) {
+        $skills[] = $row;
+    }
+    return $skills;
+}
+
+
+function getCharacterSkills($characterId) {
+    $db = dbConnect();
+    $stmt = $db->prepare("SELECT cs.skillId, cs.proficiency FROM character_skills cs WHERE cs.characterId = ?");
+    $stmt->bind_param("i", $characterId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $charSkills = [];
+    while ($row = $result->fetch_assoc()) {
+        $charSkills[$row['skillId']] = $row['proficiency'];
+    }
+    return $charSkills;
+}
+
+    function saveCharacterSkills($characterId, $skillsProficiencies) {
+    $db = dbConnect();
+
+    foreach ($skillsProficiencies as $skillId => $proficiency) {
+        // Use insert ... on duplicate key update for efficiency
+        $stmt = $db->prepare("
+            INSERT INTO character_skills (characterId, skillId, proficiency) 
+            VALUES (?, ?, ?) 
+            ON DUPLICATE KEY UPDATE proficiency = VALUES(proficiency)
+        ");
+        $stmt->bind_param("iis", $characterId, $skillId, $proficiency);
+        $stmt->execute();
+    }
+}
+
+function getAbilityModifier($score) {
+    return floor(($score - 10) / 2);
+}
+
+function getProficiencyBonus($level) {
+    if ($level >= 17) return 6;
+    if ($level >= 13) return 5;
+    if ($level >= 9)  return 4;
+    if ($level >= 5)  return 3;
+    return 2;
+}
+
+function calculateSkillModifier($character, $skill, $proficiencyLevel) {
+    $abilityScore = $character[$skill['abilityName']];
+    $abilityMod = getAbilityModifier($abilityScore);
+    $proficiencyBonus = getProficiencyBonus($character['level']);
+
+    // proficiencyLevel is one of 'none', 'proficient', 'expertise'
+    $profMultiplier = 0;
+    if ($proficiencyLevel === 'proficient') {
+        $profMultiplier = 1;
+    } elseif ($proficiencyLevel === 'expertise') {
+        $profMultiplier = 2;
+    }
+
+    return $abilityMod + ($proficiencyBonus * $profMultiplier);
+}
+
+
     function handleCharacterCreation()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['characterName']) && isset($_GET['characterId'])) {
@@ -41,7 +110,7 @@
                     die("❌ Prepare failed: " . $conn->error);
                 }
 
-$stmt->bind_param("siiisiiiiiiiii", $name, $age, $classId, $raceId, $alignment, $level,
+                    $stmt->bind_param("siiisiiiiiiiii", $name, $age, $classId, $raceId, $alignment, $level,
                   $str, $dex, $con, $int, $wis, $cha,
                   $characterId, $userId);                $stmt->execute();
 
@@ -86,6 +155,7 @@ $stmt->bind_param("siiisiiiiiiiii", $name, $age, $classId, $raceId, $alignment, 
             <a href="#class">Class</a>
             <a href="#race">Race</a>
             <a href="#submit">Submit Character</a>
+            <a href="#skills">Skills</a>
             <a href="#abilities">Abilities</a>
         </div>
 
@@ -190,7 +260,6 @@ $stmt->bind_param("siiisiiiiiiiii", $name, $age, $classId, $raceId, $alignment, 
             </div>
 
             <!-- Abilities Tab -->
-<a href="#abilities">Abilities</a>
 
 <div id="abilities" class="tab-content">
     <h3>Ability Scores</h3>
@@ -206,6 +275,27 @@ $stmt->bind_param("siiisiiiiiiiii", $name, $age, $classId, $raceId, $alignment, 
     <?php endforeach; ?>
 </div>
 
+
+
+<div id="skills" class="tab-content">
+ <h3>Skills</h3>
+    <?php 
+    $skills = getSkills();
+    $characterSkills = getCharacterSkills($character['characterId']);
+    foreach ($skills as $skill):
+        $selectedProf = $characterSkills[$skill['skillId']] ?? 'none';
+    ?>
+        <label for="skill-<?php echo $skill['skillId']; ?>">
+            <?php echo htmlspecialchars($skill['skillName']) . " (" . ucfirst($skill['abilityName']) . ")"; ?>
+        </label>
+        <select name="skills[<?php echo $skill['skillId']; ?>]" id="skill-<?php echo $skill['skillId']; ?>">
+            <option value="none" <?php if ($selectedProf == 'none') echo 'selected'; ?>>None</option>
+            <option value="proficient" <?php if ($selectedProf == 'proficient') echo 'selected'; ?>>Proficient</option>
+            <option value="expertise" <?php if ($selectedProf == 'expertise') echo 'selected'; ?>>Expertise</option>
+        </select>
+        <br>
+    <?php endforeach; ?>
+</div>
 
 
             <!-- Submit Tab -->

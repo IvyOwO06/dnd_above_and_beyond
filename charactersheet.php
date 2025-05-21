@@ -66,6 +66,14 @@ foreach ($raceFluff as $fluff) {
     <li><strong>CHA:</strong> <?php echo $character['charisma']; ?></li>
 </ul>
 
+<?php
+foreach ($skills as $skill) {
+    $profLevel = $characterSkills[$skill['skillId']] ?? 'none';
+    $mod = calculateSkillModifier($character, $skill, $profLevel);
+    $modSign = $mod >= 0 ? "+" : "";
+    echo "<p>" . htmlspecialchars($skill['skillName']) . ": <strong>{$modSign}{$mod}</strong> (" . ucfirst($profLevel) . ")</p>";
+}
+?>
 
 
 </body>
