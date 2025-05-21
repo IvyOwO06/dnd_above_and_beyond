@@ -2,6 +2,7 @@
 require 'inc/functions.php';
 require 'inc/builderFunctions.php';
 require 'inc/racesFunctions.php';
+require 'inc/inventoryFunctions.php';
 
 if (!isset($_GET['characterId']) || !is_numeric($_GET['characterId'])) {
     die("Character ID not provided.");
@@ -67,13 +68,107 @@ foreach ($raceFluff as $fluff) {
 </ul>
 
 <?php
-foreach ($skills as $skill) {
-    $profLevel = $characterSkills[$skill['skillId']] ?? 'none';
-    $mod = calculateSkillModifier($character, $skill, $profLevel);
-    $modSign = $mod >= 0 ? "+" : "";
-    echo "<p>" . htmlspecialchars($skill['skillName']) . ": <strong>{$modSign}{$mod}</strong> (" . ucfirst($profLevel) . ")</p>";
-}
+$items = getItemsFromJson();
 ?>
+
+<h2>Inventory</h2>
+
+<!-- Current Inventory -->
+<h3>Your Inventory</h3>
+<div id="character-inventory">
+    <?php
+    $inventory = getCharacterInventory($characterId);
+    if (empty($inventory)) {
+        echo "<p>No items in inventory.</p>";
+    } else {
+        echo "<ul>";
+        foreach ($inventory as $invItem) {
+            $itemId = htmlspecialchars($invItem['itemName']);
+            $quantity = htmlspecialchars($invItem['quantity']);
+            echo "<li>$itemId (Qty: $quantity) <button onclick=\"removeItem('$itemId')\">Remove</button></li>";
+        }
+        echo "</ul>";
+    }
+    ?>
+</div>
+
+<!-- Item Search and List -->
+<h3>Add Items</h3>
+<input type="text" id="item-search" placeholder="Search items..." onkeyup="searchItems()">
+<select id="sort-items" onchange="sortItems()">
+    <option value="name-asc">Name (A-Z)</option>
+    <option value="name-desc">Name (Z-A)</option>
+    <option value="type-asc">Type (A-Z)</option>
+    <option value="type-desc">Type (Z-A)</option>
+</select>
+<div id="item-list">
+    <!-- Populated by JavaScript -->
+</div>
+
+<script>
+// Pass PHP items to JavaScript
+const items = <?php echo json_encode($items); ?>;
+
+function searchItems() {
+    const searchTerm = document.getElementById('item-search').value.toLowerCase();
+    const filteredItems = items.filter(item => 
+        item.name.toLowerCase().includes(searchTerm) || 
+        (item.type && item.type.toLowerCase().includes(searchTerm))
+    );
+    displayItems(filteredItems);
+}
+
+function sortItems() {
+    const sortValue = document.getElementById('sort-items').value;
+    const sortedItems = [...items].sort((a, b) => {
+        if (sortValue === 'name-asc') return a.name.localeCompare(b.name);
+        if (sortValue === 'name-desc') return b.name.localeCompare(a.name);
+        if (sortValue === 'type-asc') return (a.type || '').localeCompare(b.type || '');
+        if (sortValue === 'type-desc') return (b.type || '').localeCompare(a.type || '');
+    });
+    displayItems(sortedItems);
+}
+
+function displayItems(items) {
+    const itemList = document.getElementById('item-list');
+    itemList.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.innerHTML = `${item.name} (${item.type || 'Unknown'}) <button onclick="addItem('${item.name}')">Add</button>`;
+        itemList.appendChild(div);
+    });
+}
+
+
+function addItem(itemName) {
+    const characterId = <?php echo json_encode($characterId); ?>;
+    fetch('add_item.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ characterId: characterId, itemName: itemName, quantity: 1 })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Item added to inventory!');
+            // Refresh inventory display
+            location.reload(); // Simple approach; you can optimize with dynamic DOM update
+        } else {
+            alert('Error adding item: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to add item.');
+    });
+}
+
+
+// Initial display
+sortItems();
+</script>
+
+
 
 
 </body>
