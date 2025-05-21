@@ -8,8 +8,6 @@ function getRacesFromJson() {
     return $data['races'][0]['race']; // returns the array of races
 }
 
-//TODO:
-//need to make it so the fluff displays with the races
 function getRacesFluffFromJson() {
     $json = file_get_contents('js/json/races/fluff-races.json');
     $data = json_decode($json, true);
