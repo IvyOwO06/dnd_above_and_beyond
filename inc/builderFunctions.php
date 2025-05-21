@@ -132,7 +132,7 @@ function calculateSkillModifier($character, $skill, $proficiencyLevel) {
         //TODO:
         //make it so that the character submit tab only apears when all the needed things are filled in
 
-        $classes = getClasses();
+        $classes = getClassesFromJson();
         $races = getRacesFromJson();
         $raceFluff = getRacesFluffFromJson();
         $character = getCharacter($characterId);

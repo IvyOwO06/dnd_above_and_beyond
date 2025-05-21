@@ -33,20 +33,39 @@ function getClassesFromJson() {
 }
 
 // Load class fluff from JSON
-function getClassesFluffFromJson() {
-    $filePath = 'js/json/class/fluff-classes.json';
-    if (!file_exists($filePath)) {
-        error_log("Fluff file not found: $filePath");
-        return [];
+function getClassFluffByKey($classKey) {
+    $indexPath = 'js/json/class/fluff-index.json';
+    if (!file_exists($indexPath)) {
+        error_log("Fluff index not found: $indexPath");
+        return null;
     }
-    $json = file_get_contents($filePath);
-    $data = json_decode($json, true);
+
+    $index = json_decode(file_get_contents($indexPath), true);
     if (json_last_error() !== JSON_ERROR_NONE) {
-        error_log("Error decoding fluff-classes.json: " . json_last_error_msg());
-        return [];
+        error_log("Error decoding fluff-index.json: " . json_last_error_msg());
+        return null;
     }
-    return $data['classFluff'] ?? [];
+
+    if (!isset($index[$classKey])) {
+        error_log("No fluff file mapped for class key: $classKey");
+        return null;
+    }
+
+    $fluffFilePath = 'js/json/class/' . $index[$classKey];
+    if (!file_exists($fluffFilePath)) {
+        error_log("Fluff file not found: $fluffFilePath");
+        return null;
+    }
+
+    $data = json_decode(file_get_contents($fluffFilePath), true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        error_log("Error decoding $fluffFilePath: " . json_last_error_msg());
+        return null;
+    }
+
+    return $data['classFluff'] ?? null;
 }
+
 
 // Get a single class by numeric ID
 function getClassFromJson($classId) {
@@ -92,15 +111,31 @@ function renderEntries($entries, $depth = 2) {
         if (is_string($entry)) {
             echo "<p>" . htmlspecialchars($entry, ENT_QUOTES, 'UTF-8') . "</p>";
         } elseif (is_array($entry)) {
-            if (isset($entry['name'])) {
-                echo "<h$depth>" . htmlspecialchars($entry['name'], ENT_QUOTES, 'UTF-8') . "</h$depth>";
+            $type = $entry['type'] ?? null;
+            $name = $entry['name'] ?? null;
+
+            if ($name) {
+                echo "<h$depth>" . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "</h$depth>";
             }
-            if (isset($entry['entries']) && is_array($entry['entries'])) {
+
+            if (!empty($entry['entries'])) {
                 renderEntries($entry['entries'], min($depth + 1, 6));
+            }
+
+            if ($type === 'quote' && !empty($entry['entries'])) {
+                echo "<blockquote>";
+                foreach ($entry['entries'] as $quoteLine) {
+                    echo "<p>" . htmlspecialchars($quoteLine, ENT_QUOTES, 'UTF-8') . "</p>";
+                }
+                if (isset($entry['by'])) {
+                    echo "<footer>&mdash; " . htmlspecialchars($entry['by'], ENT_QUOTES, 'UTF-8') . "</footer>";
+                }
+                echo "</blockquote>";
             }
         }
     }
 }
+
 
 // Display selected class
 function displayClass($classId) {
@@ -140,20 +175,20 @@ function displayClass($classId) {
         }
     }
 
-    // Load fluff and find match
-    $fluffEntries = getClassesFluffFromJson();
+    // Load fluff and find match (by name only for flexibility)
     $matchedFluff = null;
-
-    foreach ($fluffEntries as $fluff) {
-        if (
-            isset($fluff['name'], $fluff['source']) &&
-            $fluff['name'] === $class['name'] &&
-            $fluff['source'] === $class['source']
-        ) {
-            $matchedFluff = $fluff;
-            break;
+    if (isset($class['_key'])) {
+        $fluffEntries = getClassFluffByKey($class['_key']);
+        if ($fluffEntries) {
+            foreach ($fluffEntries as $fluff) {
+                if (isset($fluff['name']) && $fluff['name'] === $class['name']) {
+                    $matchedFluff = $fluff;
+                    break;
+                }
+            }
         }
     }
+
 
     // Display fluff
     if ($matchedFluff && isset($matchedFluff['entries'])) {
