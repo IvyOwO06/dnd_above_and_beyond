@@ -71,6 +71,77 @@ foreach ($raceFluff as $fluff) {
 $items = getItemsFromJson();
 ?>
 
+<h2>Currency</h2>
+<div id="character-currency">
+    <?php
+    $currency = getCharacterCurrency($characterId);
+    if (!$currency) {
+        echo "<p>Error loading currency.</p>";
+    } else {
+        echo "<p><strong>Platinum (pp):</strong> {$currency['pp']}</p>";
+        echo "<p><strong>Gold (gp):</strong> {$currency['gp']}</p>";
+        echo "<p><strong>Electrum (ep):</strong> {$currency['ep']}</p>";
+        echo "<p><strong>Silver (sp):</strong> {$currency['sp']}</p>";
+        echo "<p><strong>Copper (cp):</strong> {$currency['cp']}</p>";
+    }
+    ?>
+</div>
+
+<h3>Manage Currency</h3>
+<form id="currency-form">
+    <label>Platinum (pp): <input type="number" id="pp" min="0" value="0"></label><br>
+    <label>Gold (gp): <input type="number" id="gp" min="0" value="0"></label><br>
+    <label>Electrum (ep): <input type="number" id="ep" min="0" value="0"></label><br>
+    <label>Silver (sp): <input type="number" id="sp" min="0" value="0"></label><br>
+    <label>Copper (cp): <input type="number" id="cp" min="0" value="0"></label><br>
+    <button type="button" onclick="updateCurrency('add')">Add Currency</button>
+    <button type="button" onclick="updateCurrency('remove')">Remove Currency</button>
+</form>
+
+<script>
+    function updateCurrency(action) {
+    const characterId = <?php echo json_encode($characterId); ?>;
+    const cp = parseInt(document.getElementById('cp').value) || 0;
+    const sp = parseInt(document.getElementById('sp').value) || 0;
+    const ep = parseInt(document.getElementById('ep').value) || 0;
+    const gp = parseInt(document.getElementById('gp').value) || 0;
+    const pp = parseInt(document.getElementById('pp').value) || 0;
+
+    fetch('update_currency.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ characterId, cp, sp, ep, gp, pp, action })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Currency updated!');
+            // Refresh currency display
+            fetch('get_currency.php?characterId=' + characterId)
+                .then(response => response.json())
+                .then(currency => {
+                    const currencyDiv = document.getElementById('character-currency');
+                    currencyDiv.innerHTML = `
+                        <p><strong>Platinum (pp):</strong> ${currency.pp}</p>
+                        <p><strong>Gold (gp):</strong> ${currency.gp}</p>
+                        <p><strong>Electrum (ep):</strong> ${currency.ep}</p>
+                        <p><strong>Silver (sp):</strong> ${currency.sp}</p>
+                        <p><strong>Copper (cp):</strong> ${currency.cp}</p>
+                    `;
+                    // Reset form
+                    document.getElementById('currency-form').reset();
+                });
+        } else {
+            alert('Error updating currency: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update currency.');
+    });
+}
+</script>
+
 <h2>Inventory</h2>
 
 <!-- Current Inventory -->
@@ -167,8 +238,6 @@ function addItem(itemName) {
 // Initial display
 sortItems();
 </script>
-
-
 
 
 </body>
