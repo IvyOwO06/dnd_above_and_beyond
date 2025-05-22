@@ -37,7 +37,12 @@ function getSkillModifier($characterId, $skillId) {
 function updateSkillProficiency($characterId, $skillId, $proficiency) {
     $response = ['success' => false, 'message' => ''];
 
-    if (!$characterId || !is_numeric($characterId) || !$skillId || !is_numeric($skillId) || !in_array($proficiency, ['none', 'proficient', 'expertise'])) {
+    // Validate input
+    if (
+        !$characterId || !is_numeric($characterId) ||
+        !$skillId || !is_numeric($skillId) ||
+        !in_array($proficiency, ['none', 'proficient', 'expertise'])
+    ) {
         $response['message'] = 'Invalid character ID, skill ID, or proficiency value.';
         return json_encode($response);
     }
@@ -48,24 +53,58 @@ function updateSkillProficiency($characterId, $skillId, $proficiency) {
         return json_encode($response);
     }
 
-    // Optional: Validate proficiency limits (e.g., 4 proficiencies, 2 expertise)
-    $stmt = $conn->prepare("SELECT COUNT(*) as profCount, SUM(CASE WHEN proficiency = 'expertise' THEN 1 ELSE 0 END) as expCount
-                            FROM characterskills WHERE characterId = ?");
+    // Get current proficiency for this skill (if any)
+    $stmt = $conn->prepare("SELECT proficiency FROM characterskills WHERE characterId = ? AND skillId = ?");
+    $stmt->bind_param("ii", $characterId, $skillId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $current = $result->fetch_assoc();
+    $stmt->close();
+
+    $currentProficiency = $current['proficiency'] ?? 'none';
+
+    // Count current proficiencies
+    $stmt = $conn->prepare("SELECT
+                                SUM(proficiency IN ('proficient', 'expertise')) AS profCount,
+                                SUM(proficiency = 'expertise') AS expCount
+                            FROM characterskills
+                            WHERE characterId = ?");
     $stmt->bind_param("i", $characterId);
     $stmt->execute();
     $result = $stmt->get_result();
     $counts = $result->fetch_assoc();
     $stmt->close();
 
-    $profCount = $counts['profCount'] + ($proficiency === 'proficient' || $proficiency === 'expertise' ? 1 : 0);
-    $expCount = $counts['expCount'] + ($proficiency === 'expertise' ? 1 : 0);
+    $profCount = (int) $counts['profCount'];
+    $expCount = (int) $counts['expCount'];
 
-    if ($profCount > 4 || $expCount > 2) {
-        $response['message'] = 'Proficiency limit exceeded for this character.';
-        $conn->close();
-        return json_encode($response);
+    // Adjust based on what we're changing
+    if ($currentProficiency !== $proficiency) {
+        // Remove the current value from the count
+        if ($currentProficiency === 'proficient' || $currentProficiency === 'expertise') {
+            $profCount--;
+        }
+        if ($currentProficiency === 'expertise') {
+            $expCount--;
+        }
+
+        // Add the new value to the count
+        if ($proficiency === 'proficient' || $proficiency === 'expertise') {
+            $profCount++;
+        }
+        if ($proficiency === 'expertise') {
+            $expCount++;
+        }
     }
 
+    // Enforce limits
+    // if ($profCount > 4 || $expCount > 2) {
+    //     $response['message'] = 'Proficiency limit exceeded for this character.';
+    //     $conn->close();
+    //     return json_encode($response);
+    // }
+
+    // Update or insert the skill proficiency
     $stmt = $conn->prepare("INSERT INTO characterskills (characterId, skillId, proficiency)
                             VALUES (?, ?, ?)
                             ON DUPLICATE KEY UPDATE proficiency = ?");
