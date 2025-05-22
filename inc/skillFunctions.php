@@ -89,7 +89,7 @@ function updateSkillProficiency($characterId, $skillId, $proficiency) {
         }
 
         // Add the new value to the count
-        if ($proficiency === 'proficient' || $proficiency === 'expertise') {
+        if ($proficiency === 'proficient') {
             $profCount++;
         }
         if ($proficiency === 'expertise') {
