@@ -28,11 +28,12 @@ function displayHeader()
                 if (isset($_SESSION['user']))
                 {
                     ?>
-                    <a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>"></a>
                     <div class="dropdown">
-                        <button class="dropbtn"><?php echo $_SESSION['user']['username']; ?> 
-                        <i class="fa fa-caret-down"><img src="<?= $user['profilePicture'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture" class="pfp"></i>
-                        </button>
+                        <a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>" id="userNameNav">
+                            <button class="dropbtn"><?php echo $_SESSION['user']['username']; ?> 
+                            <i class="fa fa-caret-down"><img src="<?= $user['profilePicture'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture" class="pfp"></i>
+                            </button>
+                        </a>
                         <div class="dropdown-content">
                             <a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a>
                             <a href="logout.php">Log Out</a>
