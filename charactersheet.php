@@ -3,6 +3,7 @@ require 'inc/functions.php';
 require 'inc/builderFunctions.php';
 require 'inc/racesFunctions.php';
 require 'inc/inventoryFunctions.php';
+require_once 'inc/skillFunctions.php';
 
 if (!isset($_GET['characterId']) || !is_numeric($_GET['characterId'])) {
     die("Character ID not provided.");
@@ -69,9 +70,11 @@ foreach ($raceFluff as $fluff) {
     <li><strong>WIS:</strong> <?php echo $character['wisdom'] . ' (' . getAbilityModifier($character['wisdom']) . ')'; ?></li>
     <li><strong>CHA:</strong> <?php echo $character['charisma'] . ' (' . getAbilityModifier($character['charisma']) . ')'; ?></li>
 </ul>
+<h2>Proficiency Bonus</h2>
+<p><strong>Proficiency Bonus:</strong> +<?php echo getProficiencyBonus($character['level']); ?></p>
 
 <h2>Skills</h2>
-<ul>
+<ul id="skills-list">
     <?php
     $skills = getCharacterSkills($characterId);
     if (empty($skills)) {
@@ -84,7 +87,18 @@ foreach ($raceFluff as $fluff) {
             $skillModifier = calculateSkillModifier($character, $skill, $proficiencyLevel);
             $modifierDisplay = $skillModifier >= 0 ? "+$skillModifier" : $skillModifier;
             $modifierClass = $skillModifier >= 0 ? 'positive' : 'negative';
-            echo "<li><strong>$skillName:</strong> <span class='$modifierClass'>$modifierDisplay</span> ($abilityName, " . ucfirst($proficiencyLevel) . ")</li>";
+            ?>
+            <li data-skill-id="<?php echo $skill['skillId']; ?>">
+                <strong><?php echo $skillName; ?>:</strong>
+                <span class="<?php echo $modifierClass; ?>"><?php echo $modifierDisplay; ?></span>
+                (<?php echo $abilityName; ?>)
+                <select onchange="updateSkillProficiency(<?php echo $skill['skillId']; ?>, this.value)">
+                    <option value="none" <?php if ($proficiencyLevel === 'none') echo 'selected'; ?>>None</option>
+                    <option value="proficient" <?php if ($proficiencyLevel === 'proficient') echo 'selected'; ?>>Proficient</option>
+                    <option value="expertise" <?php if ($proficiencyLevel === 'expertise') echo 'selected'; ?>>Expertise</option>
+                </select>
+            </li>
+            <?php
         }
     }
     ?>
@@ -135,7 +149,49 @@ $items = getItemsFromJson();
     <button type="button" onclick="updateCurrency('remove')">Remove Currency</button>
 </form>
 
-<script>
+<script>function updateSkillProficiency(skillId, proficiency) {
+    const characterId = <?php echo json_encode($characterId); ?>;
+    fetch('inc/skillFunctions.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'updateSkillProficiency', characterId, skillId, proficiency })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Skill proficiency updated!');
+            // Fetch the updated modifier for this skill
+            fetch(`inc/skillFunctions.php?action=getSkillModifier&characterId=${characterId}&skillId=${skillId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const modifier = data.modifier;
+                    const modifierDisplay = modifier >= 0 ? `+${modifier}` : modifier;
+                    const modifierClass = modifier >= 0 ? 'positive' : 'negative';
+                    // Find the specific skill's <li> element
+                    const skillItem = document.querySelector(`#skills-list li[data-skill-id="${skillId}"]`);
+                    if (skillItem) {
+                        // Update the modifier and proficiency dropdown
+                        const modifierSpan = skillItem.querySelector('span');
+                        modifierSpan.textContent = modifierDisplay;
+                        modifierSpan.className = modifierClass;
+                        const select = skillItem.querySelector('select');
+                        select.value = proficiency;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching modifier:', error);
+                    alert('Failed to update skill modifier.');
+                });
+        } else {
+            alert('Error updating skill proficiency: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to update skill proficiency.');
+    });
+}
+
     function updateCurrency(action) {
     const characterId = <?php echo json_encode($characterId); ?>;
     const cp = parseInt(document.getElementById('cp').value) || 0;

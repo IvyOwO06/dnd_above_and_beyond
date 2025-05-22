@@ -302,25 +302,7 @@ function homeTabBuilder($characterId)
             <?php endforeach; ?>
         </div>
 
-        <!-- Skills Tab -->
-        <div id="skills" class="tab-content">
-            <h3>Skills</h3>
-            <?php
-            $skills = getCharacterSkills($characterId);
-            foreach ($skills as $skill):
-                $skillName = $skill['skillName'];
-                $skillId = $skill['skillId'];
-                $proficiency = $skill['proficiency'] ?? 'none';
-            ?>
-                <label for="skill_<?php echo $skillId; ?>"><?php echo htmlspecialchars($skillName); ?>:</label>
-                <select name="skills[<?php echo $skillId; ?>]" id="skill_<?php echo $skillId; ?>">
-                    <option value="none" <?php if ($proficiency === 'none') echo 'selected'; ?>>None</option>
-                    <option value="proficient" <?php if ($proficiency === 'proficient') echo 'selected'; ?>>Proficient</option>
-                    <option value="expertise" <?php if ($proficiency === 'expertise') echo 'selected'; ?>>Expertise</option>
-                </select><br>
-            <?php endforeach; ?>
-        </div>
-
+        
         <!-- Submit Tab -->
         <div id="submit" class="tab-content">
             <label>Submit:</label>
