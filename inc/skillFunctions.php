@@ -81,7 +81,7 @@ function updateSkillProficiency($characterId, $skillId, $proficiency) {
     // Adjust based on what we're changing
     if ($currentProficiency !== $proficiency) {
         // Remove the current value from the count
-        if ($currentProficiency === 'proficient' || $currentProficiency === 'expertise') {
+        if ($currentProficiency === 'proficient') {
             $profCount--;
         }
         if ($currentProficiency === 'expertise') {
@@ -98,7 +98,7 @@ function updateSkillProficiency($characterId, $skillId, $proficiency) {
     }
 
     // Enforce limits
-    // if ($profCount > 4 || $expCount > 2) {
+    // if ($profCount >= 5 || $expCount >= 3) {
     //     $response['message'] = 'Proficiency limit exceeded for this character.';
     //     $conn->close();
     //     return json_encode($response);

@@ -2,7 +2,10 @@
 require 'inc/functions.php';
 
 if (!isset($_SESSION['user'])) {
-    die("⛔ You must be logged in to create a character.");
+    echo("⛔ You must be logged in to create a character.");
+    echo '<br>';
+    echo '<a href="index.php">Home Page</a>';
+    die;
 }
 
 $conn = dbConnect();
