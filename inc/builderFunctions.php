@@ -183,7 +183,6 @@ function homeTabBuilder($characterId)
         <a href="#general">General</a>
         <a href="#class">Class</a>
         <a href="#race">Race</a>
-        <a href="#skills">Skills</a>
         <a href="#abilities">Abilities</a>
         <a href="#submit">Submit Character</a>
     </div>

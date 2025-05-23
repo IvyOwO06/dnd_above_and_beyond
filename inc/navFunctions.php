@@ -36,6 +36,7 @@ function displayHeader()
                         </a>
                         <div class="dropdown-content">
                             <a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a>
+                            <a href="createCharacter.php">New Character</a>
                             <a href="logout.php">Log Out</a>
                         </div>
                     </div> 
