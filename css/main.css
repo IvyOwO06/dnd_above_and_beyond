@@ -423,7 +423,6 @@ color: #ffffff;
 
 .navbar a:hover, .dropdown:hover .dropbtn {
   background-color: var(--purpley);
-  cursor: pointer;
 
 }
 

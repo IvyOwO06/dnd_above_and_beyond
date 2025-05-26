@@ -47,22 +47,16 @@ function displayClasses() {
             continue;
         }
 
-        // Skip if search is active and this class or source doesn't match
-        if ($search) {
-            $nameMatch = strpos(strtolower($class['name']), $search) !== false;
-            $sourceMatch = isset($class['source']) && strpos(strtolower($class['source']), $search) !== false;
-            if (!$nameMatch && !$sourceMatch) {
-                continue;
-            }
-        }
-
         ?>
-        <a href="?classId=<?php echo $index; ?>">
-            <div>
+        <div class="filter-item"
+            data-name="<?php echo strtolower(htmlspecialchars($class['name'], ENT_QUOTES, 'UTF-8')); ?>"
+            data-source="<?php echo strtolower(htmlspecialchars($class['source'], ENT_QUOTES, 'UTF-8')); ?>">
+            <a href="?classId=<?php echo $index; ?>">
                 <h1><?php echo htmlspecialchars($class['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
                 <p>Source: <?php echo htmlspecialchars($class['source'], ENT_QUOTES, 'UTF-8'); ?></p>
-            </div>
-        </a>
+            </a>
+        </div>
+
         <?php
     }
 }

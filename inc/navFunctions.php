@@ -29,19 +29,18 @@ function displayHeader()
                 {
                     ?>
                     <div class="dropdown">
-                        <a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>" id="userNameNav">
-                            <button class="dropbtn"><?php echo $_SESSION['user']['username']; ?> 
-                            <i class="fa fa-caret-down"><img src="<?= $user['profilePicture'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture" class="pfp"></i>
-                            </button>
-                        </a>
-                        <div class="dropdown-content">
+                        <button class="dropbtn"><?php echo $_SESSION['user']['username']; ?> 
+                        <i class="fa fa-caret-down"><img src="<?= $user['profilePicture'] ?? 'assets/default-avatar.png'; ?>" alt="Profile Picture" class="pfp"></i>
+                        </button>
+                        <div class="dropdown-content">  
+                            <a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>">Profile</a>
                             <a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a>
-                            <a href="createCharacter.php">New Character</a>
+                            <a href="createCharacter.php" onclick="return confirm('Do you want to create a character?')">Create Character</a>
                             <a href="logout.php">Log Out</a>
                         </div>
                     </div> 
                     <?php
-                } 
+                }
                 else
                 {
                     ?>
@@ -51,7 +50,6 @@ function displayHeader()
                 ?>
             </ul>
         </nav>
-        
     </header>
     <?php
 }

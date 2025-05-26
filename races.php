@@ -2,6 +2,7 @@
     require 'inc/racesFunctions.php';
     require 'inc/navFunctions.php';
 ?>
+<script src="js/jsonSearch.js"></script>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,19 +16,19 @@
         displayHeader();
 
         ?>
-        <form method="GET" action="">
-            <input type="text" name="search" placeholder="Search races..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-            <button type="submit">Search</button>
-        </form>
+        <div class="search-section">
+            <input type="text" class="live-search" placeholder="Search classes...">
+
+            <?php
+            if (isset($_GET['raceId']) && is_numeric($_GET['raceId'])) {
+                displayRace($_GET['raceId']);
+                displayRaces();
+            } else {
+                displayRaces();
+            }
+            ?>
+        </div>
         <?php
-
-        if (isset($_GET['raceId']) && is_numeric($_GET['raceId'])) {
-            displayRace($_GET['raceId']);
-            displayRaces();
-        } else {
-            displayRaces();
-        }
-
         displayFooter();
         ?>
     </body>

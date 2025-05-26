@@ -2,6 +2,7 @@
     require 'inc/classesFunctions.php';
     require 'inc/navFunctions.php';
 ?>
+<script src="js/jsonSearch.js"></script>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,20 +15,21 @@
         <?php
         displayHeader();
         ?>
-        <form method="GET" action="">
-            <input type="text" name="search" placeholder="Search classes..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
-            <button type="submit">Search</button>
-        </form>
+        
+        <div class="search-section">
+            <input type="text" class="live-search" placeholder="Search classes...">
+
+            <?php
+            if (isset($_GET['classId']) && is_numeric($_GET['classId'])) {
+                displayClass($_GET['classId']);
+                displayClasses();
+            } else {
+                displayClasses();
+            }
+            ?>
+        </div>
+
         <?php
-
-        if (isset($_GET['classId']) && is_numeric($_GET['classId'])) {
-            displayClass($_GET['classId']);
-
-            displayClasses();
-        } else {
-            displayClasses();
-        }
-
         displayFooter();
         ?>
     </body>

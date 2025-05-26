@@ -71,12 +71,14 @@ function displayRaces() {
 
 
         ?>
-        <a href="?raceId=<?php echo $index; ?>">
-            <div>
-                <h1><?php echo htmlspecialchars($race['name']); ?></h1>
-                <p>Source: <?php echo htmlspecialchars($race['source']); ?></p>
-            </div>
-        </a>
+        <div class="filter-item"
+            data-name="<?php echo strtolower(htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8')); ?>"
+            data-source="<?php echo strtolower(htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8')); ?>">
+            <a href="?raceId=<?php echo $index; ?>">
+                <h1><?php echo htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
+                <p>Source: <?php echo htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8'); ?></p>
+            </a>
+        </div>
         <?php
     }
 }

@@ -233,20 +233,24 @@ function homeTabBuilder($characterId)
         </div>
 
         <!-- Class Tab -->
-        <div id="class" class="tab-content">
+        <div id="class" class="tab-content search-section">
             <label for="characterClass">Classes:</label><br>
+            
+            <!-- Live search input -->
+            <input type="text" class="live-search" placeholder="Search classes...">
+
             <?php
             foreach ($classes as $index => $class) {
+                $name = htmlspecialchars($class['name']);
+                $source = isset($class['source']) ? htmlspecialchars($class['source']) : '';
                 ?>
-                <div>
-                    <p><?php echo htmlspecialchars($class['name']); ?></p>
-                    <input type="radio" name="characterClass" value="<?php echo $index; ?>" <?php if ($character['classId'] == $index)
-                        echo 'checked'; ?>>
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
+                    <p><?php echo $name; ?></p>
+                    <input type="radio" name="characterClass" value="<?php echo $index; ?>" 
+                        <?php if ($character['classId'] == $index) echo 'checked'; ?>>
 
                     <button type="button" onclick="toggleInfo('class', <?php echo $index; ?>)"
-                        id="class-arrow-<?php echo $index; ?>">
-                        ▶
-                    </button>
+                        id="class-arrow-<?php echo $index; ?>">▶</button>
 
                     <div id="class-info-<?php echo $index ?>" hidden>
                         <p><?php echo $index ?></p>
@@ -257,30 +261,31 @@ function homeTabBuilder($characterId)
             }
             ?>
         </div>
+        <script src="js/jsonSearch.js"></script>
 
         <!-- Race Tab -->
-        <div id="race" class="tab-content">
+        <div id="race" class="tab-content search-section">
             <label for="characterRace">Race:</label><br>
+
+            <input type="text" class="live-search" placeholder="Search races...">
+
             <?php foreach ($races as $index => $race): ?>
-                <div>
+                <div class="filter-item"
+                    data-name="<?php echo strtolower(htmlspecialchars($race['name'])); ?>"
+                    data-source="<?php echo strtolower(htmlspecialchars($race['source'] ?? '')); ?>">
+                    
                     <div>
                         <p><?php echo htmlspecialchars($race['name']); ?></p>
-                        <input type="radio" name="characterRace" value="<?php echo $index; ?>" <?php if ($character['raceId'] == $index)
-                            echo 'checked'; ?>>
+                        <input type="radio" name="characterRace" value="<?php echo $index; ?>"
+                            <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
                     </div>
 
                     <button type="button" onclick="toggleInfo('race', <?php echo $index; ?>)"
-                        id="race-arrow-<?php echo $index; ?>">
-                        ▶
-                    </button>
+                            id="race-arrow-<?php echo $index; ?>">▶</button>
 
                     <div id="race-info-<?php echo $index; ?>" hidden>
-                        <p><?php
-                        // Pass the entries array to getFluffSnippet
-                        // Adjust 'entries' to whatever key contains the snippet array
-                        echo htmlspecialchars(getFluffSnippet($race['entries'] ?? []));
-                        ?></p>
-                        <a href="races.php?raceId=<?php echo $index ?>">Read more</a>
+                        <p><?php echo htmlspecialchars(getFluffSnippet($race['entries'] ?? [])); ?></p>
+                        <a href="races.php?raceId=<?php echo $index; ?>">Read more</a>
                     </div><br>
                 </div>
             <?php endforeach; ?>
