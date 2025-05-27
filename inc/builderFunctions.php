@@ -125,6 +125,7 @@ function handleCharacterCreation()
             $stmt->close();
             $conn->close();
         } else {
+            echo '<script>alert("❗ Please fill out all fields correctly. Ability scores must be between 3 and 20."); location: "history.back"</script>';
             echo "<p>❗ Please fill out all fields correctly. Ability scores must be between 3 and 20.</p>";
         }
     }
@@ -313,6 +314,44 @@ function homeTabBuilder($characterId)
             <br>
             <button type="submit">Create Character</button>
         </div>
+        
+        <!-- send information to update builder -->
+        <script>
+            // Get URL parameters
+            const params = new URLSearchParams(window.location.search);
+
+            // Get specific value
+            const characterId = params.get('characterId');
+
+            function updateField(field, value) {
+            $.ajax({
+                url: 'updateBuilder.php',
+                type: 'POST',
+                data: {
+                field: field,
+                value: value,
+                characterId
+
+                },
+                success: function(response) {
+                console.log(`Updated ${field}: ${response}`);
+                },
+
+                error: function() {
+                alert(`Failed to update ${field}`);
+                }
+            });
+            }
+
+            // Listen for input changes
+            $('#characterName').on('change', function() {
+            updateField('characterName', $(this).val());
+            });
+
+            $('#characterAge').on('change', function() {
+            updateField('characterAge', $(this).val());
+            });
+        </script>
     </form>
     <?php
 }
