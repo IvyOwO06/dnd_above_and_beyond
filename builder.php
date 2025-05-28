@@ -73,6 +73,7 @@ function rollAbilities() {
 
     fields.forEach((field, index) => {
         field.value = scores[index];
+        field.dispatchEvent(new Event('change'));
     });
 }
   </script>

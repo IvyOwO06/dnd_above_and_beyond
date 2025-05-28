@@ -4,15 +4,26 @@ $db = dbConnect();
 
 $field = $_POST['field'];
 $value = $_POST['value'];
-$userId = $_SESSION['user']['id'];
+$userId = $_POST['userId'];
+$characterId = $_POST['characterId'];
 
 $fieldTypes = [
-    'name' => 's',
-    'age'  => 'i'
+    'userId' => 'i',
+    'characterId' => 'i',
+    'characterName' => 's',
+    'characterAge' => 'i',
+    'level' => 'i',
+    'alignment' => 's',
+    'strength' => 'i',
+    'dexterity' => 'i',
+    'constitution' => 'i',
+    'intelligence' => 'i',
+    'wisdom' => 'i',
+    'charisma' => 'i'
 ];
 
-// Whitelist only valid fields to prevent SQL injection
-$allowed_fields = ['name', 'age'];
+$allowed_fields = array_keys($fieldTypes); // cleaner than manually listing again
+
 if (!in_array($field, $allowed_fields)) {
     http_response_code(400);
     echo "Invalid field";
@@ -20,7 +31,7 @@ if (!in_array($field, $allowed_fields)) {
 }
 
 // Prepare the SQL dynamically
-$sql = "UPDATE characters SET `$field` = ? WHERE characterId = `$characterId` AND userId = `$userId`";
+$sql = "UPDATE characters SET `$field` = ? WHERE characterId = ? AND userId = ?";
 $stmt = $db->prepare($sql);
 
 // ❗ Check if statement preparation worked
@@ -37,9 +48,9 @@ if (!isset($fieldTypes[$field])) {
     exit;
 }
 
-$type = $fieldTypes[$field];
+$type = $fieldTypes[$field] . 'ii';
 
-$stmt->bind_param($type, $value);
+$stmt->bind_param($type, $value, $characterId, $userId);
 
 // Execute
 if ($stmt->execute()) {

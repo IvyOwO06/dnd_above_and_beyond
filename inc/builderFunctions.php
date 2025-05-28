@@ -199,10 +199,10 @@ function homeTabBuilder($characterId)
             <input type="text" id="characterAge" name="age" value="<?php echo $character['characterAge']; ?>" required><br>
 
             <label for="level">Level:</label>
-            <input type="text" id="characterLevel" name="level" value="<?php echo $character['level']; ?>" required><br>
+            <input type="text" id="level" name="level" value="<?php echo $character['level']; ?>" required><br>
 
             <label>Alignment:</label>
-            <select name="alignment" required>
+            <select name="alignment" id="alignment" required>
                 <option value="">--Choose Option--</option>
                 <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
                     echo 'selected'; ?>>
@@ -303,7 +303,13 @@ function homeTabBuilder($characterId)
                 $value = $character[$ability] ?? '';
             ?>
                 <label for="<?php echo $ability; ?>"><?php echo ucfirst($ability); ?>:</label>
-                <input type="number" name="<?php echo $ability; ?>" class="ability-score" value="<?php echo $value; ?>" required><br>
+                <input type="number"
+                name="<?php echo $ability; ?>"
+                id="<?php echo $ability; ?>"
+                class="ability-score"
+                data-field="<?php echo $ability; ?>"
+                value="<?php echo $value; ?>"
+                required><br>
             <?php endforeach; ?>
         </div>
 
@@ -314,44 +320,14 @@ function homeTabBuilder($characterId)
             <br>
             <button type="submit">Create Character</button>
         </div>
-        
-        <!-- send information to update builder -->
+
+        <!-- update builder connection -->
+        <?php $userId = json_encode($_SESSION['user']['id']); ?>
         <script>
-            // Get URL parameters
-            const params = new URLSearchParams(window.location.search);
-
-            // Get specific value
-            const characterId = params.get('characterId');
-
-            function updateField(field, value) {
-            $.ajax({
-                url: 'updateBuilder.php',
-                type: 'POST',
-                data: {
-                field: field,
-                value: value,
-                characterId
-
-                },
-                success: function(response) {
-                console.log(`Updated ${field}: ${response}`);
-                },
-
-                error: function() {
-                alert(`Failed to update ${field}`);
-                }
-            });
-            }
-
-            // Listen for input changes
-            $('#characterName').on('change', function() {
-            updateField('characterName', $(this).val());
-            });
-
-            $('#characterAge').on('change', function() {
-            updateField('characterAge', $(this).val());
-            });
+            const userId = <?php echo $userId; ?>;
         </script>
+        <script src="js/updateBuilder.js"></script>
+
     </form>
     <?php
 }
