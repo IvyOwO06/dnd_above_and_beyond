@@ -12,7 +12,8 @@ function getCharacter($characterId)
     return $character;
 }
 
-  function getCharacterSkills($characterId) {
+function getCharacterSkills($characterId)
+{
     $conn = dbConnect();
     $skills = [];
 
@@ -40,19 +41,26 @@ function getCharacter($characterId)
     return $skills;
 }
 
-function getAbilityModifier($score) {
+function getAbilityModifier($score)
+{
     return floor(($score - 10) / 2);
 }
 
-function getProficiencyBonus($level) {
-    if ($level >= 17) return 6;
-    if ($level >= 13) return 5;
-    if ($level >= 9)  return 4;
-    if ($level >= 5)  return 3;
+function getProficiencyBonus($level)
+{
+    if ($level >= 17)
+        return 6;
+    if ($level >= 13)
+        return 5;
+    if ($level >= 9)
+        return 4;
+    if ($level >= 5)
+        return 3;
     return 2;
 }
 
-function calculateSkillModifier($character, $skill, $proficiencyLevel) {
+function calculateSkillModifier($character, $skill, $proficiencyLevel)
+{
     $abilityScore = $character[$skill['abilityName']];
     $abilityMod = getAbilityModifier($abilityScore);
     $proficiencyBonus = getProficiencyBonus($character['level']);
@@ -68,7 +76,8 @@ function calculateSkillModifier($character, $skill, $proficiencyLevel) {
     return $abilityMod + ($proficiencyBonus * $profMultiplier);
 }
 
-function calculateSavingThrowModifier($character, $ability, $proficiencyBonus) {
+function calculateSavingThrowModifier($character, $ability, $proficiencyBonus)
+{
     $abilityScore = isset($character[$ability]) ? $character[$ability] : 10;
     $abilityMod = getAbilityModifier($abilityScore);
     $savingThrowProficiencies = explode(',', $character['savingThrowProficiencies'] ?? '');
@@ -131,7 +140,8 @@ function handleCharacterCreation()
     }
 }
 
-function handleSkillUpdates($characterId) {
+function handleSkillUpdates($characterId)
+{
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['skills'])) {
         $conn = dbConnect();
 
@@ -162,15 +172,15 @@ function homeTabBuilder($characterId)
     //TODO:
     //make it so that the character submit tab only apears when all the needed things are filled in
 
-        $classes = getClassesFromJson();
-        $races = getRacesFromJson();
-        $raceFluff = getRacesFluffFromJson();
-        $character = getCharacter($characterId);
-        ?>
-        <style>
-            .tab-content {
-                display: none;
-            }
+    $classes = getClassesFromJson();
+    $races = getRacesFromJson();
+    $raceFluff = getRacesFluffFromJson();
+    $character = getCharacter($characterId);
+    ?>
+    <style>
+        .tab-content {
+            display: none;
+        }
 
         .tab-content.active {
             display: block;
@@ -236,7 +246,7 @@ function homeTabBuilder($characterId)
         <!-- Class Tab -->
         <div id="class" class="tab-content search-section">
             <label for="characterClass">Classes:</label><br>
-            
+
             <!-- Live search input -->
             <input type="text" class="live-search" placeholder="Search classes...">
 
@@ -245,13 +255,16 @@ function homeTabBuilder($characterId)
                 $name = htmlspecialchars($class['name']);
                 $source = isset($class['source']) ? htmlspecialchars($class['source']) : '';
                 ?>
-                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
+                    data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
                     <input type="radio" name="characterClass" value="<?php echo $index; ?>" 
-                        <?php if ($character['classId'] == $index) echo 'checked'; ?>>
+                    <?php if ($character['classId'] == $index) echo 'checked'; ?>>
+                    <button type="button"
+                        onclick="showClassModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', 'More info about <?php echo addslashes($name); ?> will be loaded here.')">
+                        More Info
+                    </button>
 
-                    <button type="button" onclick="toggleInfo('class', <?php echo $index; ?>)"
-                        id="class-arrow-<?php echo $index; ?>">▶</button>
 
                     <div id="class-info-<?php echo $index ?>" hidden>
                         <p><?php echo $index ?></p>
@@ -271,18 +284,17 @@ function homeTabBuilder($characterId)
             <input type="text" class="live-search" placeholder="Search races...">
 
             <?php foreach ($races as $index => $race): ?>
-                <div class="filter-item"
-                    data-name="<?php echo strtolower(htmlspecialchars($race['name'])); ?>"
+                <div class="filter-item" data-name="<?php echo strtolower(htmlspecialchars($race['name'])); ?>"
                     data-source="<?php echo strtolower(htmlspecialchars($race['source'] ?? '')); ?>">
-                    
+
                     <div>
                         <p><?php echo htmlspecialchars($race['name']); ?></p>
                         <input type="radio" name="characterRace" value="<?php echo $index; ?>"
-                            <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
+                        <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
                     </div>
 
                     <button type="button" onclick="toggleInfo('race', <?php echo $index; ?>)"
-                            id="race-arrow-<?php echo $index; ?>">▶</button>
+                        id="race-arrow-<?php echo $index; ?>">▶</button>
 
                     <div id="race-info-<?php echo $index; ?>" hidden>
                         <p><?php echo htmlspecialchars(getFluffSnippet($race['entries'] ?? [])); ?></p>
@@ -301,19 +313,14 @@ function homeTabBuilder($characterId)
             $abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
             foreach ($abilities as $ability):
                 $value = $character[$ability] ?? '';
-            ?>
+                ?>
                 <label for="<?php echo $ability; ?>"><?php echo ucfirst($ability); ?>:</label>
-                <input type="number"
-                name="<?php echo $ability; ?>"
-                id="<?php echo $ability; ?>"
-                class="ability-score"
-                data-field="<?php echo $ability; ?>"
-                value="<?php echo $value; ?>"
-                required><br>
+                <input type="number" name="<?php echo $ability; ?>" id="<?php echo $ability; ?>" class="ability-score"
+                    data-field="<?php echo $ability; ?>" value="<?php echo $value; ?>" required><br>
             <?php endforeach; ?>
         </div>
 
-        
+
         <!-- Submit Tab -->
         <div id="submit" class="tab-content">
             <label>Submit:</label>
@@ -329,5 +336,16 @@ function homeTabBuilder($characterId)
         <script src="js/updateBuilder.js"></script>
 
     </form>
+    <div id="class-modal" class="modal" hidden>
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="modal-class-info">
+                <!-- Content will be injected dynamically -->
+            </div>
+            <button id="confirm-selection" type="button">Select This Class</button>
+        </div>
+    </div>
+    <div id="modal-overlay" class="overlay" hidden></div>
+
     <?php
 }
