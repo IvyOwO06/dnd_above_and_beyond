@@ -95,16 +95,17 @@ require 'inc/navFunctions.php';
     let selectedClassIndex = null;
 
     function showClassModal(index, name, description) {
-        selectedClassIndex = index;
+    selectedClassIndex = index;
 
-        document.getElementById('modal-class-info').innerHTML = `
+    document.getElementById('modal-class-info').innerHTML = `
         <h2>${name}</h2>
         <p>${description}</p>
-      `;
+    `;
 
-        document.getElementById('class-modal').hidden = false;
-        document.getElementById('modal-overlay').hidden = false;
+    document.getElementById('class-modal').hidden = false;
+    document.getElementById('modal-overlay').hidden = false;
     }
+
 
     function closeClassModal() {
         document.getElementById('class-modal').hidden = true;

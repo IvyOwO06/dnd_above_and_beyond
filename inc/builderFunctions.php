@@ -254,6 +254,9 @@ function homeTabBuilder($characterId)
             foreach ($classes as $index => $class) {
                 $name = htmlspecialchars($class['name']);
                 $source = isset($class['source']) ? htmlspecialchars($class['source']) : '';
+                $classId = $index;
+                $class = getClassFromJson($classId);
+                // dd($class);
                 ?>
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
                     data-source="<?php echo strtolower($source); ?>">
@@ -261,13 +264,18 @@ function homeTabBuilder($characterId)
                     <input type="radio" name="characterClass" value="<?php echo $index; ?>" 
                     <?php if ($character['classId'] == $index) echo 'checked'; ?>>
                     <button type="button"
-                        onclick="showClassModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', 'More info about <?php echo addslashes($name); ?> will be loaded here.')">
+                        onclick='showClassModal(
+                            <?php echo $index; ?>,
+                            <?php echo json_encode($name); ?>,
+                            <?php echo json_encode($class); ?>
+                        )'>
                         More Info
                     </button>
 
 
+
                     <div id="class-info-<?php echo $index ?>" hidden>
-                        <p><?php echo $index ?></p>
+                        <p><?php echo $class ?></p>
                         <a href="classes.php?classId=<?php echo $index ?>">Read more</a>
                     </div><br>
                 </div>
