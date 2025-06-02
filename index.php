@@ -106,7 +106,7 @@ $posts = getBlogs();
             displayBlogs($posts);
         ?>
         </div>
-        <a href="#" class="see-all-posts">See All Posts</a>
+        <a href="blog.php" class="see-all-posts">See All Posts</a>
     </section>
 
     <?php

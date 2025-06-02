@@ -34,7 +34,7 @@ function displayBlogs($posts) //displays blogs from database
         <div class='blog-list'>
             <?php foreach ($posts as $post): ?>
                 <article class='blog-post'>
-                    <h2><a href='blogpost.php?id=<?php echo htmlspecialchars($post['id']); ?>'><?php echo htmlspecialchars($post['blogTitle']); ?></a></h2>
+                    <h2><a href='blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>'><?php echo htmlspecialchars($post['blogTitle']); ?></a></h2>
                     <p><em>By <?php echo htmlspecialchars($post['blogAuthor']); ?> on <?php echo $post['blogPostDate']; ?></em></p>
 
                     <p><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 200))); ?>...</p>
@@ -93,6 +93,7 @@ function displayBlogCategories() //display blog per category
     echo "<nav class='sidebar-categories'>";
     echo "<h3>Categories</h3>";
     echo "<ul>";
+    echo "<li><a href='blog.php'</a>All</li>";
     foreach ($categories as $category) {
         echo "<li><a href='?categoryId=" . htmlspecialchars($category['blogCategoryId']) . "'>" . htmlspecialchars($category['blogCategoryName']) . "</a></li>";
     }
@@ -114,9 +115,9 @@ function getBlogComments($blogId) //fetch blog comments from database
 function submitComment($blogId, $author = null, $comment = null) //insert blog comment into database
 {
     // Check if the form is submitted and if the fields exist
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['author']) && isset($_POST['content']))
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION['user']['username']) && isset($_POST['content']))
     {
-        $author = trim($_POST['author']);
+        $author = trim($_SESSION['user']['username']);
         $comment = trim($_POST['content']);
         $blogId = intval($blogId);
 
@@ -138,11 +139,11 @@ function submitComment($blogId, $author = null, $comment = null) //insert blog c
 function postBlog() //insert blog into database
 {
     if ($_SERVER["REQUEST_METHOD"] === "POST" &&
-        isset($_POST['title'], $_POST['content'], $_POST['author'], $_POST['categoryId']))
+        isset($_POST['title'], $_POST['content'], $_SESSION['user']['username'], $_POST['categoryId']))
     {
         $title = trim($_POST['title']);
         $content = trim($_POST['content']);
-        $author = trim($_POST['author']);
+        $author = trim($_SESSION['user']['username']);
         $categoryId = intval($_POST['categoryId']); 
 
         if (!empty($title) && !empty($content) && !empty($author) && $categoryId > 0) {

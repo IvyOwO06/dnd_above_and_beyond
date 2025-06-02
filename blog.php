@@ -1,11 +1,21 @@
 <?php
-include("../inc/blogFunctions.php");
+include("inc/blogFunctions.php");
+include("inc/navFunctions.php");
 postBlog();
 $categoryId = isset($_GET['categoryId']) ? intval($_GET['categoryId']) : null;
 $posts = getBlogs($categoryId);
 ?>
-
-<h1><a href="blog.php">Gameworld Blog</a></h1>
+<head>
+    <!DOCTYPE html>
+    <html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<?Php 
+displayHeader();
+?>
 
 <div class="blog-page-containerr">
 <aside class="category-sidebar" >
@@ -23,9 +33,6 @@ displayBlogs($posts);
 
     <label for="content">Content:</label>
     <textarea class="form-control" name="content" required></textarea>
-
-    <label for="author">Your Name:</label>
-    <input type="text" class="form-control" name="author" required>
 
     <label for="categoryId">Category:</label>
     <select id="categoryId" name="categoryId" required>
