@@ -19,7 +19,9 @@ $fieldTypes = [
     'constitution' => 'i',
     'intelligence' => 'i',
     'wisdom' => 'i',
-    'charisma' => 'i'
+    'charisma' => 'i',
+    'classId' => 'i',
+    'raceId' => 'i'
 ];
 
 $allowed_fields = array_keys($fieldTypes); // cleaner than manually listing again

@@ -16,7 +16,7 @@ $.ajax({
 
     },
     success: function(response) {
-    console.log(`Updated ${field}: ${response}`);
+    console.log(`Updated ${field} to ${value}: ${response}`);
     },
 
     error: function() {
@@ -24,6 +24,8 @@ $.ajax({
     }
 });
 }
+
+$('.class-ra').prop('checked', true).trigger('change');
 
 // Listen for input changes
 $('#characterName').on('change', function() {
@@ -40,6 +42,10 @@ updateField('level', $(this).val());
 
 $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
+});
+
+$('.class-radio').on('change', function() {
+updateField('classId', $(this).val());
 });
 
 $('.ability-score').on('change', function () {
