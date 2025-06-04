@@ -56,5 +56,6 @@ window.addEventListener('hashchange', showTabFromHash);</script>
 <script src="js/builder/updateBuilder.js"></script>
 <script src="js/builder/rollAbilities.js"></script>
 <script src="js/builder/classModal.js"></script>
+<script src="js/builder/raceModal.js"></script>
 
 </html>

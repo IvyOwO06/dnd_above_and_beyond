@@ -232,25 +232,34 @@ function homeTabBuilder($characterId)
 
             <input type="text" class="live-search" placeholder="Search races...">
 
-            <?php foreach ($races as $index => $race): ?>
-                <div class="filter-item" data-name="<?php echo strtolower(htmlspecialchars($race['name'])); ?>"
-                    data-source="<?php echo strtolower(htmlspecialchars($race['source'] ?? '')); ?>">
-
-                    <div>
-                        <p><?php echo htmlspecialchars($race['name']); ?></p>
-                        <input type="radio" name="characterRace" value="<?php echo $index; ?>"
+            <?php
+            foreach ($races as $index => $race) {
+                $name = htmlspecialchars($race['name']);
+                $source = isset($race['source']) ? htmlspecialchars($race['source']) : '';
+                ?>
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
+                    <p><?php echo $name; ?></p>
+                    <input type="hidden" name="characterRace" class="race-radio" value="<?php echo $index; ?>"
                         <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
-                    </div>
-
-                    <button type="button" onclick="toggleInfo('race', <?php echo $index; ?>)"
-                        id="race-arrow-<?php echo $index; ?>">▶</button>
-
-                    <div id="race-info-<?php echo $index; ?>" hidden>
-                        <p><?php echo htmlspecialchars(getFluffSnippet($race['entries'] ?? [])); ?></p>
-                        <a href="races.php?raceId=<?php echo $index; ?>">Read more</a>
-                    </div><br>
+                    <button type="button"
+                        onclick="showRaceModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', '<?php echo addslashes(getFluffSnippet($race['entries'] ?? [])); ?>')">
+                        More Info
+                    </button>
                 </div>
-            <?php endforeach; ?>
+                <?php
+            }
+            ?>
+            <div id="race-modal" class="modal" hidden>
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <div id="modal-race-info">
+                        <!-- Injected content -->
+                    </div>
+                    <button id="confirm-race-selection" type="button">Select This Race</button>
+                </div>
+            </div>
+            <div id="modal-overlay" class="overlay" hidden></div>
+
         </div>
 
         <!-- Abilities Tab -->

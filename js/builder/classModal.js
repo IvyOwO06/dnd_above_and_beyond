@@ -8,7 +8,7 @@ let selectedClassIndex = null;
         <p id="modal-desc"> ${description}</p>
         
 
-    `;/*add the id of the modale here*/
+    `;
 
     document.getElementById('class-modal').hidden = false;
     document.getElementById('modal-overlay').hidden = false;
