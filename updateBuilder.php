@@ -12,6 +12,7 @@ $fieldTypes = [
     'characterId' => 'i',
     'characterName' => 's',
     'characterAge' => 'i',
+    'characterImage' => 'i',
     'level' => 'i',
     'alignment' => 's',
     'strength' => 'i',

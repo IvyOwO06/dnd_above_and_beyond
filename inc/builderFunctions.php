@@ -12,6 +12,56 @@ function getCharacter($characterId)
     return $character;
 }
 
+function handleImageUpload($characterId)
+{
+    if (!isset($_FILES['characterImage']) || $_FILES['characterImage']['error'] == UPLOAD_ERR_NO_FILE) {
+        return ['success' => false, 'message' => 'No file uploaded.'];
+    }
+
+    $file = $_FILES['characterImage'];
+    $allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    $maxSize = 2 * 1024 * 1024; // 2MB
+    $uploadDir = 'uploads/characters/';
+    $fileName = $characterId . '_' . time() . '_' . basename($file['name']);
+    $filePath = $uploadDir . $fileName;
+
+    // Validate file
+    if (!in_array($file['type'], $allowedTypes)) {
+        return ['success' => false, 'message' => 'Invalid file type. Only PNG, JPG, and JPEG are allowed.'];
+    }
+    if ($file['size'] > $maxSize) {
+        return ['success' => false, 'message' => 'File size exceeds 2MB limit.'];
+    }
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'message' => 'Upload error: ' . $file['error']];
+    }
+
+    // Ensure upload directory exists
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true);
+    }
+
+    // Move file
+    if (!move_uploaded_file($file['tmp_name'], $filePath)) {
+        return ['success' => false, 'message' => 'Failed to save file.'];
+    }
+
+    // Update database
+    $db = dbConnect();
+    $stmt = $db->prepare('UPDATE characters SET characterImage = ? WHERE characterId = ? AND userId = ?');
+    $stmt->bind_param('sii', $filePath, $characterId, $_SESSION['user']['id']);
+    $success = $stmt->execute();
+    $stmt->close();
+    $db->close();
+
+    if ($success) {
+        return ['success' => true, 'message' => 'Image uploaded successfully!'];
+    } else {
+        unlink($filePath); // Delete file if DB update fails
+        return ['success' => false, 'message' => 'Failed to update character image.'];
+    }
+}
+
 function getCharacterSkills($characterId)
 {
     $conn = dbConnect();
@@ -121,7 +171,44 @@ function homeTabBuilder($characterId)
     $races = getRacesFromJson();
     $raceFluff = getRacesFluffFromJson();
     $character = getCharacter($characterId);
+
+     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
+        $uploadResult = handleImageUpload($characterId);
+        if ($uploadResult['success']) {
+            echo '<p class="success">' . $uploadResult['message'] . '</p>';
+            // Refresh character data
+            $character = getCharacter($characterId);
+        } else {
+            echo '<p class="error">' . $uploadResult['message'] . '</p>';
+        }
+    }
     ?>
+
+     <!-- Image Upload Form -->
+        <form method="POST" enctype="multipart/form-data" class="character-image-form">
+            <div class="form-group">
+                <label for="characterImage">Character Image</label>
+                <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
+                <div id="image-preview" class="preview-image"></div>
+                <?php if ($character['characterImage']): ?>
+                    <div class="current-image">
+                        <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
+                             alt="Current character portrait" 
+                             class="preview-image">
+                        <p>Current Image</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <button type="submit" class="action-button submit-button">Upload Image</button>
+            <?php
+            // Handle image upload
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
+                $uploadResult = handleImageUpload($characterId);
+                echo '<p class="' . ($uploadResult['success'] ? 'success' : 'error') . '">' . htmlspecialchars($uploadResult['message']) . '</p>';
+            }
+            ?>
+        </form>
+    
     <style>
         .tab-content {
             display: none;
@@ -186,6 +273,7 @@ function homeTabBuilder($characterId)
                     echo 'selected'; ?>>Neutral
                     Evil</option>
             </select><br>
+            
         </div>
 
         <!-- Class Tab -->
