@@ -28,6 +28,7 @@ function getProfile($profileId)
     return $profile;
 }
 
+// profile picture
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = dbConnect(); // Should return a mysqli connection
 
@@ -96,4 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $error_message = "No file was uploaded or an upload error occurred.";
     }
+}
+
+// bio
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $db = dbConnect();
 }

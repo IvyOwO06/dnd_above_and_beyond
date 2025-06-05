@@ -11,6 +11,8 @@ function signup()
         $password = mysqli_real_escape_string($conn, $_POST['pass']);
         $cpassword = mysqli_real_escape_string($conn, $_POST['cpass']);
 
+        $profilePicture = "images/defaultPFP.png";
+
         $sql = "SELECT * FROM user WHERE userName = '$username'";
         $result = mysqli_query($conn, $sql);
         $count_user = mysqli_num_rows($result);
@@ -23,7 +25,7 @@ function signup()
 
             if ($password == $cpassword) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO user(userName, mail, password) VALUES ('$username', '$email', '$hash')";
+                $sql = "INSERT INTO user(userName, mail, password, profilePicture) VALUES ('$username', '$email', '$hash', '$profilePicture')";
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
                     echo '<script>
