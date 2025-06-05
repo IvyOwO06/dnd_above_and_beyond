@@ -5,6 +5,10 @@ require 'inc/profileFunctions.php';
 $profileId = $_GET['userId'];
 
 if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']['id'];
+}
+
+if (isset($_SESSION['user'])) {
     $user = getUser($userId);
 }
 ?>
