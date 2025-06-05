@@ -39,3 +39,12 @@ function closeRaceModal() {
 
 // Close modal when clicking the close button (×)
 document.querySelector('#race-modal .close-button').addEventListener('click', closeRaceModal);
+
+// Close modal when clicking the close button (×)
+document.querySelector('#class-modal .close-button').addEventListener('click', closeRaceModal);
+
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        closeRaceModal();
+    }
+});

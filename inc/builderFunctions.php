@@ -182,77 +182,32 @@ function homeTabBuilder($characterId)
             echo '<p class="error">' . $uploadResult['message'] . '</p>';
         }
     }
-    // Handle image removal
-    if (isset($_GET['action']) && $_GET['action'] === 'deleteImage') {
-        $db = dbConnect();
-        $stmt = $db->prepare('SELECT characterImage FROM characters WHERE characterId = ? AND userId = ?');
-        if (!$stmt) {
-            error_log('deleteImage prepare failed: ' . $db->error);
-            echo '<p class="error">Database error.</p>';
-        } else {
-            $stmt->bind_param('ii', $characterId, $_SESSION['user']['id']);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $image = $result->fetch_assoc()['characterImage'];
-            $stmt->close();
-
-            if ($image && file_exists($image)) {
-                if (!unlink($image)) {
-                    error_log('Failed to delete image file: ' . $image);
-                    echo '<p class="error">Failed to delete image file.</p>';
-                }
-            }
-
-            $stmt = $db->prepare('UPDATE characters SET characterImage = NULL WHERE characterId = ? AND userId = ?');
-            if (!$stmt) {
-                error_log('deleteImage update prepare failed: ' . $db->error);
-                echo '<p class="error">Database error.</p>';
-            } else {
-                $stmt->bind_param('ii', $characterId, $_SESSION['user']['id']);
-                $success = $stmt->execute();
-                if (!$success) {
-                    error_log('deleteImage update failed: ' . $stmt->error);
-                    echo '<p class="error">Failed to update database: ' . htmlspecialchars($stmt->error) . '</p>';
-                } elseif ($stmt->affected_rows > 0) {
-                    echo '<p class="success">Image removed successfully!</p>';
-                } else {
-                    error_log('No rows affected for deleteImage: characterId=' . $characterId . ', userId=' . ($_SESSION['user']['id'] ?? 'Not set'));
-                    echo '<p class="error">No image found or unauthorized.</p>';
-                }
-                $stmt->close();
-            }
-            $db->close();
-        }
-        header("Location: builder.php?characterId=$characterId#image");
-        exit;
-    }
     ?>
 
-            <form method="POST" enctype="multipart/form-data" class="character-image-form">
-                <div class="form-group">
-                    <label for="characterImage">Character Image</label>
-                    <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
-                    <div id="image-preview" class="preview-image"></div>
-                    <?php if ($character['characterImage']): ?>
-                        <div class="current-image">
-                            <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
-                                 alt="Current character portrait" 
-                                 class="preview-image">
-                            <p>Current Image</p>
-                            <a href="builder.php?characterId=<?php echo $characterId; ?>&action=deleteImage" 
-                               class="action-button delete-button">Remove Image</a>
-                        </div>
-                    <?php endif; ?>
-                </div>
-                <button type="submit" class="action-button submit-button">Upload Image</button>
-                <?php
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
-                    $uploadResult = handleImageUpload($characterId);
-                    echo '<p class="' . ($uploadResult['success'] ? 'success' : 'error') . '">' . htmlspecialchars($uploadResult['message']) . '</p>';
-                }
-                ?>
-            </form>
-        
+     <!-- Image Upload Form -->
+        <form method="POST" enctype="multipart/form-data" class="character-image-form">
+            <div class="form-group">
+                <label for="characterImage">Character Image</label>
+                <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
+                <div id="image-preview" class="preview-image"></div>
+                <?php if ($character['characterImage']): ?>
+                    <div class="current-image">
+                        <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
+                             alt="Current character portrait" 
+                             class="preview-image">
+                        <p>Current Image</p>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <button type="submit" class="action-button submit-button">Upload Image</button>
+            <?php
+            // Handle image upload
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
+                $uploadResult = handleImageUpload($characterId);
+                echo '<p class="' . ($uploadResult['success'] ? 'success' : 'error') . '">' . htmlspecialchars($uploadResult['message']) . '</p>';
+            }
+            ?>
+        </form>
     
     <style>
         .tab-content {
@@ -269,7 +224,6 @@ function homeTabBuilder($characterId)
     <!-- Tab Links -->
     <div class="tab-links">
         <a href="#general">General</a>
-        <a href="#image">Image</a>
         <a href="#class">Class</a>
         <a href="#race">Race</a>
         <a href="#abilities">Abilities</a>
@@ -322,9 +276,6 @@ function homeTabBuilder($characterId)
             
         </div>
 
-        <!-- Image Tab -->
-        
-
         <!-- Class Tab -->
         <div id="class" class="tab-content search-section">
             <label for="characterClass">Classes:</label><br>
@@ -337,15 +288,73 @@ function homeTabBuilder($characterId)
                 $name = htmlspecialchars($class['name']);
                 $source = isset($class['source']) ? htmlspecialchars($class['source']) : '';
                 ?>
-                <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
-                    data-source="<?php echo strtolower($source); ?>">
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
-                    <input type="hidden" name="characterClass" class="class-radio" value="<?php echo $index; ?>" 
-                    <?php if ($character['classId'] == $index) echo 'checked'; ?>>
-                    <button type="button"
-                        onclick="showClassModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', 'More info about <?php echo addslashes($name); ?> will be loaded here.')">
-                        More Info
-                    </button>
+                    <input type="hidden" name="characterclass" class="class-radio" value="<?php echo $index; ?>"
+                        <?php if ($character['classId'] == $index) echo 'checked'; ?>>
+                        <?php
+                $indexPath = __DIR__ . "/../scripts/js/json/class/index.json";
+                            
+                if (!file_exists($indexPath)) {
+                    die("Error: index.json not found at $indexPath.");
+                }
+                
+                $indexMap = json_decode(file_get_contents($indexPath), true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    die("Error: Could not decode index.json: " . json_last_error_msg());
+                }
+                
+                foreach ($indexMap as $classKey => $file) {
+                    $classPath = __DIR__ . "/../scripts/js/json/class/" . $file;
+                    if (!file_exists($classPath)) {
+                        echo "Warning: File not found: $classPath<br>";
+                        continue;
+                    }
+                
+                    $classData = json_decode(file_get_contents($classPath), true);
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        echo "Warning: JSON decode error for $classPath: " . json_last_error_msg() . "<br>";
+                        continue;
+                    }
+                
+                    if (!$classData || !isset($classData['class'][0])) {
+                        echo "Warning: Invalid class data in $classPath<br>";
+                        continue;
+                    }
+                
+                    $class = $classData['class'][0];
+                    $name = htmlspecialchars($class['name'], ENT_QUOTES);
+                
+                    // Find the first level 1 feature (excluding optional rules)
+                    $info = 'No feature available.';
+                    if (isset($classData['classFeature'])) {
+                        foreach ($classData['classFeature'] as $feature) {
+                            if ($feature['level'] == 1 && strpos($feature['name'], 'Optional Rule') === false) {
+                                // Use feature name and first entry for brevity
+                                $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES));
+                                break;
+                            }
+                        }
+                    }
+                
+                    // Debug: Output raw info to check its value
+                    echo "<!-- Debug: Info for $name = $info -->";
+                
+                    ?>
+                    <div class="filter-item" data-name="<?= strtolower($name) ?>">
+                        <p><?= $name ?></p>
+                        <input type="hidden" name="characterclass" class="class-radio" value="<?= $classKey ?>">
+                        <button type="button"
+                                class="show-class-modal"
+                                data-index="<?= $classKey ?>"
+                                data-name="<?= $name ?>"
+                                data-info="<?= htmlspecialchars($info, ENT_QUOTES) ?>">
+                                Read more
+                        </button>
+                    </div>
+                    <?php
+                }
+                ?>
                 </div>
                 <?php
             }
@@ -353,10 +362,8 @@ function homeTabBuilder($characterId)
             <div id="class-modal" class="modal" hidden>
                 <div class="modal-content">
                     <span class="close-button">&times;</span>
-                    <div id="modal-class-info">
-                        <!-- Content will be injected dynamically -->
-                    </div>
-                    <button id="confirm-selection" type="button">Select This Class</button>
+                    <div id="modal-class-info"></div>
+                    <button id="confirm-class-selection" type="button">Select This class</button>
                 </div>
             </div>
             <div id="modal-overlay" class="overlay" hidden></div>

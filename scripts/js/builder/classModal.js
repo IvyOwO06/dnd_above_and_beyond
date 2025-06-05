@@ -1,40 +1,39 @@
-let selectedClassIndex = null;
+function showclassModal(index, name, info) {
+    const modal = document.getElementById('class-modal');
+    const overlay = document.getElementById('modal-overlay');
+    const infoDiv = document.getElementById('modal-class-info');
+    const confirmBtn = document.getElementById('confirm-class-selection');
 
-    function showClassModal(index, name, description) {
-    selectedClassIndex = index;
-
-    document.getElementById('modal-class-info').innerHTML = `
-        <h2 id="modal-name">${name}</h2>
-        <p id="modal-desc"> ${description}</p>
-        
-
+    infoDiv.innerHTML = `
+        <h2>${name}</h2>
+        <p>${info}</p>
+        <a href="classes.php?classId=${index}">Read more</a>
     `;
 
-    document.getElementById('class-modal').hidden = false;
-    document.getElementById('modal-overlay').hidden = false;
-    }
+    confirmBtn.onclick = function () {
+        const input = document.querySelector(`input.class-radio[value="${index}"]`);
+        if (input) input.checked = true;
+        closeclassModal();
+    };
 
+    modal.hidden = false;
+    overlay.hidden = false;
+}
 
-    function closeClassModal() {
-        document.getElementById('class-modal').hidden = true;
-        document.getElementById('modal-overlay').hidden = true;
-        selectedClassIndex = null;
-    }
+function closeclassModal() {
+    document.getElementById('class-modal').hidden = true;
+    document.getElementById('modal-overlay').hidden = true;
+}
 
-    document.getElementById('modal-overlay').addEventListener('click', closeClassModal);
-    document.querySelector('.close-button').addEventListener('click', closeClassModal);
-
-    document.getElementById('confirm-selection').addEventListener('click', () => {
-    if (selectedClassIndex !== null) {
-        // Get the radio button element
-        const radioButton = document.querySelector(`input[name="characterClass"][value="${selectedClassIndex}"]`);
-        
-        // Check the radio button
-        radioButton.checked = true;
-        
-        // Trigger the jQuery change event
-        $(radioButton).trigger('change');
-        
-        closeClassModal();
-    }
+document.querySelectorAll('.show-class-modal').forEach(button => {
+    button.addEventListener('click', function () {
+        const index = this.dataset.index;
+        const name = this.dataset.name;
+        const info = this.dataset.info.replace(/\n/g, '<br>');
+        showclassModal(index, name, info);
+    });
 });
+
+document.getElementById('modal-overlay').addEventListener('click', closeclassModal);
+document.querySelector('#class-modal .close-button').addEventListener('click', closeclassModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeclassModal(); });
