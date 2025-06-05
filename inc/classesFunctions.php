@@ -5,7 +5,7 @@ require_once "functions.php";
 ////classes////
 // get all classes
 function getClassesFromJson() {
-    $indexJson = file_get_contents('js/json/class/index.json');
+    $indexJson = file_get_contents('scripts/js/json/class/index.json');
     $index = json_decode($indexJson, true);
     if (json_last_error() !== JSON_ERROR_NONE) {
         error_log("Error decoding index.json: " . json_last_error_msg());
@@ -15,7 +15,7 @@ function getClassesFromJson() {
     $classes = [];
     $classId = 0;
     foreach ($index as $classKey => $filename) {
-        $filePath = 'js/json/class/' . $filename;
+        $filePath = 'scripts/js/json/class/' . $filename;
         if (!file_exists($filePath)) {
             error_log("Class file not found: $filePath");
             continue;
@@ -62,7 +62,7 @@ function displayClasses() {
 }
 
 function getClassFluffByKey($classKey) {
-    $indexPath = 'js/json/class/fluff-index.json';
+    $indexPath = 'scripts/js/json/class/fluff-index.json';
     if (!file_exists($indexPath)) {
         error_log("Fluff index not found: $indexPath");
         return null;
@@ -79,7 +79,7 @@ function getClassFluffByKey($classKey) {
         return null;
     }
 
-    $fluffFilePath = 'js/json/class/' . $index[$classKey];
+    $fluffFilePath = 'scripts/js/json/class/' . $index[$classKey];
     if (!file_exists($fluffFilePath)) {
         error_log("Fluff file not found: $fluffFilePath");
         return null;

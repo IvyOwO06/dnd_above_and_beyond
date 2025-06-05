@@ -53,9 +53,9 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('hashchange', showTabFromHash);</script>
-<script src="js/builder/updateBuilder.js"></script>
-<script src="js/builder/rollAbilities.js"></script>
-<script src="js/builder/classModal.js"></script>
-<script src="js/builder/raceModal.js"></script>
+<script src="scripts/js/builder/updateBuilder.js"></script>
+<script src="scripts/js/builder/rollAbilities.js"></script>
+<script src="scripts/js/builder/classModal.js"></script>
+<script src="scripts/js/builder/raceModal.js"></script>
 
 </html>
