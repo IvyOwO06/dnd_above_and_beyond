@@ -182,32 +182,77 @@ function homeTabBuilder($characterId)
             echo '<p class="error">' . $uploadResult['message'] . '</p>';
         }
     }
+    // Handle image removal
+    if (isset($_GET['action']) && $_GET['action'] === 'deleteImage') {
+        $db = dbConnect();
+        $stmt = $db->prepare('SELECT characterImage FROM characters WHERE characterId = ? AND userId = ?');
+        if (!$stmt) {
+            error_log('deleteImage prepare failed: ' . $db->error);
+            echo '<p class="error">Database error.</p>';
+        } else {
+            $stmt->bind_param('ii', $characterId, $_SESSION['user']['id']);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $image = $result->fetch_assoc()['characterImage'];
+            $stmt->close();
+
+            if ($image && file_exists($image)) {
+                if (!unlink($image)) {
+                    error_log('Failed to delete image file: ' . $image);
+                    echo '<p class="error">Failed to delete image file.</p>';
+                }
+            }
+
+            $stmt = $db->prepare('UPDATE characters SET characterImage = NULL WHERE characterId = ? AND userId = ?');
+            if (!$stmt) {
+                error_log('deleteImage update prepare failed: ' . $db->error);
+                echo '<p class="error">Database error.</p>';
+            } else {
+                $stmt->bind_param('ii', $characterId, $_SESSION['user']['id']);
+                $success = $stmt->execute();
+                if (!$success) {
+                    error_log('deleteImage update failed: ' . $stmt->error);
+                    echo '<p class="error">Failed to update database: ' . htmlspecialchars($stmt->error) . '</p>';
+                } elseif ($stmt->affected_rows > 0) {
+                    echo '<p class="success">Image removed successfully!</p>';
+                } else {
+                    error_log('No rows affected for deleteImage: characterId=' . $characterId . ', userId=' . ($_SESSION['user']['id'] ?? 'Not set'));
+                    echo '<p class="error">No image found or unauthorized.</p>';
+                }
+                $stmt->close();
+            }
+            $db->close();
+        }
+        header("Location: builder.php?characterId=$characterId#image");
+        exit;
+    }
     ?>
 
-     <!-- Image Upload Form -->
-        <form method="POST" enctype="multipart/form-data" class="character-image-form">
-            <div class="form-group">
-                <label for="characterImage">Character Image</label>
-                <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
-                <div id="image-preview" class="preview-image"></div>
-                <?php if ($character['characterImage']): ?>
-                    <div class="current-image">
-                        <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
-                             alt="Current character portrait" 
-                             class="preview-image">
-                        <p>Current Image</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <button type="submit" class="action-button submit-button">Upload Image</button>
-            <?php
-            // Handle image upload
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
-                $uploadResult = handleImageUpload($characterId);
-                echo '<p class="' . ($uploadResult['success'] ? 'success' : 'error') . '">' . htmlspecialchars($uploadResult['message']) . '</p>';
-            }
-            ?>
-        </form>
+            <form method="POST" enctype="multipart/form-data" class="character-image-form">
+                <div class="form-group">
+                    <label for="characterImage">Character Image</label>
+                    <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
+                    <div id="image-preview" class="preview-image"></div>
+                    <?php if ($character['characterImage']): ?>
+                        <div class="current-image">
+                            <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
+                                 alt="Current character portrait" 
+                                 class="preview-image">
+                            <p>Current Image</p>
+                            <a href="builder.php?characterId=<?php echo $characterId; ?>&action=deleteImage" 
+                               class="action-button delete-button">Remove Image</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <button type="submit" class="action-button submit-button">Upload Image</button>
+                <?php
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
+                    $uploadResult = handleImageUpload($characterId);
+                    echo '<p class="' . ($uploadResult['success'] ? 'success' : 'error') . '">' . htmlspecialchars($uploadResult['message']) . '</p>';
+                }
+                ?>
+            </form>
+        
     
     <style>
         .tab-content {
@@ -224,6 +269,7 @@ function homeTabBuilder($characterId)
     <!-- Tab Links -->
     <div class="tab-links">
         <a href="#general">General</a>
+        <a href="#image">Image</a>
         <a href="#class">Class</a>
         <a href="#race">Race</a>
         <a href="#abilities">Abilities</a>
@@ -275,6 +321,9 @@ function homeTabBuilder($characterId)
             </select><br>
             
         </div>
+
+        <!-- Image Tab -->
+        
 
         <!-- Class Tab -->
         <div id="class" class="tab-content search-section">

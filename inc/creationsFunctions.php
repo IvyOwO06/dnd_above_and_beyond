@@ -37,17 +37,18 @@ function displayCharacters($userId)
         <?php else: ?>
             <?php foreach ($characters as $character): ?>
                 <div class="character-card">
-                    <div class="character-image-container">
-                        <img src="<?php echo $character['characterImage'] ? htmlspecialchars($character['characterImage']) : 'images/default_character.png'; ?>" 
-                             alt="<?php echo htmlspecialchars($character['characterName']); ?>'s portrait" 
-                             class="character-image">
-                    </div>
+                
                     <h2 class="character-name"><?php echo htmlspecialchars($character['characterName']); ?></h2>
                     <?php if (isset($_GET['userId'], $_SESSION['user']['id']) && $_GET['userId'] == $_SESSION['user']['id']): ?>
                         <div class="character-actions">
                             <a href="builder.php?characterId=<?php echo $character['characterId']; ?>" class="action-button edit-button">Edit</a>
                             <a href="characterSheet.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">View Sheet</a>
                         </div>
+                        <div class="character-image-container">
+                        <img src="<?php echo $character['characterImage'] ? htmlspecialchars($character['characterImage']) : 'images/default_character.png'; ?>" 
+                             alt="<?php echo htmlspecialchars($character['characterName']); ?>'s portrait" 
+                             class="character-image">
+                    </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
