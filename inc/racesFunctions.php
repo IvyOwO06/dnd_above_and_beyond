@@ -2,14 +2,14 @@
 require_once 'functions.php';
 
 function getRacesFromJson() {
-    $json = file_get_contents('js/json/races/races.json');
+    $json = file_get_contents('scripts/js/json/races/races.json');
     $data = json_decode($json, true);
 
     return $data['races'][0]['race']; // returns the array of races
 }
 
 function getRacesFluffFromJson() {
-    $json = file_get_contents('js/json/races/fluff-races.json');
+    $json = file_get_contents('scripts/js/json/races/fluff-races.json');
     $data = json_decode($json, true);
         
     return $data['raceFluff']; // returns the array of raceFluff

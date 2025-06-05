@@ -2,7 +2,7 @@
     require 'inc/racesFunctions.php';
     require 'inc/navFunctions.php';
 ?>
-<script src="js/jsonSearch.js"></script>
+<script src="scripts/js/jsonSearch.js"></script>
 <!DOCTYPE html>
 <html>
     <head>

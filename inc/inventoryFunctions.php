@@ -2,7 +2,7 @@
 require_once 'functions.php';
 
 function getItemsFromJson() {
-    $jsonFile = 'js/json/items.json'; // Adjust path to your JSON file
+    $jsonFile = 'scripts/js/json/items.json'; // Adjust path to your JSON file
     if (!file_exists($jsonFile)) {
         return [];
     }

@@ -312,7 +312,7 @@ function homeTabBuilder($characterId)
             </div>
             <div id="modal-overlay" class="overlay" hidden></div>
         </div>
-        <script src="js/jsonSearch.js"></script>
+        <script src="scripts/js/jsonSearch.js"></script>
 
         <!-- Race Tab -->
         <div id="race" class="tab-content search-section">
