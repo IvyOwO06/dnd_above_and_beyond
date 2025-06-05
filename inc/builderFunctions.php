@@ -85,61 +85,6 @@ function calculateSavingThrowModifier($character, $ability, $proficiencyBonus)
     return $abilityMod + ($isProficient ? $proficiencyBonus : 0);
 }
 
-function handleCharacterCreation()
-{
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['characterName']) && isset($_GET['characterId'])) {
-        $characterId = intval($_GET['characterId']);
-        $name = trim($_POST['characterName']);
-        $age = intval($_POST['age']);
-        $classId = intval($_POST['characterClass']);
-        $raceId = intval($_POST['characterRace']);
-        $alignment = trim($_POST['alignment']);
-        $level = intval($_POST['level']);
-        $userId = $_SESSION['user']['id'];
-        $str = intval($_POST['strength']);
-        $dex = intval($_POST['dexterity']);
-        $con = intval($_POST['constitution']);
-        $int = intval($_POST['intelligence']);
-        $wis = intval($_POST['wisdom']);
-        $cha = intval($_POST['charisma']);
-        $savingThrowProficiencies = $_POST['savingThrowProficiencies'][$classId] ?? '';
-
-        // Validate ability scores (3–20)
-        $abilitiesValid = true;
-        foreach ([$str, $dex, $con, $int, $wis, $cha] as $ability) {
-            if ($ability < 3 || $ability > 20) {
-                $abilitiesValid = false;
-                break;
-            }
-        }
-
-        if (!empty($name) && $classId > 0 && $raceId > 0 && $characterId > 0 && $level > 0 && $abilitiesValid) {
-            $conn = dbConnect();
-
-            $stmt = $conn->prepare("UPDATE characters SET characterName = ?, characterAge = ?, classId = ?, raceId = ?, alignment = ?, level = ?, strength = ?, dexterity = ?, constitution = ?, intelligence = ?, wisdom = ?, charisma = ?, savingThrowProficiencies = ? WHERE characterId = ? AND userId = ?");
-
-            if (!$stmt) {
-                die("❌ Prepare failed: " . $conn->error);
-            }
-
-            $stmt->bind_param("siiisiiiiiiiisi", $name, $age, $classId, $raceId, $alignment, $level, $str, $dex, $con, $int, $wis, $cha, $savingThrowProficiencies, $characterId, $userId);
-            $stmt->execute();
-
-            if ($stmt->affected_rows >= 0) {
-                echo "<p>✅ Character <strong>" . htmlspecialchars($name) . "</strong> updated successfully!</p>";
-            } else {
-                echo "<p>❌ Failed to update character.</p>";
-            }
-
-            $stmt->close();
-            $conn->close();
-        } else {
-            echo '<script>alert("❗ Please fill out all fields correctly. Ability scores must be between 3 and 20."); location: "history.back"</script>';
-            echo "<p>❗ Please fill out all fields correctly. Ability scores must be between 3 and 20.</p>";
-        }
-    }
-}
-
 function handleSkillUpdates($characterId)
 {
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['skills'])) {
@@ -170,7 +115,7 @@ function handleSkillUpdates($characterId)
 function homeTabBuilder($characterId)
 {
     //TODO:
-    //make it so that the character submit tab only apears when all the needed things are filled in
+    //make everything work with updatebuilder.js
 
     $classes = getClassesFromJson();
     $races = getRacesFromJson();
@@ -258,22 +203,26 @@ function homeTabBuilder($characterId)
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
                     data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
-                    <input type="radio" name="characterClass" value="<?php echo $index; ?>" 
+                    <input type="hidden" name="characterClass" class="class-radio" value="<?php echo $index; ?>" 
                     <?php if ($character['classId'] == $index) echo 'checked'; ?>>
                     <button type="button"
                         onclick="showClassModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', 'More info about <?php echo addslashes($name); ?> will be loaded here.')">
                         More Info
                     </button>
-
-
-                    <div id="class-info-<?php echo $index ?>" hidden>
-                        <p><?php echo $index ?></p>
-                        <a href="classes.php?classId=<?php echo $index ?>">Read more</a>
-                    </div><br>
                 </div>
                 <?php
             }
             ?>
+            <div id="class-modal" class="modal" hidden>
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <div id="modal-class-info">
+                        <!-- Content will be injected dynamically -->
+                    </div>
+                    <button id="confirm-selection" type="button">Select This Class</button>
+                </div>
+            </div>
+            <div id="modal-overlay" class="overlay" hidden></div>
         </div>
         <script src="js/jsonSearch.js"></script>
 
@@ -283,25 +232,34 @@ function homeTabBuilder($characterId)
 
             <input type="text" class="live-search" placeholder="Search races...">
 
-            <?php foreach ($races as $index => $race): ?>
-                <div class="filter-item" data-name="<?php echo strtolower(htmlspecialchars($race['name'])); ?>"
-                    data-source="<?php echo strtolower(htmlspecialchars($race['source'] ?? '')); ?>">
-
-                    <div>
-                        <p><?php echo htmlspecialchars($race['name']); ?></p>
-                        <input type="radio" name="characterRace" value="<?php echo $index; ?>"
+            <?php
+            foreach ($races as $index => $race) {
+                $name = htmlspecialchars($race['name']);
+                $source = isset($race['source']) ? htmlspecialchars($race['source']) : '';
+                ?>
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
+                    <p><?php echo $name; ?></p>
+                    <input type="hidden" name="characterRace" class="race-radio" value="<?php echo $index; ?>"
                         <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
-                    </div>
-
-                    <button type="button" onclick="toggleInfo('race', <?php echo $index; ?>)"
-                        id="race-arrow-<?php echo $index; ?>">▶</button>
-
-                    <div id="race-info-<?php echo $index; ?>" hidden>
-                        <p><?php echo htmlspecialchars(getFluffSnippet($race['entries'] ?? [])); ?></p>
-                        <a href="races.php?raceId=<?php echo $index; ?>">Read more</a>
-                    </div><br>
+                    <button type="button"
+                        onclick="showRaceModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', '<?php echo addslashes(getFluffSnippet($race['entries'] ?? [])); ?>')">
+                        More Info
+                    </button>
                 </div>
-            <?php endforeach; ?>
+                <?php
+            }
+            ?>
+            <div id="race-modal" class="modal" hidden>
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <div id="modal-race-info">
+                        <!-- Injected content -->
+                    </div>
+                    <button id="confirm-race-selection" type="button">Select This Race</button>
+                </div>
+            </div>
+            <div id="modal-overlay" class="overlay" hidden></div>
+
         </div>
 
         <!-- Abilities Tab -->
@@ -333,19 +291,6 @@ function homeTabBuilder($characterId)
         <script>
             const userId = <?php echo $userId; ?>;
         </script>
-        <script src="js/updateBuilder.js"></script>
-
     </form>
-    <div id="class-modal" class="modal" hidden>
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <div id="modal-class-info">
-                <!-- Content will be injected dynamically -->
-            </div>
-            <button id="confirm-selection" type="button">Select This Class</button>
-        </div>
-    </div>
-    <div id="modal-overlay" class="overlay" hidden></div>
-
     <?php
 }
