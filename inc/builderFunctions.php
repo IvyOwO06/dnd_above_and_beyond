@@ -161,22 +161,17 @@ function handleSkillUpdates($characterId)
     }
 }
 
-
 function homeTabBuilder($characterId)
 {
-    //TODO:
-    //make everything work with updatebuilder.js
-
     $classes = getClassesFromJson();
     $races = getRacesFromJson();
     $raceFluff = getRacesFluffFromJson();
     $character = getCharacter($characterId);
 
-     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
         $uploadResult = handleImageUpload($characterId);
         if ($uploadResult['success']) {
             echo '<p class="success">' . $uploadResult['message'] . '</p>';
-            // Refresh character data
             $character = getCharacter($characterId);
         } else {
             echo '<p class="error">' . $uploadResult['message'] . '</p>';
@@ -184,40 +179,23 @@ function homeTabBuilder($characterId)
     }
     ?>
 
-     <!-- Image Upload Form -->
-        <form method="POST" enctype="multipart/form-data" class="character-image-form">
-            <div class="form-group">
-                <label for="characterImage">Character Image</label>
-                <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
-                <div id="image-preview" class="preview-image"></div>
-                <?php if ($character['characterImage']): ?>
-                    <div class="current-image">
-                        <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
-                             alt="Current character portrait" 
-                             class="preview-image">
-                        <p>Current Image</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <button type="submit" class="action-button submit-button">Upload Image</button>
-            <?php
-            // Handle image upload
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
-                $uploadResult = handleImageUpload($characterId);
-                echo '<p class="' . ($uploadResult['success'] ? 'success' : 'error') . '">' . htmlspecialchars($uploadResult['message']) . '</p>';
-            }
-            ?>
-        </form>
-    
-    <style>
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-    </style>
+    <!-- Image Upload Form -->
+    <form method="POST" enctype="multipart/form-data" class="character-image-form">
+        <div class="form-group">
+            <label for="characterImage">Character Image</label>
+            <input type="file" id="characterImage" name="characterImage" accept="image/png,image/jpeg,image/jpg">
+            <div id="image-preview" class="preview-image"></div>
+            <?php if ($character['characterImage']): ?>
+                <div class="current-image">
+                    <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
+                         alt="Current character portrait" 
+                         class="preview-image">
+                    <p>Current Image</p>
+                </div>
+            <?php endif; ?>
+        </div>
+        <button type="submit" class="action-button submit-button">Upload Image</button>
+    </form>
 
     <h2>Create Your Character</h2>
 
@@ -230,164 +208,117 @@ function homeTabBuilder($characterId)
         <a href="#submit">Submit Character</a>
     </div>
 
+    <!-- Single Shared Overlay -->
+    <div id="modal-overlay" class="overlay"></div>
+
     <form action="builder.php?characterId=<?php echo $character['characterId']; ?>" method="POST">
         <!-- General Tab -->
         <div id="general" class="tab-content">
             <label for="characterName">Character Name:</label>
-            <input type="text" id="characterName" name="characterName" value="<?php echo $character['characterName']; ?>"
-                required><br>
-
+            <input type="text" id="characterName" name="characterName" value="<?php echo htmlspecialchars($character['characterName']); ?>"
+                   required><br>
             <label for="age">Age:</label>
-            <input type="text" id="characterAge" name="age" value="<?php echo $character['characterAge']; ?>" required><br>
-
+            <input type="text" id="characterAge" name="age" value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
             <label for="level">Level:</label>
-            <input type="text" id="level" name="level" value="<?php echo $character['level']; ?>" required><br>
-
+            <input type="text" id="level" name="level" value="<?php echo htmlspecialchars($character['level']); ?>" required><br>
             <label>Alignment:</label>
             <select name="alignment" id="alignment" required>
                 <option value="">--Choose Option--</option>
-                <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
-                    echo 'selected'; ?>>
-                    Chaotic Neutral</option>
-                <option value="Chaotic Good" <?php if ($character['alignment'] == 'Chaotic Good')
-                    echo 'selected'; ?>>Chaotic
-                    Good</option>
-                <option value="Chaotic Evil" <?php if ($character['alignment'] == 'Chaotic Evil')
-                    echo 'selected'; ?>>Chaotic
-                    Evil</option>
-                <option value="Lawful Neutral" <?php if ($character['alignment'] == 'Lawful Neutral')
-                    echo 'selected'; ?>>
-                    Lawful Neutral</option>
-                <option value="Lawful Good" <?php if ($character['alignment'] == 'Lawful Good')
-                    echo 'selected'; ?>>Lawful
-                    Good</option>
-                <option value="Lawful Evil" <?php if ($character['alignment'] == 'Lawful Evil')
-                    echo 'selected'; ?>>Lawful
-                    Evil</option>
-                <option value="Neutral" <?php if ($character['alignment'] == 'Neutral')
-                    echo 'selected'; ?>>Neutral</option>
-                <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good')
-                    echo 'selected'; ?>>Neutral
-                    Good</option>
-                <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil')
-                    echo 'selected'; ?>>Neutral
-                    Evil</option>
+                <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral') echo 'selected'; ?>>Chaotic Neutral</option>
+                <option value="Chaotic Good" <?php if ($character['alignment'] == 'Chaotic Good') echo 'selected'; ?>>Chaotic Good</option>
+                <option value="Chaotic Evil" <?php if ($character['alignment'] == 'Chaotic Evil') echo 'selected'; ?>>Chaotic Evil</option>
+                <option value="Lawful Neutral" <?php if ($character['alignment'] == 'Lawful Neutral') echo 'selected'; ?>>Lawful Neutral</option>
+                <option value="Lawful Good" <?php if ($character['alignment'] == 'Lawful Good') echo 'selected'; ?>>Lawful Good</option>
+                <option value="Lawful Evil" <?php if ($character['alignment'] == 'Lawful Evil') echo 'selected'; ?>>Lawful Evil</option>
+                <option value="Neutral" <?php if ($character['alignment'] == 'Neutral') echo 'selected'; ?>>Neutral</option>
+                <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good') echo 'selected'; ?>>Neutral Good</option>
+                <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil') echo 'selected'; ?>>Neutral Evil</option>
             </select><br>
-            
         </div>
 
         <!-- Class Tab -->
         <div id="class" class="tab-content search-section">
             <label for="characterClass">Classes:</label><br>
-
-            <!-- Live search input -->
             <input type="text" class="live-search" placeholder="Search classes...">
 
             <?php
+            $indexPath = __DIR__ . "/../scripts/js/json/class/index.json";
+            if (!file_exists($indexPath)) {
+                die("Error: index.json not found at $indexPath.");
+            }
+            $indexMap = json_decode(file_get_contents($indexPath), true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                die("Error: Could not decode index.json: " . json_last_error_msg());
+            }
+
             foreach ($classes as $index => $class) {
                 $name = htmlspecialchars($class['name']);
                 $source = isset($class['source']) ? htmlspecialchars($class['source']) : '';
+                $classKey = strtolower($name);
+
+                $info = 'No feature available.';
+                if (isset($indexMap[$classKey])) {
+                    $classPath = __DIR__ . "/../scripts/js/json/class/" . $indexMap[$classKey];
+                    if (file_exists($classPath)) {
+                        $classData = json_decode(file_get_contents($classPath), true);
+                        if ($classData && isset($classData['class'][0]) && isset($classData['classFeature'])) {
+                            foreach ($classData['classFeature'] as $feature) {
+                                if ($feature['level'] == 1 && strpos($feature['name'], 'Optional Rule') === false) {
+                                    $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                echo "<!-- Debug: Processing $name (key: $classKey) -->";
                 ?>
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
                     <input type="hidden" name="characterclass" class="class-radio" value="<?php echo $index; ?>"
-                        <?php if ($character['classId'] == $index) echo 'checked'; ?>>
-                        <?php
-                $indexPath = __DIR__ . "/../scripts/js/json/class/index.json";
-                            
-                if (!file_exists($indexPath)) {
-                    die("Error: index.json not found at $indexPath.");
-                }
-                
-                $indexMap = json_decode(file_get_contents($indexPath), true);
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    die("Error: Could not decode index.json: " . json_last_error_msg());
-                }
-                
-                foreach ($indexMap as $classKey => $file) {
-                    $classPath = __DIR__ . "/../scripts/js/json/class/" . $file;
-                    if (!file_exists($classPath)) {
-                        echo "Warning: File not found: $classPath<br>";
-                        continue;
-                    }
-                
-                    $classData = json_decode(file_get_contents($classPath), true);
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                        echo "Warning: JSON decode error for $classPath: " . json_last_error_msg() . "<br>";
-                        continue;
-                    }
-                
-                    if (!$classData || !isset($classData['class'][0])) {
-                        echo "Warning: Invalid class data in $classPath<br>";
-                        continue;
-                    }
-                
-                    $class = $classData['class'][0];
-                    $name = htmlspecialchars($class['name'], ENT_QUOTES);
-                
-                    // Find the first level 1 feature (excluding optional rules)
-                    $info = 'No feature available.';
-                    if (isset($classData['classFeature'])) {
-                        foreach ($classData['classFeature'] as $feature) {
-                            if ($feature['level'] == 1 && strpos($feature['name'], 'Optional Rule') === false) {
-                                // Use feature name and first entry for brevity
-                                $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES));
-                                break;
-                            }
-                        }
-                    }
-                
-                    // Debug: Output raw info to check its value
-                    echo "<!-- Debug: Info for $name = $info -->";
-                
-                    ?>
-                    <div class="filter-item" data-name="<?= strtolower($name) ?>">
-                        <p><?= $name ?></p>
-                        <input type="hidden" name="characterclass" class="class-radio" value="<?= $classKey ?>">
-                        <button type="button"
-                                class="show-class-modal"
-                                data-index="<?= $classKey ?>"
-                                data-name="<?= $name ?>"
-                                data-info="<?= htmlspecialchars($info, ENT_QUOTES) ?>">
-                                Read more
-                        </button>
-                    </div>
-                    <?php
-                }
-                ?>
+                           <?php if ($character['classId'] == $index) echo 'checked'; ?>>
+                    <button type="button"
+                            class="show-class-modal"
+                            data-index="<?php echo $index; ?>"
+                            data-name="<?php echo $name; ?>"
+                            data-info="<?php echo htmlspecialchars($info, ENT_QUOTES); ?>">
+                            Read more
+                    </button>
                 </div>
                 <?php
             }
             ?>
             <div id="class-modal" class="modal" hidden>
                 <div class="modal-content">
-                    <span class="close-button">&times;</span>
+                    <span class="close-button">×</span>
                     <div id="modal-class-info"></div>
                     <button id="confirm-class-selection" type="button">Select This class</button>
                 </div>
             </div>
-            <div id="modal-overlay" class="overlay" hidden></div>
         </div>
-        <script src="scripts/js/jsonSearch.js"></script>
 
         <!-- Race Tab -->
         <div id="race" class="tab-content search-section">
             <label for="characterRace">Race:</label><br>
-
             <input type="text" class="live-search" placeholder="Search races...">
 
             <?php
             foreach ($races as $index => $race) {
                 $name = htmlspecialchars($race['name']);
                 $source = isset($race['source']) ? htmlspecialchars($race['source']) : '';
+                $fluffSnippet = htmlspecialchars(getFluffSnippet($race['entries'] ?? []), ENT_QUOTES);
                 ?>
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
                     <input type="hidden" name="characterRace" class="race-radio" value="<?php echo $index; ?>"
-                        <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
+                           <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
                     <button type="button"
-                        onclick="showRaceModal(<?php echo $index; ?>, '<?php echo addslashes($name); ?>', '<?php echo addslashes(getFluffSnippet($race['entries'] ?? [])); ?>')">
-                        More Info
+                            class="show-race-modal"
+                            data-index="<?php echo $index; ?>"
+                            data-name="<?php echo htmlspecialchars($name, ENT_QUOTES); ?>"
+                            data-info="<?php echo $fluffSnippet; ?>">
+                            More Info
                     </button>
                 </div>
                 <?php
@@ -395,46 +326,42 @@ function homeTabBuilder($characterId)
             ?>
             <div id="race-modal" class="modal" hidden>
                 <div class="modal-content">
-                    <span class="close-button">&times;</span>
-                    <div id="modal-race-info">
-                        <!-- Injected content -->
-                    </div>
+                    <span class="close-button">×</span>
+                    <div id="modal-race-info"></div>
                     <button id="confirm-race-selection" type="button">Select This Race</button>
                 </div>
             </div>
-            <div id="modal-overlay" class="overlay" hidden></div>
-
         </div>
 
         <!-- Abilities Tab -->
         <div id="abilities" class="tab-content">
             <h3>Ability Scores</h3>
             <button type="button" onclick="rollAbilities()">Roll Ability Scores</button><br><br>
-
             <?php
             $abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
-            foreach ($abilities as $ability):
+            foreach ($abilities as $ability) {
                 $value = $character[$ability] ?? '';
                 ?>
                 <label for="<?php echo $ability; ?>"><?php echo ucfirst($ability); ?>:</label>
                 <input type="number" name="<?php echo $ability; ?>" id="<?php echo $ability; ?>" class="ability-score"
-                    data-field="<?php echo $ability; ?>" value="<?php echo $value; ?>" required><br>
-            <?php endforeach; ?>
+                       data-field="<?php echo $ability; ?>" value="<?php echo htmlspecialchars($value); ?>" required><br>
+                <?php
+            }
+            ?>
         </div>
-
 
         <!-- Submit Tab -->
         <div id="submit" class="tab-content">
-            <label>Submit:</label>
-            <br>
+            <label>Submit:</label><br>
             <button type="submit">Create Character</button>
         </div>
 
-        <!-- update builder connection -->
         <?php $userId = json_encode($_SESSION['user']['id']); ?>
         <script>
             const userId = <?php echo $userId; ?>;
         </script>
+        <script src="scripts/js/json.js"></script>
     </form>
     <?php
 }
+?>
