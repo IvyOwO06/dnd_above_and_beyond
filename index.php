@@ -11,19 +11,19 @@ $posts = getBlogs();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="styesheet" href="css/blog.css">
     </head>
 <body>
     <?php
     displayHeader();
     ?>
 
-<header class="hero">
+<div class="hero">
   <div class="hero-overlay">
-    <h1>Welcome to the Realm</h1>
+    <h1>Dungeons and Monsters</h1>
     <p>Your gateway to unforgettable adventures</p>
-    <a href="#main-content" class="hero-button">Enter</a>
   </div>
-</header>
+</div>
 
 
     <main>
@@ -100,13 +100,13 @@ $posts = getBlogs();
     </section>
 
     <section class="blog-preview">
-        <h2>Recent Articles</h2>
+        <h1>Recent Articles</h1>
         <div class="blog-grid">
         <?php
             displayBlogs($posts);
         ?>
         </div>
-        <a href="blog.php" class="see-all-posts">See All Posts</a>
+        <a href="blog.php" class="see-all-posts"><h2>See All Posts</h2></a>
     </section>
 
     <?php

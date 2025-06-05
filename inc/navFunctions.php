@@ -17,8 +17,10 @@ function displayHeader()
         <a href="index.php" class="logo">
             <img src="images/LOGO2.png" class="logoimg">
         </a>
+        <img src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" class="search-img">
+        <input type="text" id="searchBar" placeholder="Search anything..." />
         <nav>
-            <ul>
+            <ul class="navigation-links">
                 <li>
                     <a href="index.php">Home</a>
                 </li>
@@ -44,7 +46,8 @@ function displayHeader()
                 else
                 {
                     ?>
-                    <li><a href="login.php">Log In</a></li>
+                    <li><a href="login.php" class="loginbtn">Log In</a></li>
+                    <li><a href="register.php" class="signinbtn">Sign up</a></li>
                     <?php
                 }
                 ?>

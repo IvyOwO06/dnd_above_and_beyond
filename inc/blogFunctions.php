@@ -34,9 +34,11 @@ function displayBlogs($posts) //displays blogs from database
         <div class='blog-list'>
             <?php foreach ($posts as $post): ?>
                 <article class='blog-post'>
+                    <?php if (!empty($post['blogImage'])): ?>
+                    <img src="uploads/<?php echo htmlspecialchars($post['blogImage']); ?>" alt="Blog header image" class="blog-header-image">
+                    <?php endif; ?>
                     <h2><a href='blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>'><?php echo htmlspecialchars($post['blogTitle']); ?></a></h2>
                     <p><em>By <?php echo htmlspecialchars($post['blogAuthor']); ?> on <?php echo $post['blogPostDate']; ?></em></p>
-
                     <p><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 200))); ?>...</p>
                     <a href='blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>'>Read more</a>
                 </article>
@@ -45,8 +47,7 @@ function displayBlogs($posts) //displays blogs from database
     </div>
     <?php
 }
-
-function displayBlog($blogId) //displays blog details from database
+function displayBlog($blogId) // Displays blog details from database
 {
     $comments = getBlogComments($blogId);
     $blog = getBlog($blogId);
@@ -57,9 +58,12 @@ function displayBlog($blogId) //displays blog details from database
     }
     ?>
     <article class="blog">
-            <h1><?php echo htmlspecialchars($blog["blogTitle"]); ?> </h1>
-            <p>By: <?php echo htmlspecialchars($blog["blogAuthor"]); ?> | <?php echo $blog["blogPostDate"]; ?> </p>
-            <p><?php echo nl2br(htmlspecialchars($blog["blogContent"])); ?> </p>
+        <?php if (!empty($blog['blogImage'])): ?>
+            <img src="Uploads/<?php echo htmlspecialchars($blog['blogImage']); ?>" alt="Blog header image" class="blog-header-image">
+        <?php endif; ?>
+            <h1><?php echo htmlspecialchars($blog["blogTitle"]); ?></h1>
+            <p>By: <?php echo htmlspecialchars($blog["blogAuthor"]); ?> | <?php echo $blog["blogPostDate"]; ?></p>
+            <p><?php echo nl2br(htmlspecialchars($blog["blogContent"])); ?></p>
             <hr>
             <h2>Comments</h2>
             <?php
@@ -125,8 +129,8 @@ function submitComment($blogId, $author = null, $comment = null) //insert blog c
             date_default_timezone_set('Europe/Amsterdam');
             $date = date('Y-m-d H:i:s'); // Format for DATETIME
             $conn = dbConnect();
-            $stmt = $conn->prepare("INSERT INTO blogComments (postId, commentDate, commenterName, commentContent) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("isss", $blogId, $date, $author, $comment);
+            $stmt = $conn->prepare("INSERT INTO blogPosts (blogTitle, blogContent, blogAuthor, blogPostDate, blogCategoryId, blogImage) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssss", $title, $content, $author, $date, $categoryId, $imageName);
             $stmt->execute();
 
             // Redirect to avoid resubmission on refresh
@@ -135,8 +139,7 @@ function submitComment($blogId, $author = null, $comment = null) //insert blog c
         }
     }
 }
-
-function postBlog() //insert blog into database
+function postBlog() // Insert blog into database
 {
     if ($_SERVER["REQUEST_METHOD"] === "POST" &&
         isset($_POST['title'], $_POST['content'], $_SESSION['user']['username'], $_POST['categoryId']))
@@ -144,22 +147,44 @@ function postBlog() //insert blog into database
         $title = trim($_POST['title']);
         $content = trim($_POST['content']);
         $author = trim($_SESSION['user']['username']);
-        $categoryId = intval($_POST['categoryId']); 
+        $categoryId = intval($_POST['categoryId']);
+        
+        $imageName = null;
+        if (isset($_FILES['blogImage']) && $_FILES['blogImage']['error'] === UPLOAD_ERR_OK) {
+            $imageTmpPath = $_FILES['blogImage']['tmp_name'];
+            $imageName = basename($_FILES['blogImage']['name']);
+            $uploadDir = 'Uploads/';
+            $targetFile = $uploadDir . $imageName;
+
+            // Create uploads folder if it doesn't exist
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            // Move the uploaded file
+            if (!move_uploaded_file($imageTmpPath, $targetFile)) {
+                $imageName = null; // Set to null if upload fails
+            }
+        }
 
         if (!empty($title) && !empty($content) && !empty($author) && $categoryId > 0) {
             date_default_timezone_set('Europe/Amsterdam');
             $date = date('Y-m-d H:i:s');
 
             $conn = dbConnect();
-            $stmt = $conn->prepare("INSERT INTO blogPosts (blogTitle, blogContent, blogAuthor, blogPostDate, blogCategoryId) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssi", $title, $content, $author, $date, $categoryId);
-            $stmt->execute();
-
-            header("Location: blog.php");
-            exit();
+            // Include blogImage in the INSERT query
+            $stmt = $conn->prepare("INSERT INTO blogPosts (blogTitle, blogContent, blogAuthor, blogPostDate, blogCategoryId, blogImage) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssssis", $title, $content, $author, $date, $categoryId, $imageName);
+            
+            if ($stmt->execute()) {
+                header("Location: blog.php");
+                exit();
+            } else {
+                echo "Error saving blog post: " . $conn->error;
+            }
         }
     }
-}
+}   
 
 function getBlog($blogId) //fetch single blog from database by id
 {
