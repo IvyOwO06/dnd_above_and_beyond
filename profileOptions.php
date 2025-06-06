@@ -37,7 +37,7 @@ $user = getUser($userId);
         <?php
     }
     ?>
-    <form action="profileOptions.php?userId=<?php echo $userId; ?>" method="POST" enctype="multipart/form-data">
+    <form action="profileOptions?userId=<?php echo $userId; ?>" method="POST" enctype="multipart/form-data">
         <h3>Update Profile Picture:</h3>
         <input type="file" name="profile_picture" accept="image/*">
         <button type="submit" class="normal-button">Upload</button>
@@ -52,7 +52,7 @@ $user = getUser($userId);
     <h3>Change password</h3>
     <h3>Change Email</h3>
     <h3>Change bio</h3>
-    <form action="profileOptions.php?userId=<?php echo $userId ?>" method="POST">
+    <form action="profileOptions?userId=<?php echo $userId ?>" method="POST">
         <textarea><?php echo $profile['profileInformation']; ?></textarea>
         <button type="submit" class="normal-button">submit</button>
     </form>

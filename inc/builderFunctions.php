@@ -211,7 +211,7 @@ function homeTabBuilder($characterId)
     <!-- Single Shared Overlay -->
     <div id="modal-overlay" class="overlay"></div>
 
-    <form action="builder.php?characterId=<?php echo $character['characterId']; ?>" method="POST">
+    <form action="builder?characterId=<?php echo $character['characterId']; ?>" method="POST">
         <!-- General Tab -->
         <div id="general" class="tab-content">
             <label for="characterName">Character Name:</label>

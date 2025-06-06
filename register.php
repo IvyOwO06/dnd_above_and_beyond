@@ -24,7 +24,7 @@ signup();
     ?>
     <main>
         <h1 id="heading">SignUp Form</h1>
-        <form name="form" action="register.php" method="post">
+        <form name="form" action="register" method="post">
             <i class="fa-solid fa-user"></i>
             <input type="text" id="user" name="user" placeholder="Enter Username" required><br><br>
             <i class="fa-solid fa-envelope"></i>

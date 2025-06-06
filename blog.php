@@ -28,7 +28,7 @@ displayBlogs($posts);
 ?>
 </div>  
 <h2>Create a New Blog Post</h2> <!-- form to create a new blog post -->
-<form class="form" method="POST" action="blog.php" enctype="multipart/form-data">
+<form class="form" method="POST" action="blog" enctype="multipart/form-data">
     <label for="title">Title:</label>
     <input type="text" class="form-control" name="title" required>
 

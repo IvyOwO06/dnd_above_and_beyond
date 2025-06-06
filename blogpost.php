@@ -33,7 +33,7 @@ submitComment($blogId);
 <h2>Submit a Comment</h2>
 <button class="button" onclick="toggleCommentForm()">Leave a Comment</button>
 <div id="commentForm" style="display: none;">
-    <form class="form" method="POST" action="blogpost.php?id=<?php echo $blogId; ?>">
+    <form class="form" method="POST" action="blogpost?id=<?php echo $blogId; ?>">
 
         <label for="content">Comment:</label>
         <textarea class="form-control" name="content" required></textarea>
