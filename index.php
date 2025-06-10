@@ -111,6 +111,7 @@ $posts = getBlogs();
 
     <?php
     displayFooter();
+    displayCopyright();
     ?>
 </body>
 </html>

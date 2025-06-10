@@ -62,32 +62,70 @@ function displayFooter()
     ?>
     <footer class="site-footer">
         <div class="footer-content">
-            <div class="footer-nav">
+            <!-- Tagline -->
+            <div class="footer-column footer-tagline">
+                <h3 class="footer-title">Unleash Your Adventure</h3>
+                <p>Join our community to create epic characters, manage campaigns, and explore a world of fantasy.</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="footer-column footer-nav">
+                <h3 class="footer-title">Explore</h3>
                 <a href="index.php" class="footer-link">Home</a>
                 <a href="builder.php" class="footer-link">Create Character</a>
                 <a href="about.php" class="footer-link">About</a>
+                <a href="resources.php" class="footer-link">Resources</a>
+                <a href="contact.php" class="footer-link">Contact</a>
             </div>
-            <div class="footer-social">
-                <a href="https://discord.com" target="_blank" class="social-link discord" title="Join our Discord community">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M20.3 5.2c-1.5-.7-3.1-1.2-4.8-1.5-.3.5-.6 1.1-.8 1.7-1.7-.3-3.4-.3-5.1 0-.2-.6-.5-1.2-.8-1.7-1.7.3-3.3.8-4.8 1.5C1.5 8.2.7 12.1 1.3 15.8c1.2.9 2.5 1.6 3.9 2.1.3-.5.6-1.1.8-1.7-.5-.2-1-.5-1.4-.8 1.1.7 2.3 1.3 3.6 1.6 1.3.3 2.7.3 4 0 1.3-.3 2.5-.9 3.6-1.6-.5.3-1 .6-1.4.8.2.6.5 1.2.8 1.7 1.4-.5 2.7-1.2 3.9-2.1.7-4.2-.2-8-2.5-10.8zM8.3 14.6c-.7 0-1.3-.7-1.3-1.5s.6-1.5 1.3-1.5c.7 0 1.3.7 1.3 1.5s-.6 1.5-1.3 1.5zm7.4 0c-.7 0-1.3-.7-1.3-1.5s.6-1.5 1.3-1.5c.7 0 1.3.7 1.3 1.5s-.6 1.5-1.3 1.5z"/>
-                    </svg>
-                </a>
-                <a href="https://x.com" target="_blank" class="social-link twitter" title="Follow us on X">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M18.9 1.5h3.6l-7.9 9.1 9.3 12.3h-7.3l-5.7-7.5-6.5 7.5H2.1l8.5-9.7L1.5 1.5h7.5l5.1 6.8 5.8-6.8zm-2.2 19.3h2l-13-17.2h-2l13 17.2z"/>
-                    </svg>
-                </a>
-                <a href="https://github.com" target="_blank" class="social-link github" title="Check our GitHub">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9c0-1 .3-1.6.8-2 3.1-1.5 6-5 6-9.1 0-1.3-.5-2.6-1.3-3.6.4-1 .4-2.1 0-3.1 0 0-1-.3-3.3 1.2-1.9-.5-3.9-.5-5.9 0-2.3-1.5-3.3-1.2-3.3-1.2-.4 1-.4 2.1 0 3.1-.8 1-1.3 2.3-1.3 3.6 0 4.1 2.9 7.6 6 9.1.5.4.8 1 .8 2v3.9"/>
-                    </svg>
-                </a>
+
+            <!-- Newsletter Signup -->
+            <div class="footer-column footer-newsletter">
+                <h3 class="footer-title">Stay Updated</h3>
+                <p>Subscribe for news, updates, and exclusive content.</p>
+                <form action="subscribe.php" method="POST" class="newsletter-form">
+                    <input type="email" name="email" placeholder="Enter your email" required aria-label="Email address">
+                    <button type="submit" class="newsletter-button">Subscribe</button>
+                </form>
             </div>
-            <div class="footer-copyright">
-                <p>© 2025 <a href="files/copyright.pdf" target="_blank" class="copyright-link">Dungeons and Monsters</a>. All rights reserved.</p>
-            </div>
+
+            <!-- Social Links -->
+            <div class="footer-column footer-social">
+                <h3 class="footer-title">Connect</h3>
+                <div class="social-links">
+                    <a href="https://discord.com" target="_blank" class="social-link discord" title="Join our Discord community">
+                        
+                    </a>
+                    <a href="https://x.com" target="_blank" class="social-link twitter" title="Follow us on X">
+
+                    </a>
+                    <a href="https://github.com" target="_blank" class="social-link github" title="Check our GitHub">
+
+                    </a>
+                </div>
+            </div>  
         </div>
     </footer>
+    <?php
+}
+
+function displayCopyright()
+{
+        ?>
+<section class="legal-section">
+    <div class="legal-content">
+        <div class="legal-text-buttons">
+            <div class="legal-text">
+                <p class="legal-copyright">© 2025 Dungeons and Monsters. All rights reserved.</p>
+                <p class="legal-disclaimer">Dungeons and Monsters, D&D Beyond 2.0, and all original content, tools, and resources found on this site are the intellectual property of Dungeons and Monsters unless otherwise stated.</p>
+                <p class="legal-disclaimer">This site is an independent creation and is not affiliated with, endorsed by, or sponsored by Wizards of the Coast. Dungeons & Dragons and related marks are trademarks of Wizards of the Coast LLC. Used under fair use for fan content.</p>
+            </div>
+            <div class="legal-links">
+                <a href="tos.php" class="legal-button">Terms of Service</a>
+                <a href="privacy.php" class="legal-button">Privacy Policy</a>
+                <a href="files/copyright.pdf" class="legal-button">Copyright</a>
+            </div>
+        </div>
+    </div>
+</section>
     <?php
 }

@@ -124,7 +124,7 @@
 }
 
 .blog-preview-title {
-    font-family: 'Cinzel', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     color: #ffffff;
     font-size: 2.2rem;
     font-weight: 700;
@@ -188,7 +188,7 @@
 
 .blog-category {
     display: inline-block;
-    font-family: 'Merriweather', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 0.8rem;
     font-weight: 600;
     color: #d8b9ff;
@@ -200,7 +200,7 @@
 }
 
 .blog-title {
-    font-family: 'Cinzel', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 1.4rem;
     font-weight: 700;
     margin: 0 0 0.5rem;
@@ -217,14 +217,14 @@
 }
 
 .blog-meta {
-    font-family: 'Merriweather', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 0.85rem;
     color: #b0a0d8;
     margin-bottom: 0.75rem;
 }
 
 .blog-excerpt {
-    font-family: 'Merriweather', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 0.9rem;
     color: #e0e0e0;
     line-height: 1.4;
@@ -232,7 +232,7 @@
 }
 
 .read-more {
-    font-family: 'Cinzel', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 0.9rem;
     font-weight: 600;
     color: #8b6cc2;
@@ -247,7 +247,7 @@
 
 .no-posts {
     text-align: center;
-    font-family: 'Cinzel', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 1.2rem;
     color: #b0a0d8;
     padding: 1.5rem;
@@ -260,7 +260,7 @@
 
 .see-all-posts {
     display: block;
-    font-family: 'Cinzel', serif;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
     font-size: 1.1rem;
     font-weight: 700;
     color: #8b6cc2;
@@ -309,5 +309,392 @@
     .no-posts {
         font-size: 1rem;
         padding: 1rem;
+    }
+}
+
+/* Legal Section Styles */
+.legal-section {
+    background: #000000; /* Dark navy, matches existing */
+    color: #ffffff; /* White text */
+    padding: 1rem 0.75rem; /* Reduced padding for thinner look */
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif */
+    font-weight: 400;
+    font-size: 0.85rem; /* Smaller base font size */
+    line-height: 1.4; /* Tighter line spacing */
+    border-top: 1px solid #4a3676; /* Dark purple border */
+    border-bottom: 1px solid #4a3676; /* Symmetry */
+    position: relative;
+    z-index: 1;
+}
+
+.legal-content {
+    max-width: 1000px; /* Slightly narrower for compactness */
+    margin: 0 auto;
+    text-align: left; /* Left-align for side-by-side layout */
+}
+
+.legal-text-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    gap: 1.5rem; /* Reduced gap between text and buttons */
+    align-items: flex-start; /* Align tops */
+}
+
+.legal-text {
+    flex: 1; /* Take available space */
+    min-width: 350px; /* Reduced min-width for compactness */
+}
+
+.legal-copyright {
+    font-weight: 700;
+    font-size: 0.9rem; /* Smaller copyright text */
+    margin-bottom: 0.3rem; /* Tighter margin */
+    text-shadow: 0 0 3px rgba(139, 108, 194, 0.2); /* Subtle glow, reduced intensity */
+}
+
+.legal-disclaimer {
+    margin: 0.2rem 0; /* Tighter margins */
+    color: #d8d8d8; /* Light gray */
+    font-size: 0.8rem; /* Smaller disclaimer text */
+}
+
+.legal-links {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 0.5rem; /* Reduced gap between buttons */
+    min-width: 150px; /* Narrower button column */
+}
+
+.legal-button {
+    display: inline-block;
+    padding: 0.4rem 0.8rem; /* Smaller padding */
+    background: transparent;
+    border: 2px solid #8b6cc2; /* Matches .image-button-row */
+    border-radius: 5px; /* Slightly smaller radius */
+    color: #d8b9ff; /* Light purple text */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem; /* Smaller button text */
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.legal-button:hover {
+    background: #8b6cc2;
+    color: #ffffff;
+    border-color: #a68cd6;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(139, 108, 194, 0.4); /* Smaller glow */
+}
+
+.legal-button:focus {
+    outline: none;
+    border-color: #a68cd6;
+    box-shadow: 0 0 0 2px rgba(139, 108, 194, 0.3); /* Thinner focus ring */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .legal-section {
+        padding: 0.75rem 0.5rem; /* Even less padding */
+    }
+
+    .legal-text-buttons {
+        flex-direction: column; /* Stack text and buttons */
+        gap: 0.75rem; /* Tighter gap */
+        text-align: center;
+    }
+
+    .legal-text {
+        min-width: 0; /* Full width */
+    }
+
+    .legal-links {
+        flex-direction: row; /* Horizontal buttons on mobile */
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .legal-button {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .legal-copyright {
+        font-size: 0.85rem;
+    }
+
+    .legal-disclaimer {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-section {
+        padding: 0.5rem 0.5rem; /* Minimal padding */
+    }
+
+    .legal-links {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+
+    .legal-button {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .legal-copyright {
+        font-size: 0.8rem;
+    }
+
+    .legal-disclaimer {
+        font-size: 0.7rem;
+    }
+}  
+
+
+/* Footer Styles */
+.site-footer {
+    background: #1a1a2e; /* Dark navy, like D&D Beyond */
+    color: #ffffff; /* White text */
+    padding: 2rem 1rem;
+    font-family: 'Poppins', sans-serif; /* Clean sans-serif */
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-top: 0px;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-content {
+    max-width: 1280px; /* Matches D&D Beyond's content width */
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four columns side-by-side */
+    gap: 1.5rem;
+    text-align: left; /* Left-align for columns */
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #d8b9ff; /* Light purple */
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.footer-tagline p {
+    color: #d8d8d8; /* Light gray */
+    font-size: 0.85rem;
+}
+
+.footer-nav a {
+    color: #d8d8d8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: #d8b9ff;
+    transform: translateX(5px); /* Slide effect */
+}
+
+.footer-newsletter p {
+    color: #d8d8d8;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.newsletter-form input {
+    padding: 0.5rem;
+    border: 1px solid #4a3676; /* Dark purple */
+    border-radius: 4px;
+    background: #2c2c44; /* Slightly lighter dark */
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.newsletter-form input:focus {
+    outline: none;
+    border-color: #8b6cc2;
+    box-shadow: 0 0 4px rgba(139, 108, 194, 0.3);
+}
+
+.newsletter-button {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 2px solid #8b6cc2;
+    border-radius: 4px;
+    color: #d8b9ff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.newsletter-button:hover {
+    background: #8b6cc2;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 108, 194, 0.5);
+}
+
+.newsletter-button:focus {
+    outline: none;
+    border-color: #a68cd6;
+    box-shadow: 0 0 0 3px rgba(139, 108, 194, 0.3);
+}
+
+.footer-social .social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    color: #d8d8d8;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-link:hover {
+    color: #d8b9ff;
+    transform: scale(1.1);
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.5;
+}
+
+.footer-legal {
+    grid-column: 1 / -1; /* Full width below columns */
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid #000000; /* Divider */
+}
+
+.legal-copyright {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 4px rgba(139, 108, 194, 0.3);
+}
+
+.legal-disclaimer {
+    color: #d8d8d8;
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+}
+
+.legal-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.legal-button {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 2px solid #8b6cc2; /* Matches .image-button-row */
+    border-radius: 6px;
+    color: #d8b9ff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.legal-button:hover {
+    background: #8b6cc2;
+    color: #ffffff;
+    border-color: #a68cd6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 108, 194, 0.5);
+}
+
+.legal-button:focus {
+    outline: none;
+    border-color: #a68cd6;
+    box-shadow: 0 0 0 3px rgba(139, 108, 194, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr); /* Two columns on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr; /* Stack columns on mobile */
+        text-align: center;
+    }
+
+    .footer-column {
+        align-items: center;
+    }
+
+    .footer-nav a:hover, .social-link:hover {
+        transform: none; /* Disable transforms on mobile */
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .newsletter-form input {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .legal-links {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-footer {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .footer-title {
+        font-size: 1rem;
+    }
+
+    .footer-tagline p, .footer-newsletter p, .legal-disclaimer {
+        font-size: 0.8rem;
+    }
+
+    .footer-nav a, .legal-button, .newsletter-button {
+        font-size: 0.85rem;
+    }
+
+    .legal-copyright {
+        font-size: 0.95rem;
     }
 }
