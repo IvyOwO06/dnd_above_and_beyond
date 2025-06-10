@@ -86,7 +86,7 @@ vertical-align: middle;
 .hero {
     position: relative;
     height: 100vh;
-    background-image: url('https://theglowingfool.com/wp-content/uploads/2018/11/SCAG_Header.jpg');
+    background-image: url(../images/SCAG_Header.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
