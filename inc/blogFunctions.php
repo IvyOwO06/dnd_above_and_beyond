@@ -23,24 +23,39 @@ function createBlogPost($title, $content, $author) //inserts data into database
     return $stmt->execute();
 }
 
-function displayBlogs($posts) //displays blogs from database
+function displayBlogs($posts) // Displays blogs from database
 {
     if (empty($posts)) {
-        ?><p>No blog posts yet!</p><?php
+        ?>
+        <div class="no-posts">
+            <p>No tales have been scribed yet. Begin your chronicle!</p>
+        </div>
+        <?php
         return;
     }
     ?>
-    <div class='blog-container'>
-        <div class='blog-list'>
+    <div class="blog-container">
+        <div class="blog-list">
             <?php foreach ($posts as $post): ?>
-                <article class='blog-post'>
-                    <?php if (!empty($post['blogImage'])): ?>
-                    <img src="uploads/<?php echo htmlspecialchars($post['blogImage']); ?>" alt="Blog header image" class="blog-header-image">
-                    <?php endif; ?>
-                    <h2><a href='blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>'><?php echo htmlspecialchars($post['blogTitle']); ?></a></h2>
-                    <p><em>By <?php echo htmlspecialchars($post['blogAuthor']); ?> on <?php echo $post['blogPostDate']; ?></em></p>
-                    <p><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 200))); ?>...</p>
-                    <a href='blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>'>Read more</a>
+                <article class="blog-post" data-category="<?php echo htmlspecialchars($post['blogCategory'] ?? 'general'); ?>">
+                    <div class="blog-image-container">
+                        <img src="<?php echo !empty($post['blogImage']) ? 'Uploads/' . htmlspecialchars($post['blogImage']) : 'images/default_blog.png'; ?>" 
+                             alt="<?php echo !empty($post['blogImage']) ? htmlspecialchars($post['blogTitle']) . ' header image' : 'Default blog header image'; ?>" 
+                             class="blog-header-image">
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category"><?php echo htmlspecialchars($post['blogCategory'] ?? 'General'); ?></span>
+                        <h2 class="blog-title">
+                            <a href="blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>">
+                                <?php echo htmlspecialchars($post['blogTitle']); ?>
+                            </a>
+                        </h2>
+                        <p class="blog-meta">
+                            By <?php echo htmlspecialchars($post['blogAuthor']); ?> | <?php echo htmlspecialchars($post['blogPostDate']); ?>
+                        </p>
+                        <p class="blog-excerpt"><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 150))); ?>...</p>
+                        <a href="blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>" class="read-more">Read More</a>
+                    </div>
                 </article>
             <?php endforeach; ?>
         </div>

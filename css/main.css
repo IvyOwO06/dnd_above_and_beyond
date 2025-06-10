@@ -38,11 +38,11 @@ header {
 
 .logoimg {
     height:90px;
-    margin-left: 250px;
+    margin-left: 150px;
 }
 
 .navigation-links{
-    margin-right: 250px;
+    margin-right: 150px;
 }
 
 .pfp {
@@ -76,82 +76,6 @@ vertical-align: middle;
     font-size: 2.5rem;
     margin-bottom: 1rem;
     color: #fff0ff;
-}
-
-.blog-header-image {
-    width: 225px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-
-.blog-container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background: linear-gradient(to bottom right, #2c1e47, #3b2560);
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(135, 92, 194, 0.4);
-}
-
-.blog-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: center;
-}
-
-.blog-post {
-    background: rgba(45, 34, 66, 0.9);
-    border-left: 6px solid #9c6bff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 280px; /* Fixed width to make multiple fit in a row */
-    box-sizing: border-box;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.blog-post:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 15px rgba(165, 111, 255, 0.5);
-}
-
-.blog-post h2 {
-    font-size: 1.75em;
-    margin: 0 0 10px;
-}
-
-.blog-post h2 a {
-    color: #cbaaff;
-    text-decoration: none;
-}
-
-.blog-post h2 a:hover {
-    color: #e2d0ff;
-    text-shadow: 0 0 5px #a171ff;
-}
-
-.blog-post p {
-    font-size: 1em;
-    line-height: 1.6;
-    color: #d7c3f2;
-}
-
-.blog-post em {
-    color: #bfa3ec;
-}
-
-.blog-post a {
-    display: inline-block;
-    margin-top: 10px;
-    color: #a883ff;
-    text-decoration: underline;
-    font-weight: bold;
-}
-
-.blog-post a:hover {
-    color: #e1ccff;
 }
 
 .welcome p {
@@ -248,33 +172,6 @@ p {
 }
 
 
-.image-container {
-    background-color: #f6f0ff;
-    padding: 1rem;
-    height: 75px;
-    margin: 10px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-    width: 250px; 
-    left: 20px;
-}
-.image-container img {
-    width: 100px;
-    height: 75px;
-    position: relative;
-    left: 75px;
-}
-
-.image-container h2 {
-    margin-top: 50px;
-    font-size: 1.5rem;
-    color: black;
-    position: relative;
-    left: -100;
-    top: -17;
-}
 
 .features {
     background-color: var(--white);
@@ -330,15 +227,6 @@ p {
         font-size: 0.9rem;
     }
 }
-
-.image-link-grid {
-    margin-left: 0px auto;
-    display: flex;
-    justify-content: center;
-    gap: 100px;
-padding: 2rem;
-}
-
 
 
 nav ul {
@@ -508,4 +396,400 @@ color: #ffffff;
 .signinbtn {
      background-color: rgb(147, 61, 152);
     color: white;
+}
+
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.page-wrapper::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/mystical-bg.png') no-repeat center/cover; /* Optional: add a subtle parchment or starry background */
+    opacity: 0.1;
+    z-index: -1;
+    animation: pulse 20s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.15; }
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #2a1a4a, #4a3676);
+    padding: 1.5rem;
+    text-align: center;
+    border-bottom: 3px solid #8b6cc2;
+    box-shadow: 0 2px 10px rgba(107, 78, 158, 0.5);
+}
+
+header h1 {
+    font-family: 'Cinzel', serif;
+    color: #d8b9ff;
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px #6b4e9e;
+}
+
+/* Character List */
+.character-list {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Character Card */
+.character-card {
+    position: relative;
+    background: url('images/parchment-texture.jpg') #2c2c44; /* Optional: add a parchment texture */
+    border: 3px solid #6b4e9e;
+    border-radius: 12px;
+    padding: 2rem;
+    transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+}
+
+.character-card:hover {
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-10px);
+    box-shadow: 0 12px 24px rgba(107, 78, 158, 0.7);
+}
+
+/* Rune Glow Effect */
+.rune-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: radial-gradient(circle, rgba(107, 78, 158, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.character-card:hover .rune-glow {
+    opacity: 1;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 10px #6b4e9e; }
+    100% { box-shadow: 0 0 20px #8b6cc2; }
+}
+
+/* Character Name */
+.character-name {
+    font-family: 'Cinzel', serif;
+    color: #e6d0ff;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 8px #6b4e9e;
+}
+
+/* Character Class Badge */
+.character-class-badge {
+    display: block; /* Changed from inline-block to block for full-width centering */
+    background: #4a3676;
+    color: #d8b9ff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.3rem 1rem; /* Slightly increased padding for balance */
+    border-radius: 15px;
+    margin: 0.5rem auto; /* Auto margins for horizontal centering */
+    text-align: center; /* Ensure text inside is centered */
+    text-transform: uppercase;
+    border: 1px solid #8b6cc2;
+    max-width: 150px; /* Limit width to prevent stretching */
+}
+
+/* Character Image */
+.character-image-container {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.character-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #6b4e9e;
+    max-height: 220px;
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: filter 0.3s ease;
+}
+
+.character-card:hover .character-image {
+    filter: brightness(1.1);
+}
+
+/* Character Actions */
+.character-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.action-button {
+    font-family: 'Cinzel', serif;
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.action-button:hover::after {
+    left: 100%;
+}
+
+.edit-button {
+    background: #6b4e9e;
+    color: #ffffff;
+}
+
+.edit-button:hover {
+    background: #9b7ed2;
+    box-shadow: 0 0 10px #6b4e9e;
+}
+
+.view-button {
+    background: #4a3676;
+    color: #ffffff;
+}
+
+.view-button:hover {
+    background: #7b56a6;
+    box-shadow: 0 0 10px #4a3676;
+}
+
+/* No Characters Message */
+.no-characters {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #b0a0d8;
+    padding: 2.5rem;
+    background: url('images/parchment-texture.jpg') #2c2c44;
+    border: 2px solid #6b4e9e;
+    border-radius: 12px;
+    margin: 3rem auto;
+    max-width: 700px;
+    text-shadow: 0 0 5px #6b4e9e;
+    position: relative;
+    overflow: hidden;
+}
+
+.no-characters::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(107, 78, 158, 0.2) 0%, transparent 70%);
+    opacity: 0.5;
+}
+
+.site-footer {
+    background: linear-gradient(90deg, #2a1a4a, #4a3676);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: #d8b9ff;
+    border-top: 3px solid #8b6cc2;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 -4px 12px rgba(107, 78, 158, 0.5);
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/parchment-texture.jpg') center/cover; /* Optional: add parchment texture */
+    opacity: 0.15;
+    z-index: 0;
+}
+
+.footer-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Footer Navigation */
+.footer-nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-link {
+    color: #e6d0ff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 8px #6b4e9e;
+}
+
+/* Social Links */
+.footer-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #4a3676;
+    border-radius: 50%;
+    color: #d8b9ff;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-link:hover {
+    background: #8b6cc2;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #6b4e9e;
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+}
+
+/* Copyright */
+.footer-copyright {
+    font-size: 0.9rem;
+}
+
+.copyright-link {
+    color: #e6d0ff;
+    text-decoration: none;
+}
+
+.copyright-link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 5px #6b4e9e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .site-footer {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-link {
+        font-size: 0.9rem;
+    }
+
+    .social-link {
+        width: 36px;
+        height: 36px;
+    }
+
+    .social-icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+
+.image-container {
+    background-color: #f6f0ff;
+    padding: 1rem;
+    height: 75px;
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 250px; 
+    left: 20px;
+}
+.image-container img {
+    width: 100px;
+    height: 75px;
+    position: relative;
+    left: 75px;
+}
+
+.image-container h2 {
+    margin-top: 50px;
+    font-size: 1.5rem;
+    color: black;
+    position: relative;
+    left: -100;
+    top: -17;
+}
+
+.image-button-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1280px; /* Matches D&D Beyond's content width */
+    margin: 2rem auto;
+    padding: 1rem;
+    flex-wrap: wrap; /* Ensures responsiveness */
 }
