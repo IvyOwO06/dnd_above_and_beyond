@@ -6,7 +6,7 @@ const characterId = params.get('characterId');
 
 function updateField(field, value) {
 $.ajax({
-    url: 'updateBuilder.php',
+    url: 'updateBuilder',
     type: 'POST',
     data: {
     field: field,
@@ -25,8 +25,6 @@ $.ajax({
 });
 }
 
-$('.class-ra').prop('checked', true).trigger('change');
-
 // Listen for input changes
 $('#characterName').on('change', function() {
 updateField('characterName', $(this).val());
@@ -44,8 +42,16 @@ $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
 });
 
+$('.class-radio').prop('checked', true).trigger('change');
+
 $('.class-radio').on('change', function() {
 updateField('classId', $(this).val());
+});
+
+$('.race-radio').prop('checked', true).trigger('change');
+
+$('.race-radio').on('change', function() {
+updateField('raceId', $(this).val());
 });
 
 $('.ability-score').on('change', function () {

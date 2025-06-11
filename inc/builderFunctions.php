@@ -276,7 +276,7 @@ function homeTabBuilder($characterId)
                 ?>
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
-                    <input type="hidden" name="characterclass" class="class-radio" value="<?php echo $index; ?>"
+                    <input type="radio" name="characterclass" class="class-radio" value="<?php echo $index; ?>"
                            <?php if ($character['classId'] == $index) echo 'checked'; ?>>
                     <button type="button"
                             class="show-class-modal"
@@ -311,7 +311,7 @@ function homeTabBuilder($characterId)
                 ?>
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
-                    <input type="hidden" name="characterRace" class="race-radio" value="<?php echo $index; ?>"
+                    <input type="radio" name="characterRace" class="race-radio" value="<?php echo $index; ?>"
                            <?php if ($character['raceId'] == $index) echo 'checked'; ?>>
                     <button type="button"
                             class="show-race-modal"
@@ -360,7 +360,6 @@ function homeTabBuilder($characterId)
         <script>
             const userId = <?php echo $userId; ?>;
         </script>
-        <script src="scripts/js/json.js"></script>
     </form>
     <?php
 }

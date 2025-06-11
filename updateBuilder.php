@@ -4,8 +4,9 @@ $db = dbConnect();
 
 $field = $_POST['field'];
 $value = $_POST['value'];
-$userId = $_POST['userId'];
+$userId = $_SESSION['user']['id'];
 $characterId = $_POST['characterId'];
+
 
 $fieldTypes = [
     'userId' => 'i',
