@@ -36,10 +36,10 @@ function displayCharacters($userId)
             <p class="no-characters">No characters found. Forge a new legend in the annals of adventure!</p>
         <?php else: ?>
             <?php foreach ($characters as $character): ?>
-                <div class="character-card" data-class="<?php echo htmlspecialchars($character['characterClass'] ?? 'unknown'); ?>">
+                <div class="character-card" data-class="<?php echo htmlspecialchars($character['classId'] ?? 'unknown'); ?>">
                     <div class="rune-glow"></div>
                     <h2 class="character-name"><?php echo htmlspecialchars($character['characterName']); ?></h2>
-                    <div class="character-class-badge"><?php echo htmlspecialchars($character['characterClass'] ?? 'No Class!'); ?></div>
+                    <div class="character-class-badge"><?php echo htmlspecialchars($character['classId'] ?? 'No Class!'); ?></div>
                     <div class="character-image-container">
                         <img src="<?php echo $character['characterImage'] ? htmlspecialchars($character['characterImage']) : 'https://media.istockphoto.com/id/673584626/vector/wizard.jpg?s=612x612&w=0&k=20&c=byLcsx_78OpIzs7dH6hbV7_K7aR60rmP7IZ3KHwW8-U='; ?>" 
                              alt="<?php echo htmlspecialchars($character['characterName']); ?>'s portrait" 

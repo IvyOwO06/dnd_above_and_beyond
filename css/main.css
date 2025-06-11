@@ -1,8 +1,21 @@
+@import url('index.css');
+
+
 :root {
-    --mainColorDarker: #391849;
-    --white: #ffffff;
-    --textColor: #d3aaff;
-    --purpley: #a66eff;
+  --color-dark-navy: #1a1a2e;
+  --color-dark-secondary: #2c2c44;
+  --color-purple-dark: #4a3676;
+  --color-purple-primary: #8b6cc2;
+  --color-purple-light: #a68cd6;
+  --color-purple-text: #d8b9ff;
+  --color-white: #ffffff;
+  --color-gray-light: #d8d8d8;
+  --color-purple-medium: #b0a0d8;
+  --color-gray-excerpt: #e0e0e0;
+  --color-shadow-purple: rgba(139, 108, 194, 0.3);
+  --color-shadow-purple-light: rgba(139, 108, 194, 0.2);
+  --color-shadow-purple-medium: rgba(139, 108, 194, 0.4);
+  --color-shadow-purple-heavy: rgba(139, 108, 194, 0.5);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
@@ -19,7 +32,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
         font-weight: 700; /* Bold for emphasis */
-    color: #ffffff; /* White for dark backgrounds */
+    color: var(--white); /* White for dark backgrounds */
     letter-spacing: 0.02em; /* Slight spacing for clarity */
     margin-bottom: 1rem;
 }
@@ -76,7 +89,7 @@ vertical-align: middle;
 }
 
 .welcome {
-    background-color: var(--mainColorDarker);
+    background-color: var(--color-purple-dark);
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 0 10px #00000055;
@@ -128,7 +141,7 @@ vertical-align: middle;
 .hero-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    background-color: var(--purpley);
+    background-color: var(--color-purple-primary);
 }
 
 .small-button {

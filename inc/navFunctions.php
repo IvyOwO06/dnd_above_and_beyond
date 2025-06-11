@@ -104,13 +104,9 @@ function displayFooter()
                 </div>
             </div>  
         </div>
+        
     </footer>
-    <?php
-}
-
-function displayCopyright()
-{
-        ?>
+        
 <section class="legal-section">
     <div class="legal-content">
         <div class="legal-text-buttons">
@@ -129,3 +125,4 @@ function displayCopyright()
 </section>
     <?php
 }
+
