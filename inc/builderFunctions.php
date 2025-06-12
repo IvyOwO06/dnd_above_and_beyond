@@ -324,15 +324,14 @@ function homeTabBuilder($characterId)
                 <?php
             }
             ?>
-            <div id="race-modal" class="modal" hidden>
-                <div class="modal-content">
-                    <span class="close-button">×</span>
-                    <div id="modal-race-info"></div>
-                    <button id="confirm-race-selection" type="button">Select This Race</button>
+                <div id="race-modal" class="modal" hidden>
+                    <div class="modal-content">
+                        <span class="close-button">x</span>
+                        <div id="modal-race-info"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-
+            
         <!-- Abilities Tab -->
         <div id="abilities" class="tab-content">
             <h3>Ability Scores</h3>

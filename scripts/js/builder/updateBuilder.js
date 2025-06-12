@@ -42,15 +42,12 @@ $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
 });
 
-$('.class-radio').prop('checked', true).trigger('change');
 
-$('.class-radio').on('change', function() {
+$('.class-radio').on('click', function() {
 updateField('classId', $(this).val());
 });
 
-$('.race-radio').prop('checked', true).trigger('change');
-
-$('.race-radio').on('change', function() {
+$('.race-radio').on('click', function() {
 updateField('raceId', $(this).val());
 });
 

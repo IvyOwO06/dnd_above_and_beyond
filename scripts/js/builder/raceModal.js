@@ -1,113 +1,159 @@
-// Tab navigation
-document.querySelectorAll('.tab-links a').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetTab = link.getAttribute('href').substring(1); // e.g., "race"
-        // Hide all tabs and modals
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
-        document.querySelector('#modal-overlay').classList.remove('active');
-        // Show target tab
-        document.querySelector(`#${targetTab}`).classList.add('active');
+// Ensure DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Tab navigation
+    document.querySelectorAll('.tab-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetTab = link.getAttribute('href').substring(1); // e.g., "race"
+            // Hide all tabs and modals
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+            const overlay = document.querySelector('#modal-overlay');
+            if (overlay) overlay.classList.remove('active');
+            // Show target tab
+            const target = document.querySelector(`#${targetTab}`);
+            if (target) target.classList.add('active');
+        });
     });
-});
 
-// Show race modal
-function showRaceModal(index, name, info) {
-    const modal = document.getElementById('race-modal');
-    const overlay = document.getElementById('modal-overlay');
-    const infoDiv = document.getElementById('modal-race-info');
-    const confirmBtn = document.getElementById('confirm-race-selection');
+    // Show race modal
+    function showRaceModal(index, name, info) {
+        const modal = document.getElementById('race-modal');
+        const overlay = document.getElementById('modal-overlay');
+        const infoDiv = document.getElementById('modal-race-info');
 
-    infoDiv.innerHTML = `
-        <h2>${name}</h2>
-        <p>${info}</p>
-        <a href="races.php?raceId=${index}">Read more</a>
-    `;
-
-    confirmBtn.onclick = function () {
-        const input = document.querySelector(`input.race-radio[value="${index}"]`);
-        if (input) {
-            input.checked = true;
+        if (!modal || !overlay || !infoDiv) {
+            console.error('Race modal elements missing:', { modal, overlay, infoDiv });
+            return;
         }
-        closeRaceModal();
-    };
 
-    modal.classList.add('active');
-    overlay.classList.add('active');
-}
+        // Set modal content
+        infoDiv.innerHTML = `
+            <h2>${name}</h2>
+            <p>${info}</p>
+            <a href="races?raceId=${index}">Read more</a>
+            <button id="confirm-race-selection" type="button">Select This Race</button>
+        `;
 
-// Close race modal
-function closeRaceModal() {
-    document.getElementById('race-modal').classList.remove('active');
-    document.getElementById('modal-overlay').classList.remove('active');
-}
-
-// Show class modal
-function showClassModal(index, name, info) {
-    const modal = document.getElementById('class-modal');
-    const overlay = document.getElementById('modal-overlay');
-    const infoDiv = document.getElementById('modal-class-info');
-    const confirmBtn = document.getElementById('confirm-class-selection');
-
-    infoDiv.innerHTML = `
-        <h2>${name}</h2>
-        <p>${info}</p>
-    `;
-
-    confirmBtn.onclick = function () {
-        const input = document.querySelector(`input.class-radio[value="${index}"]`);
-        if (input) {
-            input.checked = true;
+        // Bind event to the new confirm button
+        const confirmBtn = infoDiv.querySelector('#confirm-race-selection');
+        if (confirmBtn) {
+            confirmBtn.onclick = function () {
+                const input = document.querySelector(`input.race-radio[value="${index}"]`);
+                if (input) {
+                    input.checked = true;
+                    console.log(`Selected race: ${name} (index: ${index})`);
+                } else {
+                    console.warn(`No race-radio input found for value "${index}"`);
+                }
+                closeRaceModal();
+            };
+        } else {
+            console.error('confirm-race-selection button not found after setting innerHTML');
         }
-        closeClassModal();
-    };
 
-    modal.classList.add('active');
-    overlay.classList.add('active');
-}
-
-// Close class modal
-function closeClassModal() {
-    document.getElementById('class-modal').classList.remove('active');
-    document.getElementById('modal-overlay').classList.remove('active');
-}
-
-// Modal button handlers
-document.querySelectorAll('.show-race-modal').forEach(button => {
-    button.addEventListener('click', () => {
-        const index = button.getAttribute('data-index');
-        const name = button.getAttribute('data-name');
-        const info = button.getAttribute('data-info');
-        showRaceModal(index, name, info);
-    });
-});
-
-document.querySelectorAll('.show-class-modal').forEach(button => {
-    button.addEventListener('click', () => {
-        const index = button.getAttribute('data-index');
-        const name = button.getAttribute('data-name');
-        const info = button.getAttribute('data-info');
-        showClassModal(index, name, info);
-    });
-});
-
-// Overlay click to close
-document.getElementById('modal-overlay').addEventListener('click', (event) => {
-    if (!event.target.closest('.modal-content')) {
-        closeRaceModal();
-        closeClassModal();
+        modal.classList.add('active');
+        overlay.classList.add('active');
     }
-});
 
-// Close buttons
-document.querySelector('#race-modal .close-button').addEventListener('click', closeRaceModal);
-document.querySelector('#class-modal .close-button').addEventListener('click', closeClassModal);
-
-// Escape key
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-        closeRaceModal();
-        closeClassModal();
+    // Close race modal
+    function closeRaceModal() {
+        const modal = document.getElementById('race-modal');
+        const overlay = document.getElementById('modal-overlay');
+        if (modal && overlay) {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
     }
+
+    // Show class modal
+    function showClassModal(index, name, info) {
+        const modal = document.getElementById('class-modal');
+        const overlay = document.getElementById('modal-overlay');
+        const infoDiv = document.getElementById('modal-class-info');
+        const confirmBtn = document.getElementById('confirm-class-selection');
+
+        if (!modal || !overlay || !infoDiv || !confirmBtn) {
+            console.error('Class modal elements missing:', { modal, overlay, infoDiv, confirmBtn });
+            return;
+        }
+
+        infoDiv.innerHTML = `
+            <h2>${name}</h2>
+            <p>${info}</p>
+        `;
+
+        confirmBtn.onclick = function () {
+            const input = document.querySelector(`input.class-radio[value="${index}"]`);
+            if (input) {
+                input.checked = true;
+                console.log(`Selected class: ${name} (index: ${index})`);
+            } else {
+                console.warn(`No class-radio input found for value "${index}"`);
+            }
+            closeClassModal();
+        };
+
+        modal.classList.add('active');
+        overlay.classList.add('active');
+    }
+
+    // Close class modal
+    function closeClassModal() {
+        const modal = document.getElementById('class-modal');
+        const overlay = document.getElementById('modal-overlay');
+        if (modal && overlay) {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    }
+
+    // Modal button handlers
+    document.querySelectorAll('.show-race-modal').forEach(button => {
+        button.addEventListener('click', () => {
+            const index = button.getAttribute('data-index');
+            const name = button.getAttribute('data-name');
+            const info = button.getAttribute('data-info');
+            showRaceModal(index, name, info);
+        });
+    });
+
+    document.querySelectorAll('.show-class-modal').forEach(button => {
+        button.addEventListener('click', () => {
+            const index = button.getAttribute('data-index');
+            const name = button.getAttribute('data-name');
+            const info = button.getAttribute('data-info');
+            showClassModal(index, name, info);
+        });
+    });
+
+    // Overlay click to close
+    const overlay = document.getElementById('modal-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', (event) => {
+            if (!event.target.closest('.modal-content')) {
+                closeRaceModal();
+                closeClassModal();
+            }
+        });
+    }
+
+    // Close buttons
+    const raceCloseButton = document.querySelector('#race-modal .close-button');
+    if (raceCloseButton) {
+        raceCloseButton.addEventListener('click', closeRaceModal);
+    }
+
+    const classCloseButton = document.querySelector('#class-modal .close-button');
+    if (classCloseButton) {
+        classCloseButton.addEventListener('click', closeClassModal);
+    }
+
+    // Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeRaceModal();
+            closeClassModal();
+        }
+    });
 });

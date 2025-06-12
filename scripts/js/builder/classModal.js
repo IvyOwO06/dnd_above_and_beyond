@@ -8,6 +8,7 @@ function showclassModal(index, name, info) {
         <h2>${name}</h2>
         <p>${info}</p>
         <a href="classes.php?classId=${index}">Read more</a>
+        <button id="confirm-race-selection" type="button">Select This Race</button>
     `;
 
     confirmBtn.onclick = function () {
