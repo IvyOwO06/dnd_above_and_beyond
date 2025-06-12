@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const confirmBtn = infoDiv.querySelector('#confirm-race-selection');
         if (confirmBtn) {
             confirmBtn.onclick = function () {
+                console.log(`Attempting to select race: ${name} (index: ${index})`);
                 const input = document.querySelector(`input.race-radio[value="${index}"]`);
                 if (input) {
                     input.checked = true;
@@ -71,28 +72,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('class-modal');
         const overlay = document.getElementById('modal-overlay');
         const infoDiv = document.getElementById('modal-class-info');
-        const confirmBtn = document.getElementById('confirm-class-selection');
 
-        if (!modal || !overlay || !infoDiv || !confirmBtn) {
-            console.error('Class modal elements missing:', { modal, overlay, infoDiv, confirmBtn });
+        if (!modal || !overlay || !infoDiv) {
+            console.error('Class modal elements missing:', { modal, overlay, infoDiv });
             return;
         }
 
+        // Set modal content
         infoDiv.innerHTML = `
             <h2>${name}</h2>
             <p>${info}</p>
+            <a href="classes.php?classId=${index}">Read more</a>
+            <button id="confirm-class-selection" type="button">Select This Class</button>
         `;
 
-        confirmBtn.onclick = function () {
-            const input = document.querySelector(`input.class-radio[value="${index}"]`);
-            if (input) {
-                input.checked = true;
-                console.log(`Selected class: ${name} (index: ${index})`);
-            } else {
-                console.warn(`No class-radio input found for value "${index}"`);
-            }
-            closeClassModal();
-        };
+        // Bind event to the new confirm button
+        const confirmBtn = infoDiv.querySelector('#confirm-class-selection');
+        if (confirmBtn) {
+            confirmBtn.onclick = function () {
+                console.log(`Attempting to select class: ${name} (index: ${index})`);
+                const input = document.querySelector(`input.class-radio[value="${index}"]`);
+                if (input) {
+                    input.checked = true;
+                    console.log(`Selected class: ${name} (index: ${index})`);
+                } else {
+                    console.warn(`No class-radio input found for value "${index}"`);
+                }
+                closeClassModal();
+            };
+        } else {
+            console.error('confirm-class-selection button not found after setting innerHTML');
+        }
 
         modal.classList.add('active');
         overlay.classList.add('active');
@@ -113,7 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const index = button.getAttribute('data-index');
             const name = button.getAttribute('data-name');
-            const info = button.getAttribute('data-info');
+            const info = button.getAttribute('data-info').replace(/\n/g, '<br>');
+            console.log(`Opening race modal for: ${name} (index: ${index})`);
             showRaceModal(index, name, info);
         });
     });
@@ -122,7 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const index = button.getAttribute('data-index');
             const name = button.getAttribute('data-name');
-            const info = button.getAttribute('data-info');
+            const info = button.getAttribute('data-info').replace(/\n/g, '<br>');
+            console.log(`Opening class modal for: ${name} (index: ${index})`);
             showClassModal(index, name, info);
         });
     });

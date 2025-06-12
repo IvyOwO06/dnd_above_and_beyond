@@ -290,13 +290,12 @@ function homeTabBuilder($characterId)
             }
             ?>
             <div id="class-modal" class="modal" hidden>
-                <div class="modal-content">
-                    <span class="close-button">×</span>
-                    <div id="modal-class-info"></div>
-                    <button id="confirm-class-selection" type="button">Select This class</button>
+                    <div class="modal-content">
+                        <span class="close-button">x</span>
+                        <div id="modal-class-info"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
         <!-- Race Tab -->
         <div id="race" class="tab-content search-section">
