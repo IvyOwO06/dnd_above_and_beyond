@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${name}</h2>
             <p>${info}</p>
             <a href="races?raceId=${index}">Read more</a>
-            <button id="confirm-race-selection" type="button">Select This Race</button>
+            <button id="confirm-race-selection" type="button" value="${index}">Select This Race</button>
         `;
 
         // Bind event to the new confirm button
@@ -41,12 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmBtn.onclick = function () {
                 console.log(`Attempting to select race: ${name} (index: ${index})`);
                 const input = document.querySelector(`input.race-radio[value="${index}"]`);
-                if (input) {
-                    input.checked = true;
-                    console.log(`Selected race: ${name} (index: ${index})`);
-                } else {
-                    console.warn(`No race-radio input found for value "${index}"`);
-                }
+                
                 closeRaceModal();
             };
         } else {
@@ -83,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${name}</h2>
             <p>${info}</p>
             <a href="classes.php?classId=${index}">Read more</a>
-            <button id="confirm-class-selection" type="button">Select This Class</button>
+            <button id="confirm-class-selection" type="button" value="${index}">Select This Class</button>
         `;
 
         // Bind event to the new confirm button
@@ -92,12 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmBtn.onclick = function () {
                 console.log(`Attempting to select class: ${name} (index: ${index})`);
                 const input = document.querySelector(`input.class-radio[value="${index}"]`);
-                if (input) {
-                    input.checked = true;
-                    console.log(`Selected class: ${name} (index: ${index})`);
-                } else {
-                    console.warn(`No class-radio input found for value "${index}"`);
-                }
                 closeClassModal();
             };
         } else {

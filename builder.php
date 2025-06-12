@@ -53,6 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('hashchange', showTabFromHash);</script>
+<script src="scripts/js/jsonSearch.js"></script>
 <script src="scripts/js/builder/updateBuilder.js"></script>
 <script src="scripts/js/builder/rollAbilities.js"></script>
 <script src="scripts/js/builder/modal.js"></script>
