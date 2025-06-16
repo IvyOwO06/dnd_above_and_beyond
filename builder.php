@@ -3,6 +3,7 @@ require 'inc/builderFunctions.php';
 require 'inc/classesFunctions.php';
 require 'inc/racesFunctions.php';
 require 'inc/navFunctions.php';
+require 'inc/levelFunctions.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,5 +58,6 @@ window.addEventListener('hashchange', showTabFromHash);</script>
 <script src="scripts/js/builder/updateBuilder.js"></script>
 <script src="scripts/js/builder/rollAbilities.js"></script>
 <script src="scripts/js/builder/modal.js"></script>
+<script src="scripts/js/builder/level.js"></script>
 
 </html>

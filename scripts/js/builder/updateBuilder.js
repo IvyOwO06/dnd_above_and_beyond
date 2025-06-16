@@ -42,14 +42,11 @@ $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
 });
 
-$('.class-radio').on('click', function() {
-updateField('classId', $(this).val());
-});
-
 document.addEventListener('click', function(e) {
     if (e.target && e.target.id === 'confirm-race-selection') {
         const index = e.target.value;
         updateField('raceId', index);
+        location.reload();
     }
 });
 
@@ -57,6 +54,7 @@ document.addEventListener('click', function(e) {
     if (e.target && e.target.id === 'confirm-class-selection') {
         const index = e.target.value;
         updateField('classId', index);
+        location.reload();
     }
 });
 

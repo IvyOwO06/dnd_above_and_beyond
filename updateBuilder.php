@@ -26,6 +26,24 @@ $fieldTypes = [
     'raceId' => 'i'
 ];
 
+if ($field == "level" && $value > 20) {
+    $value = 20;
+} elseif ($field == "level" && $value < 1) {
+    $value = 1;
+} elseif ($field == "classId" && $value > 14) {
+    $value = 14;
+} elseif ($field == "classId" && $value < 0) {
+    $value = 0;
+} elseif ($field == "raceId" && $value > 144) {
+    $value = 144;
+} elseif ($field == "raceId" && $value < 0) {
+    $value = 0;
+} elseif ($field == "characterAge" && $value > 2147483647) {
+    $value = 2147483647;
+} elseif ($field == "characterAge" && $value < 0) {
+    $value = 0;
+}
+
 $allowed_fields = array_keys($fieldTypes); // cleaner than manually listing again
 
 if (!in_array($field, $allowed_fields)) {

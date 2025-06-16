@@ -201,11 +201,12 @@ function homeTabBuilder($characterId)
 
     <!-- Tab Links -->
     <div class="tab-links">
-        <a href="#general">General</a>
-        <a href="#class">Class</a>
-        <a href="#race">Race</a>
-        <a href="#abilities">Abilities</a>
-        <a href="#submit">Submit Character</a>
+        <a href="#general">General</a><br>
+        <a href="#class">Class</a><br>
+        <a href="#feats">Class Features</a><br>
+        <a href="#race">Race</a><br>
+        <a href="#abilities">Abilities</a><br>
+        <a href="#submit">Submit Character</a><br>
     </div>
 
     <!-- Single Shared Overlay -->
@@ -218,9 +219,7 @@ function homeTabBuilder($characterId)
             <input type="text" id="characterName" name="characterName" value="<?php echo htmlspecialchars($character['characterName']); ?>"
                    required><br>
             <label for="age">Age:</label>
-            <input type="text" id="characterAge" name="age" value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
-            <label for="level">Level:</label>
-            <input type="text" id="level" name="level" value="<?php echo htmlspecialchars($character['level']); ?>" required><br>
+            <input type="number" id="characterAge" name="age" value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
             <label>Alignment:</label>
             <select name="alignment" id="alignment" required>
                 <option value="">--Choose Option--</option>
@@ -240,6 +239,27 @@ function homeTabBuilder($characterId)
         <div id="class" class="tab-content search-section">
             <label for="characterClass">Classes:</label><br>
             <input type="text" class="live-search" placeholder="Search classes...">
+            <?php
+            $classId = $character['classId'];
+            $class = getClassFromJson($classId);
+            ?>
+                <class>
+                    <h2>Current Class</h2>
+                    <p><?php echo $class['name'] ?></p>
+                    <label for="level">Level:</label>
+                    <select name="level" id="level">
+                        <?php
+                        for ($i = 1; $i <= 20; $i++)
+                        {
+                            ?>
+                            <option value="<?php echo $i ?>" <?php if ($character['level'] == $i) echo 'selected'; ?>><?php echo $i ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                    <br>
+                    <br>
+                </class>
 
             <?php
             $indexPath = __DIR__ . "/../scripts/js/json/class/index.json";
@@ -294,11 +314,53 @@ function homeTabBuilder($characterId)
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Class Features Tab -->
+        <div id="feats" class="tab-content search-section">
+            <class>
+                <h2>Current Class</h2>
+                <p><?php echo $class['name'] ?></p>
+                <label for="level">Level:</label>
+                <select name="level" id="level">
+                    <?php
+                    for ($i = 1; $i <= 20; $i++)
+                    {
+                        ?>
+                        <option value="<?php echo $i ?>" <?php if ($character['level'] == $i) echo 'selected'; ?>><?php echo $i ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+                <br>
+                <br>
+            </class>
+            <level>
+                <?php
+                $level = getClassLevel($classId);
+                dd($level);
+                ?>
+            </level>
+        </div>
 
         <!-- Race Tab -->
         <div id="race" class="tab-content search-section">
             <label for="characterRace">Race:</label><br>
             <input type="text" class="live-search" placeholder="Search races...">
+
+            <?php
+            $raceId = $character['raceId'];
+            $race = getraceFromJson($raceId);
+            ?>
+            
+            <race>
+                <h2>Current Race</h2>
+                <p><?php echo $race['name'] ?></p>
+                <h2>Source</h2>
+                <p><?php echo $race['source'] ?></p>
+                <br>
+                <br>
+            </race>
 
             <?php
             foreach ($races as $index => $race) {
