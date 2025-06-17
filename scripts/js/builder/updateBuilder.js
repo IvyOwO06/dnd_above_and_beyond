@@ -38,6 +38,10 @@ $('#level').on('change', function() {
 updateField('level', $(this).val());
 });
 
+$('#levels').on('change', function() {
+updateField('levels', $(this).val());
+});
+
 $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
 });
