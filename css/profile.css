@@ -1,0 +1,65 @@
+body{
+    background-color: rgb(255, 255, 255);
+}
+
+.profile-banner {
+    width: 90%;
+    height: 300px;
+    margin: 10px;
+    outline-width: 3px;
+    outline-style: solid;
+    margin-left: 100px;
+}
+
+.profile-picture {
+    height: 300px;
+    width: auto;
+    position: relative;
+    top: -200px;
+    left: 150px;
+}
+
+
+.btn-options {
+    padding: 15px;
+    background-color: rgb(185, 36, 223);
+    font-size: 2rem;
+    border-radius: 100px;
+    color: white;
+    position: relative;
+    top: -250px;
+    left: 1000px;
+}
+
+.btn-customize {
+    padding: 15px;
+    background-color: rgb(185, 36, 223);
+    font-size: 2rem;
+    border-radius: 100px;
+    color: white;
+    position: relative;
+    top: -250px;
+    left: 1030px;
+    gap: 100px;
+}
+
+.username {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #ff69b4; /* kinda Aphrodite vibes */
+  text-shadow: 1px 1px 2px #900048;
+  margin: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  top: -250px;
+  margin-left: 160px;
+}
+
+.profile-description {
+    background-color: rgb(201, 147, 223);
+    position: relative;
+    top: -200px;
+    left: 900px;
+    width: 100px;
+    padding: 10px;
+}

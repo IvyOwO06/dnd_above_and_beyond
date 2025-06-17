@@ -97,3 +97,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_message = "No file was uploaded or an upload error occurred.";
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $db = dbConnect(); // your mysqli connection
+
+    if (isset($_FILES['banner_image']) && $_FILES['banner_image']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['banner_image']['tmp_name'];
+        $fileName = $_FILES['banner_image']['name'];
+        $fileSize = $_FILES['banner_image']['size'];
+
+        // Validate file type
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $fileTmpPath);
+        finfo_close($finfo);
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!in_array($mimeType, $allowedTypes)) {
+            $error_message = "Only JPG, PNG, and GIF files are allowed.";
+            return;
+        }
+
+        // Upload dir for banners
+        $uploadDir = 'files/banners/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        // Unique file name
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $newFileName = uniqid('banner_', true) . '.' . $fileExtension;
+        $fileDestination = $uploadDir . $newFileName;
+
+        // Get current banner path from DB
+        $stmt = $db->prepare('SELECT profileBanner FROM user WHERE userId = ?');
+        $stmt->bind_param('i', $_SESSION['user']['id']);
+        $stmt->execute();
+        $stmt->bind_result($currentBanner);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Delete old banner (if exists and not default)
+        if ($currentBanner && file_exists($currentBanner) && strpos($currentBanner, 'default') === false) {
+            unlink($currentBanner);
+        }
+
+        // Move uploaded banner
+        if (move_uploaded_file($fileTmpPath, $fileDestination)) {
+            // Update DB
+            $updateStmt = $db->prepare('UPDATE user SET profileBanner = ? WHERE userId = ?');
+            $updateStmt->bind_param('si', $fileDestination, $_SESSION['user']['id']);
+
+            if ($updateStmt->execute()) {
+                $success_message = "Banner updated successfully.";
+            } else {
+                $error_message = "Failed to update banner in database.";
+            }
+
+            $updateStmt->close();
+        } else {
+            $error_message = "Error moving the uploaded banner file.";
+        }
+    } else {
+        $error_message = "No banner file uploaded or upload error.";
+    }
+}
+

@@ -22,7 +22,8 @@ function getCharacters($userId)
 
     return $characters;
 }
-function displayCharacters($userId)
+
+function displayCharacters($userId, $limit = null)
 {
     $userId = filter_var($userId, FILTER_VALIDATE_INT);
     if ($userId === false) {
@@ -30,6 +31,10 @@ function displayCharacters($userId)
     }
 
     $characters = getCharacters($userId);
+
+    if ($limit !== null) {
+        $characters = array_slice($characters, 0, $limit);
+    }
     ?>
     <div class="character-list">
         <?php if (empty($characters)): ?>
@@ -57,4 +62,3 @@ function displayCharacters($userId)
     </div>
     <?php
 }
-?>
