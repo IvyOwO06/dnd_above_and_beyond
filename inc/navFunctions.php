@@ -16,7 +16,7 @@ function displayHeader()
         </a>
         <img src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" class="search-img">
         <form method="GET">
-            <input type="search" id="searchBar" name="search" placeholder="Search users..." />
+            <input type="search" id="searchBar" name="search_profile" placeholder="Search users..." />
         </form>
         <?php
         searchProfile();
@@ -149,14 +149,14 @@ function searchProfileByName($userName)
 }
 function searchProfile()
 {
-    $userName = $_GET['search'] ?? '';
+    $userName = $_GET['search_profile'] ?? '';
 
     if ($userName) {
         $matches = searchProfileByName($userName);
 
         foreach ($matches as $match) {
-            header('Location: profile.php?userId=' . $match['userId'] .'');
+            header('Location: profile.php?userId=' . $match['userId']);
+            exit;
         }
     }
-
 }

@@ -3,6 +3,7 @@
 require 'inc/navFunctions.php';
 require 'inc/campaignFunctions.php';
 $campaignId = $_GET['campaignId'];
+loggedInCheck();
 
 ?>
 
