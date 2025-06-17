@@ -2,9 +2,6 @@
 
 require_once 'functions.php';
 
-
-
-
 function displayHeader()
 {
     if (isset($_SESSION['user']))
@@ -18,7 +15,12 @@ function displayHeader()
             <img src="images/LOGO2.png" class="logoimg">
         </a>
         <img src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" class="search-img">
-        <input type="text" id="searchBar" placeholder="Search anything..." />
+        <form method="GET">
+            <input type="search" id="searchBar" name="search" placeholder="Search users..." />
+        </form>
+        <?php
+        searchProfile();
+        ?>
         <nav>
             <ul class="navigation-links">
                 <li>
@@ -126,3 +128,35 @@ function displayFooter()
     <?php
 }
 
+function searchProfileByName($userName)
+{
+    $db = dbConnect();
+
+    // Sanitize the input to prevent SQL injection
+    $userName = $db->real_escape_string($userName);
+
+    // Use LIKE for partial match or = for exact match
+    $sql = "SELECT userId, userName FROM user WHERE userName LIKE '%$userName%'";
+
+    $resource = $db->query($sql) or die($db->error);
+
+    $results = [];
+    while ($row = $resource->fetch_assoc()) {
+        $results[] = $row; // Each $row will have userId and name
+    }
+
+    return $results;
+}
+function searchProfile()
+{
+    $userName = $_GET['search'] ?? '';
+
+    if ($userName) {
+        $matches = searchProfileByName($userName);
+
+        foreach ($matches as $match) {
+            header('Location: profile.php?userId=' . $match['userId'] .'');
+        }
+    }
+
+}
