@@ -120,23 +120,6 @@ function displaycampaigns($userId)
         }
     }
 
-
-    if($_SESSION['user']['id'] == $userId)
-    {
-        ?>
-        <form method="POST" action="campaigns?userId=<?php echo $userId ?>">
-            <label for="campaignName">Create Campaign</label><br>
-
-            <input type="text" id="campaignName" name="campaignName" placeholder="Campaign Name" required><br><br>
-
-            <textarea id="description" name="description" placeholder="Description..." rows="2" cols="15"></textarea><br><br>
-
-            <button type="submit">Create</button>
-        </form>
-        <?php
-        createcampaign($userId);
-    }
-
     echo "<div id='campaigns'>";
     foreach($campaigns as $campaign)
     {
@@ -148,7 +131,7 @@ function displaycampaigns($userId)
             <form method="POST">
                 <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaign['campaignId']); ?>">
                 <?php
-                if ($campaign && $campaign['userId'] == $_SESSION['user']['id']) {
+                if ($campaign && $campaign['userId'] == $_SESSION['user']['id'] ) {
                 ?>
                 <button name="removeCampaign" onclick="return confirm('Remove the campaign?')">Remove</button>
                 <?php } ?>

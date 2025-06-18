@@ -100,7 +100,8 @@ if (isset($_POST['update_displayName'])) {
         $displayName = substr($displayName, 0, 50);
     }
     $stmt = $db->prepare("UPDATE user SET displayName = ? WHERE userId = ?");
-    $stmt->execute([$displayName, $userId]);
+    $stmt->bind_param("si", $displayName, $userId);
+    $stmt->execute();
     header("Location: profileCustomization.php?userId=$userId");
     exit();
 }
