@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php
     displayHeader();
     $profile = getProfile($profileId);
-    
+
 
     ?>        
         <?php if (!empty($profile['profileBanner'])) { ?>
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php 
         } else {
             ?>
-                <img src="https://placehold.jp/900x300.png">
+                <img src="https://placehold.jp/1520x300.png">
             <?php
         }
         ?>
@@ -67,9 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (isset($_SESSION['user'])) {
             if ($userId == $profileId) {
                 ?>
+                <div class="button-wrapper">
                     <a href="profileOptions.php?userId=<?php echo $userId ?>" class="btn-options" >options</a>
                     <a href="profileCustomization.php?userId=<?php echo $userId ?>" class="btn-customize">customize</a>
                     <br>
+                </div>
                 <?php
             }
         }
@@ -77,26 +79,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body style="background-color: <?php echo htmlspecialchars($profile['profileColor']); ?>">
 
+<div class="name-wrapper">
+    <h3 class="displayname"><?php echo $profile['displayName']; ?></h3>
 
-
-    <h3 class="username"><?php echo $profile['userName']; ?></h3>
-
-    <?php if (!empty($profile['profileInformation'])): ?>
-        <div class="description-container">
-    <textarea name="profileInformation"
-              rows="5"
-              class="profile-description"
-              placeholder="Tell the world who you are..."><?= htmlspecialchars($user['profileInformation'] ?? '') ?></textarea>
+    <h2 class="username">@<?php echo htmlspecialchars($profile['userName']); ?></h2>
 </div>
+
+<div class="description-container">
+    <?php if (!empty($profile['profileInformation'])): ?>
+        <p><?= nl2br(htmlspecialchars($profile['profileInformation'])) ?></p>
+        </form>
+    <?php endif; ?>
+</div>
+
 <hr>
-<div class="campaigns">
+
+<div class="campaign-profile">
     <h2>Campaigns</h2>
     <?php
+    displaycampaigns($userId);
     ?>
 </div>
-<div class="creations-section">
-    <?php endif; ?>
 
+    <br><br>
+<div class="creations-section">
     <br><br>
     <a href="creations.php?userId=<?php echo $profileId; ?>" class="creations-btn">Creations</a>
     <?php
@@ -107,6 +113,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php
     displayFooter();
     ?>
-</body>
 
 </html>
