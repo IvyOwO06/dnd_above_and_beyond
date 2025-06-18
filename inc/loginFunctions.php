@@ -30,7 +30,7 @@ function signup()
                 if ($result) {
                     echo '<script>
                     alert("thank you for signing up"); 
-                    window.location.href= "index.php"
+                    window.location.href= "index"
                     </script>';
                 }
             } else {
@@ -92,15 +92,23 @@ function login() {
             ];
 
             // Dynamically find Python executable
-            $pythonPath = shell_exec('where python 2>&1');
-            if (stripos($pythonPath, 'python') === false) {
+            $pythonPaths = shell_exec('where python 2>&1');
+            $validPythonPath = null;
+            foreach (explode("\n", trim($pythonPaths)) as $path) {
+                $path = trim($path);
+                // Skip Microsoft Store alias
+                if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
+                    $validPythonPath = $path;
+                    break;
+                }
+            }
+
+            if (!$validPythonPath) {
                 unset($_SESSION['pending_2fa']);
-                $error = "Python is not installed or not found in PATH. Please install Python.";
+                $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
                 header("Location: login?error=" . urlencode($error));
                 exit();
             }
-            // Use the first Python path found (trim to avoid newlines)
-            $pythonPath = trim(explode("\n", $pythonPath)[0]);
 
             // Use relative path for script
             $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
@@ -115,7 +123,7 @@ function login() {
             $username = $row['userName'];
             $escapedEmail = escapeshellarg($email);
             $escapedUsername = escapeshellarg($username);
-            $command = "$pythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
+            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
             $output = shell_exec($command);
 
             // Debug: Log command and output
