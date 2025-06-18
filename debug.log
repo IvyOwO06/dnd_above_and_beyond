@@ -1,3 +1,6 @@
 Command: C:\Users\burgh\AppData\Local\Microsoft\WindowsApps\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
 Output: Python is niet gevonden; uitvoeren zonder argumenten om te installeren vanaf de Microsoft Store, of schakel deze snelkoppeling uit via Instellingen > Apps > Geavanceerde app-instellingen > aliassen voor het uitvoeren van apps.
 
+Command: C:\Users\samde\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
+Output: {"status": "success", "code": "222913", "expiry": 1750231415.297334}
+
