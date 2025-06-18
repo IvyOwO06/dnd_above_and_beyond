@@ -85,64 +85,65 @@ function login() {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             session_regenerate_id(true); // Prevent session fixation
-            $_SESSION['pending_2fa'] = [
+            $_SESSION['user'] = [
                 'username' => $row['userName'],
                 'id' => $row['userId'],
-                '2fa_pending' => true
+                // '2fa_pending' => true
             ];
 
             // Dynamically find Python executable
-            $pythonPaths = shell_exec('where python 2>&1');
-            $validPythonPath = null;
-            foreach (explode("\n", trim($pythonPaths)) as $path) {
-                $path = trim($path);
-                // Skip Microsoft Store alias
-                if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
-                    $validPythonPath = $path;
-                    break;
-                }
-            }
+            // $pythonPaths = shell_exec('where python 2>&1');
+            // $validPythonPath = null;
+            // foreach (explode("\n", trim($pythonPaths)) as $path) {
+            //     $path = trim($path);
+            //     // Skip Microsoft Store alias
+            //     if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
+            //         $validPythonPath = $path;
+            //         break;
+            //     }
+            // }
 
-            if (!$validPythonPath) {
-                unset($_SESSION['pending_2fa']);
-                $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
-                header("Location: login?error=" . urlencode($error));
-                exit();
-            }
+            // if (!$validPythonPath) {
+            //     unset($_SESSION['pending_2fa']);
+            //     $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
+            //     header("Location: login?error=" . urlencode($error));
+            //     exit();
+            // }
 
-            // Use relative path for script
-            $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
-            if (!file_exists($scriptPath)) {
-                unset($_SESSION['pending_2fa']);
-                $error = "2FA script not found at $scriptPath.";
-                header("Location: login?error=" . urlencode($error));
-                exit();
-            }
+            // // Use relative path for script
+            // $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
+            // if (!file_exists($scriptPath)) {
+            //     unset($_SESSION['pending_2fa']);
+            //     $error = "2FA script not found at $scriptPath.";
+            //     header("Location: login?error=" . urlencode($error));
+            //     exit();
+            // }
 
-            $email = $row['mail'];
+            // $email = $row['mail'];
             $username = $row['userName'];
-            $escapedEmail = escapeshellarg($email);
-            $escapedUsername = escapeshellarg($username);
-            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
-            $output = shell_exec($command);
+            // $escapedEmail = escapeshellarg($email);
+            // $escapedUsername = escapeshellarg($username);
+            // $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
+            // $output = shell_exec($command);
 
             // Debug: Log command and output
-            file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
+            // file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
             // Parse Python output
-            $result = json_decode($output, true);
-            if (!$result || $result['status'] !== 'success') {
-                unset($_SESSION['pending_2fa']);
-                $error = "Failed to send 2FA code: " . ($result['message'] ?? 'Unknown error');
-                header("Location: login?error=" . urlencode($error));
-                exit();
-            }
+            // $result = json_decode($output, true);
+            // if (!$result || $result['status'] !== 'success') {
+            //     unset($_SESSION['pending_2fa']);
+            //     $error = "Failed to send 2FA code: " . ($result['message'] ?? 'Unknown error');
+            //     header("Location: login?error=" . urlencode($error));
+            //     exit();
+            // }
 
             // Store 2FA code and expiry in session
-            $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
-            $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
+            // $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
+            // $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
 
-            header("Location: verify2fa?user=" . urlencode($username));
+            // header("Location: verify2fa?user=" . urlencode($username));
+            header("Location: index");
             exit();
         }
     }
