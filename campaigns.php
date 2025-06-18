@@ -18,6 +18,21 @@ loggedInCheck();
     <body>
         <?php
         displayHeader();
+        if($_SESSION['user']['id'] == $userId)
+        {
+            ?>
+            <form method="POST" action="campaigns?userId=<?php echo $userId ?>">
+                <label for="campaignName">Create Campaign</label><br>
+
+                <input type="text" id="campaignName" name="campaignName" placeholder="Campaign Name" required><br><br>
+
+                <textarea id="description" name="description" placeholder="Description..." rows="2" cols="15"></textarea><br><br>
+
+                <button type="submit">Create</button>
+            </form>
+            <?php
+            createcampaign($userId);
+        }
         displaycampaigns($userId);
         displayFooter();
         ?>
