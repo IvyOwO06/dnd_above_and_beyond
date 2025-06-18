@@ -118,9 +118,6 @@ function login() {
             $command = "$pythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
             $output = shell_exec($command);
 
-            // Debug: Log command and output
-            file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
-
             // Parse Python output
             $result = json_decode($output, true);
             if (!$result || $result['status'] !== 'success') {
