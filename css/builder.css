@@ -1,0 +1,146 @@
+/* main.css */
+
+
+h2, h3 {
+    color: #3b2e58;
+    margin-top: 1rem;
+}
+
+a {
+    color: #5b4d91;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form {
+    margin-top: 1rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-top: 0.75rem;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #5b4d91;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: #473a73;
+}
+
+.action-button {
+    margin-top: 1rem;
+}
+
+.tab-links {
+    margin-top: 1rem;
+}
+
+.tab-links a {
+    display: inline-block;
+    margin-right: 1rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    background-color: #e0dbf3;
+}
+
+.tab-links a:hover {
+    background-color: #d1c6f1;
+}
+
+.tab-content {
+    display: none;
+    margin-top: 1rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.preview-image {
+    margin-top: 0.5rem;
+    max-width: 200px;
+    border-radius: 6px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+
+.filter-item {
+    background: #fff;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.filter-item p {
+    margin: 0;
+    font-weight: bold;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    z-index: 1001;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.modal-content {
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    cursor: pointer;
+    color: #777;
+    font-weight: bold;
+}
+
+.close-button:hover {
+    color: #000;
+}

@@ -359,3 +359,93 @@ body{
     background: radial-gradient(circle, rgba(107, 78, 158, 0.2) 0%, transparent 70%);
     opacity: 0.5;
 }
+
+.campaign-profile {
+  margin: 3rem auto;
+  max-width: 800px;
+  border-radius: 12px;
+  color: #000000;
+}
+
+.campaign-profile h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #d17ee2;
+  text-align: center;
+}
+
+#campaigns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+campaign {
+  display: block;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(169, 71, 234, 0.2);
+  transition: transform 0.2s ease;
+  text-align: left;
+  border-width: 1px;
+  border-style: solid;
+}
+
+campaign:hover {
+  transform: translateY(-5px);
+}
+
+campaign h1 {
+  font-size: 1.8rem;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+campaign p {
+  font-size: 1rem;
+  color: #000000;
+  margin-bottom: 1rem;
+}
+
+campaign a {
+  display: inline-block;
+  margin-right: 1rem;
+  color: #383838;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+campaign a:hover {
+  color: #d17ee2;
+}
+
+campaign form {
+  display: inline;
+}
+
+campaign button {
+  padding: 0.4rem 0.9rem;
+  background-color: #ae2e48;
+  border: none;
+  border-radius: 6px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+campaign button:hover {
+  background-color: #e0486b;
+}
+
+
+.campaignh2 {
+  font-size: 2.5rem;
+  color: #000000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  position: relative;
+  height: auto;
+}

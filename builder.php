@@ -14,6 +14,7 @@ require 'inc/levelFunctions.php';
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/overlay.css">
+    <link rel="stylesheet" href="css/builder.css">
     <script src="scripts/js/jquery-3.7.1.min.js"></script>
 </head>
 

@@ -93,9 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </div>
 
 <hr>
-
+    <h2 class="campaignh2">Campaigns</h2>
 <div class="campaign-profile">
-    <h2>Campaigns</h2>
     <?php
     displaycampaigns($userId);
     ?>

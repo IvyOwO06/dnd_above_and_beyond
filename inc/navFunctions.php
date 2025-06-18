@@ -26,6 +26,15 @@ function displayHeader()
                 <li>
                     <a href="index.php">Home</a>
                 </li>
+                <div class="dropdown">
+                        <button class="dropbtn">
+                        <a class="fa fa-caret-down">Sourcebooks</a>
+                        </button>
+                        <div class="dropdown-content">  
+                            <a href="classes.php">Classes</a>
+                            <a href="races.php">Races</a>
+                        </div>
+                    </div> 
                 <li><a href="classes.php">Classes</a></li>
                 <li><a href="races.php">Races</a></li>
                 <?php

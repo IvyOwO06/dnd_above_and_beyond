@@ -24,20 +24,32 @@ signup();
     displayHeader();
     ?>
     <main>
-        <h1 id="heading">SignUp Form</h1>
-        <form name="form" action="register" method="post">
-            <i class="fa-solid fa-user"></i>
-            <input type="text" id="user" name="user" placeholder="Enter Username" required><br><br>
-            <i class="fa-solid fa-envelope"></i>
-            <input type="email" id="email" name="email" placeholder="Enter E-mail" required><br><br>
-            <i class="fa-solid fa-lock"></i>
-            <input type="password" id="pass" name="pass" placeholder="Create Password" required><br><br>
-            <i class="fa-solid fa-lock"></i>
-            <input type="password" id="cpass" name="cpass" placeholder="Retype Password" required><br><br>
-            <input class="btn" type="submit" value="Sign Up" name="submit">
-            <a href="login.php" class="back-to-login">Go to Login</a>
-        </form>
-    </main>
+  <div class="login-form">
+    <h2>SIGN UP</h2>
+
+    <?php if (isset($_GET['error'])): ?>
+      <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="register.php">
+      <label for="user">Username</label>
+      <input type="text" id="user" name="user" placeholder="Enter Username" required>
+
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" placeholder="Enter Email" required>
+
+      <label for="pass">Password</label>
+      <input type="password" id="pass" name="pass" placeholder="Create Password" required>
+
+      <label for="cpass">Confirm Password</label>
+      <input type="password" id="cpass" name="cpass" placeholder="Retype Password" required>
+
+      <button class="small-button" type="submit">Sign Up</button>
+      <a href="login.php" class="small-button">Go to Login</a>
+    </form>
+  </div>
+</main>
+
     <?php
     displayFooter();
     ?>
