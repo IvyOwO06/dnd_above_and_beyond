@@ -120,7 +120,7 @@ function login() {
             // }
 
             // $email = $row['mail'];
-            $username = $row['userName'];
+            // $username = $row['userName'];
             // $escapedEmail = escapeshellarg($email);
             // $escapedUsername = escapeshellarg($username);
             // $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
