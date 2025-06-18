@@ -31,20 +31,23 @@ signup();
       <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
     <?php endif; ?>
 
-    <form method="POST" action="register.php">
+        <form name="form" action="register" method="post">
+      <i class="fa-solid fa-user"></i>
       <label for="user">Username</label>
       <input type="text" id="user" name="user" placeholder="Enter Username" required>
+            <i class="fa-solid fa-envelope"></i>
 
       <label for="email">Email</label>
       <input type="text" id="email" name="email" placeholder="Enter Email" required>
+            <i class="fa-solid fa-lock"></i>
 
       <label for="pass">Password</label>
       <input type="password" id="pass" name="pass" placeholder="Create Password" required>
+            <i class="fa-solid fa-lock"></i>
 
       <label for="cpass">Confirm Password</label>
       <input type="password" id="cpass" name="cpass" placeholder="Retype Password" required>
-
-      <button class="small-button" type="submit">Sign Up</button>
+            <input class="small-button" type="submit" value="Sign Up" name="submit">
       <a href="login.php" class="small-button">Go to Login</a>
     </form>
   </div>
