@@ -68,6 +68,14 @@ function timer()
 
 }
 
+function loggedInCheck()
+{
+    if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
+        header('Location: login.php');
+        exit;
+    }
+}
+
 if (basename($_SERVER['PHP_SELF']) === 'functions.php') {
 header('location: ../index.php');
 }

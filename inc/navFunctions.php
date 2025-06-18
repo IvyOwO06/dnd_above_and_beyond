@@ -16,7 +16,7 @@ function displayHeader()
         </a>
         <img src="https://img.icons8.com/ios_filled/512/FFFFFF/search.png" class="search-img">
         <form method="GET">
-            <input type="search" id="searchBar" name="search" placeholder="Search users..." />
+            <input type="search" id="searchBar" name="search_profile" placeholder="Search users..." />
         </form>
         <?php
         searchProfile();
@@ -39,6 +39,7 @@ function displayHeader()
                         <div class="dropdown-content">  
                             <a href="profile.php?userId=<?php echo $_SESSION['user']['id']; ?>">Profile</a>
                             <a href="creations.php?userId=<?php echo $_SESSION['user']['id']; ?>">Creations</a>
+                            <a href="campaigns.php?userId=<?php echo $_SESSION['user']['id']; ?>">Campaigns</a>
                             <a href="createCharacter.php" onclick="return confirm('Do you want to create a character?')">Create Character</a>
                             <a href="logout.php">Log Out</a>
                         </div>
@@ -149,14 +150,14 @@ function searchProfileByName($userName)
 }
 function searchProfile()
 {
-    $userName = $_GET['search'] ?? '';
+    $userName = $_GET['search_profile'] ?? '';
 
     if ($userName) {
         $matches = searchProfileByName($userName);
 
         foreach ($matches as $match) {
-            header('Location: profile.php?userId=' . $match['userId'] .'');
+            header('Location: profile.php?userId=' . $match['userId']);
+            exit;
         }
     }
-
 }

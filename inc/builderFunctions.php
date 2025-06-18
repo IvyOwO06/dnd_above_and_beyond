@@ -318,11 +318,15 @@ function homeTabBuilder($characterId)
         
         <!-- Class Features Tab -->
         <div id="feats" class="tab-content search-section">
+            <?php
+            $classId = $character['classId'];
+            $class = getClassFromJson($classId);
+            ?>
             <class>
                 <h2>Current Class</h2>
                 <p><?php echo $class['name'] ?></p>
-                <label for="level">Level:</label>
-                <select name="level" id="level">
+                <label for="levels">Level:</label>
+                <select name="levels" id="levels">
                     <?php
                     for ($i = 1; $i <= 20; $i++)
                     {

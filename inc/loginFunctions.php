@@ -30,7 +30,7 @@ function signup()
                 if ($result) {
                     echo '<script>
                     alert("thank you for signing up"); 
-                    window.location.href= "index.php"
+                    window.location.href= "index"
                     </script>';
                 }
             } else {
@@ -57,49 +57,99 @@ function signup()
     }
 }
 
-function login()
-{
+function login() {
     $conn = dbConnect();
     session_start();
-    if (isset($_POST["uname"]) && isset($_POST["password"])) {
-        $uname = $_POST['uname'];
-        $password = $_POST['password'];
+
+    if (!isset($_POST["uname"]) || !isset($_POST["password"])) {
+        $error = "Missing username or password.";
+        header("Location: login?error=" . urlencode($error));
+        exit();
     }
 
-    // Trim input to avoid leading/trailing spaces
-    $uname = trim($uname);
-    $password = trim($password);
+    $uname = trim($_POST['uname']);
+    $password = trim($_POST['password']);
 
-    if (empty($uname)) {
-        echo '<script>alert("Username is required"); window.history.back();</script>';
+    if (empty($uname) || empty($password)) {
+        $error = "Username and password are required.";
+        header("Location: login?error=" . urlencode($error));
         exit();
-    } elseif (empty($password)) {
-        echo '<script>alert("Password is required"); window.history.back();</script>';
-        exit();
-    } else {
-        $stmt = $conn->prepare("SELECT * FROM user WHERE userName = ?");
-        $stmt->bind_param("s", $uname);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    }
 
-        if ($result->num_rows === 1) {
-            $row = $result->fetch_assoc();
-            if (password_verify($password, $row['password'])) {
-                $_SESSION['user'] = [
-                    'username' => $row['userName'],
-                    'id' => $row['userId'],
-                ];
-                echo '<script>alert("Log in Success!"); window.location.href = "index.php";</script>';
-                exit();
-            } else {
-                echo '<script>alert("Incorrect username or password"); window.history.back();</script>';
+    $stmt = $conn->prepare("SELECT * FROM user WHERE userName = ?");
+    $stmt->bind_param("s", $uname);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            session_regenerate_id(true); // Prevent session fixation
+            $_SESSION['pending_2fa'] = [
+                'username' => $row['userName'],
+                'id' => $row['userId'],
+                '2fa_pending' => true
+            ];
+
+            // Dynamically find Python executable
+            $pythonPaths = shell_exec('where python 2>&1');
+            $validPythonPath = null;
+            foreach (explode("\n", trim($pythonPaths)) as $path) {
+                $path = trim($path);
+                // Skip Microsoft Store alias
+                if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
+                    $validPythonPath = $path;
+                    break;
+                }
+            }
+
+            if (!$validPythonPath) {
+                unset($_SESSION['pending_2fa']);
+                $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
+                header("Location: login?error=" . urlencode($error));
                 exit();
             }
-        } else {
-            echo '<script>alert("Incorrect username or password"); window.history.back();</script>';
+
+            // Use relative path for script
+            $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
+            if (!file_exists($scriptPath)) {
+                unset($_SESSION['pending_2fa']);
+                $error = "2FA script not found at $scriptPath.";
+                header("Location: login?error=" . urlencode($error));
+                exit();
+            }
+
+            $email = $row['mail'];
+            $username = $row['userName'];
+            $escapedEmail = escapeshellarg($email);
+            $escapedUsername = escapeshellarg($username);
+            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
+            $output = shell_exec($command);
+
+            // Debug: Log command and output
+            file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
+
+            // Parse Python output
+            $result = json_decode($output, true);
+            if (!$result || $result['status'] !== 'success') {
+                unset($_SESSION['pending_2fa']);
+                $error = "Failed to send 2FA code: " . ($result['message'] ?? 'Unknown error');
+                header("Location: login?error=" . urlencode($error));
+                exit();
+            }
+
+            // Store 2FA code and expiry in session
+            $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
+            $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
+
+            header("Location: verify2fa?user=" . urlencode($username));
             exit();
         }
     }
+
+    $error = "Incorrect username or password.";
+    header("Location: login?error=" . urlencode($error));
+    exit();
 }
 
 ?>

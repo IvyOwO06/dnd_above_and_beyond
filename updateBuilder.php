@@ -26,6 +26,10 @@ $fieldTypes = [
     'raceId' => 'i'
 ];
 
+if ($field == "levels") {
+    $field = "level";
+}
+
 if ($field == "level" && $value > 20) {
     $value = 20;
 } elseif ($field == "level" && $value < 1) {
