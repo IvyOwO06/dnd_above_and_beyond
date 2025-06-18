@@ -81,3 +81,6 @@ Output: {"status": "success", "code": "238733", "expiry": 1750241837.14361}
 Command:  C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
 Output: {"status": "success", "code": "874860", "expiry": 1750241853.517777}
 
+Command: C:\Users\samde\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
+Output: {"status": "success", "code": "409794", "expiry": 1750243287.196454}
+
