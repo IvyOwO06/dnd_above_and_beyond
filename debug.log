@@ -63,3 +63,6 @@ Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_co
 Output: 
 Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "burghaus.finn@gmail.com" "tset"
 Output: 
+Command:  C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: {"status": "success", "code": "658862", "expiry": 1750240073.802765}
+

@@ -90,33 +90,13 @@ function login() {
                 '2fa_pending' => true
             ];
 
-<<<<<<< Updated upstream
             // Dynamically find Python executable
             $pythonPaths = shell_exec('where python');
-=======
-            // Find a valid Python executable
-            $pythonPaths = shell_exec('where python 2>&1');
->>>>>>> Stashed changes
             $validPythonPath = null;
             $paths = explode("\n", trim($pythonPaths));
             foreach ($paths as $path) {
                 $path = trim($path);
-<<<<<<< Updated upstream
                 // Skip Microsoft Store alias
-=======
-                // Check Microsoft Store alias
-                if (strpos($path, 'Microsoft\WindowsApps\python.exe') !== false) {
-                    // Only use it if it’s a working Python installation
-                    $output = shell_exec("$path --version 2>&1");
-                    if (strpos($output, 'Python') === 0) {
-                        $validPythonPath = $path;
-                        break;
-                    }
-                } else if (file_exists($path)) {
-                    $validPythonPath = $path;
-                    break;
-                }
->>>>>>> Stashed changes
             }
 
             if (!$path) {
@@ -151,15 +131,9 @@ function login() {
                 
             }
 
-<<<<<<< Updated upstream
-            // Store 2FA code and expiry in session
-            $_SESSION['pending_2fa']['2fa_code'] = 123456;
-            $_SESSION['pending_2fa']['2fa_expiry'] = 300;
-=======
             // Store 2FA code and expiry
             $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
             $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
->>>>>>> Stashed changes
 
             header("Location: verify2fa?user=" . urlencode($username));
             exit();
