@@ -90,22 +90,43 @@ function login() {
                 '2fa_pending' => true
             ];
 
+<<<<<<< Updated upstream
             // Dynamically find Python executable
             $pythonPaths = shell_exec('where python');
+=======
+            // Find a valid Python executable
+            $pythonPaths = shell_exec('where python 2>&1');
+>>>>>>> Stashed changes
             $validPythonPath = null;
-            foreach (explode("\n", trim($pythonPaths)) as $path) {
+            $paths = explode("\n", trim($pythonPaths));
+            foreach ($paths as $path) {
                 $path = trim($path);
+<<<<<<< Updated upstream
                 // Skip Microsoft Store alias
+=======
+                // Check Microsoft Store alias
+                if (strpos($path, 'Microsoft\WindowsApps\python.exe') !== false) {
+                    // Only use it if it’s a working Python installation
+                    $output = shell_exec("$path --version 2>&1");
+                    if (strpos($output, 'Python') === 0) {
+                        $validPythonPath = $path;
+                        break;
+                    }
+                } else if (file_exists($path)) {
+                    $validPythonPath = $path;
+                    break;
+                }
+>>>>>>> Stashed changes
             }
 
             if (!$path) {
                 unset($_SESSION['pending_2fa']);
-                $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
+                $error = "No valid Python installation found. Please install Python 3 from python.org and add it to PATH.";
                 header("Location: login?error=" . urlencode($error));
                 exit();
             }
 
-            // Use relative path for script
+            // Use relative path for the script
             $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
             if (!file_exists($scriptPath)) {
                 unset($_SESSION['pending_2fa']);
@@ -121,18 +142,24 @@ function login() {
             $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername";
             $output = shell_exec($command);
 
-            // Debug: Log command and output
+            // Debug: Log the command and output
             file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
-            // Parse Python output
+            // Parse Python script output
             $result = json_decode($output, true);
             if (!$result || $result['status'] !== 'success') {
                 
             }
 
+<<<<<<< Updated upstream
             // Store 2FA code and expiry in session
             $_SESSION['pending_2fa']['2fa_code'] = 123456;
             $_SESSION['pending_2fa']['2fa_expiry'] = 300;
+=======
+            // Store 2FA code and expiry
+            $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
+            $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
+>>>>>>> Stashed changes
 
             header("Location: verify2fa?user=" . urlencode($username));
             exit();
