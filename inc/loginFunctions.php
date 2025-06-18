@@ -92,18 +92,14 @@ function login() {
             ];
 
             // Dynamically find Python executable
-            $pythonPaths = shell_exec('where python 2>&1');
+            $pythonPaths = shell_exec('where python');
             $validPythonPath = null;
             foreach (explode("\n", trim($pythonPaths)) as $path) {
                 $path = trim($path);
                 // Skip Microsoft Store alias
-                if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
-                    $validPythonPath = $path;
-                    break;
-                }
             }
 
-            if (!$validPythonPath) {
+            if (!$path) {
                 unset($_SESSION['pending_2fa']);
                 $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
                 header("Location: login?error=" . urlencode($error));
@@ -123,7 +119,7 @@ function login() {
             $username = $row['userName'];
             $escapedEmail = escapeshellarg($email);
             $escapedUsername = escapeshellarg($username);
-            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
+            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername";
             $output = shell_exec($command);
 
             // Debug: Log command and output
