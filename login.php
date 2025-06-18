@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php displayHeader(); ?>
     <main>
-        <form method="POST">
+        <form method="POST" class="login-form">
             <h2>LOGIN</h2>
             <?php if (isset($_GET['error'])): ?>
                 <p class="error"><?php echo htmlspecialchars($_GET['error']); ?></p>
