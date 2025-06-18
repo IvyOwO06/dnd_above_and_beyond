@@ -72,3 +72,12 @@ Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_co
 Output: 
 Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
 Output: 
+Command:  C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: {"status": "success", "code": "320654", "expiry": 1750241834.364559}
+
+Command:  C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: {"status": "success", "code": "238733", "expiry": 1750241837.14361}
+
+Command:  C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: {"status": "success", "code": "874860", "expiry": 1750241853.517777}
+
