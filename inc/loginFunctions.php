@@ -59,7 +59,6 @@ function signup()
 
 function login() {
     $conn = dbConnect();
-    session_start();
 
     if (!isset($_POST["uname"]) || !isset($_POST["password"])) {
         $error = "Missing username or password.";
@@ -92,25 +91,22 @@ function login() {
             ];
 
             // Dynamically find Python executable
-            $pythonPaths = shell_exec('where python 2>&1');
+            $pythonPaths = shell_exec('where python');
             $validPythonPath = null;
-            foreach (explode("\n", trim($pythonPaths)) as $path) {
+            $paths = explode("\n", trim($pythonPaths));
+            foreach ($paths as $path) {
                 $path = trim($path);
                 // Skip Microsoft Store alias
-                if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
-                    $validPythonPath = $path;
-                    break;
-                }
             }
 
-            if (!$validPythonPath) {
+            if (!$path) {
                 unset($_SESSION['pending_2fa']);
-                $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
+                $error = "No valid Python installation found. Please install Python 3 from python.org and add it to PATH.";
                 header("Location: login?error=" . urlencode($error));
                 exit();
             }
 
-            // Use relative path for script
+            // Use relative path for the script
             $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
             if (!file_exists($scriptPath)) {
                 unset($_SESSION['pending_2fa']);
@@ -123,22 +119,19 @@ function login() {
             $username = $row['userName'];
             $escapedEmail = escapeshellarg($email);
             $escapedUsername = escapeshellarg($username);
-            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
+            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername";
             $output = shell_exec($command);
 
-            // Debug: Log command and output
+            // Debug: Log the command and output
             file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
-            // Parse Python output
+            // Parse Python script output
             $result = json_decode($output, true);
             if (!$result || $result['status'] !== 'success') {
-                unset($_SESSION['pending_2fa']);
-                $error = "Failed to send 2FA code: " . ($result['message'] ?? 'Unknown error');
-                header("Location: login?error=" . urlencode($error));
-                exit();
+                
             }
 
-            // Store 2FA code and expiry in session
+            // Store 2FA code and expiry
             $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
             $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
 

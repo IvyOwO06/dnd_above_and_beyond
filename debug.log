@@ -4,3 +4,65 @@ Output: Python is niet gevonden; uitvoeren zonder argumenten om te installeren v
 Command: C:\Users\samde\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
 Output: {"status": "success", "code": "222913", "expiry": 1750231415.297334}
 
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313 C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
+Output: 'C:\Users\burgh\AppData\Local\Programs\Python\Python313' is not recognized as an internal or external command,
+operable program or batch file.
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
+Output: {"status": "success", "code": "802886", "expiry": 1750233980.310707}
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "g57252703@gmail.com" "FiNiTho" 2>&1
+Output: {"status": "success", "code": "361592", "expiry": 1750234040.234027}
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "tset@gmail.com" "tset" 2>&1
+Output: {"status": "success", "code": "202627", "expiry": 1750234842.681312}
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "burghaus.finn@gmail.com" "tset" 2>&1
+Output: {"status": "success", "code": "824463", "expiry": 1750234888.690644}
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "g57252703@gmail.com" "FiNiTho" 2>&1
+Output: {"status": "success", "code": "658532", "expiry": 1750235253.580366}
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "g57252703@gmail.com" "FiNiTho" 2>&1
+Output: {"status": "success", "code": "332584", "expiry": 1750236992.966309}
+
+Command: C:\Users\burgh\AppData\Local\Programs\Python\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "burghaus.finn@gmail.com" "tset" 2>&1
+Output: {"status": "success", "code": "673124", "expiry": 1750237056.901332}
+
+Command: C:\Program Files\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO" 2>&1
+Output: 'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+
+Command: C:\Program Files\Python313\python.exe C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: 
+Command:  C:\xampp\htdocs\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "burghaus.finn@gmail.com" "tset"
+Output: 
+Command:  C:\xampp\htdocs\Github\dnd_above_and_beyond\inc/../scripts/python/send_2fa_code.py "samdelhaye06@gmail.com" "Ivy___OwO"
+Output: {"status": "success", "code": "658862", "expiry": 1750240073.802765}
+

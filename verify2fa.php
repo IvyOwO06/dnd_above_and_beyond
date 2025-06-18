@@ -1,8 +1,10 @@
 <?php
-session_start();
 $user = $_GET['user'] ?? '';
+require_once 'inc/functions.php';
 
-if (!isset($_SESSION['pending_2fa']) || $_SESSION['pending_2fa']['username'] !== $user || !$_SESSION['pending_2fa']['2fa_pending']) {
+dd($_SESSION);
+
+if (!isset($_SESSION['pending_2fa']) || $_SESSION['pending_2fa']['username'] !== $user || $_SESSION['pending_2fa']['2fa_pending'] !== true) {
     header("Location: login?error=" . urlencode("Unauthorized access or 2FA not initiated."));
     exit();
 }
