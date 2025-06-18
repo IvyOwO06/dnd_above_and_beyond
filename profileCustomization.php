@@ -2,8 +2,6 @@
 require 'inc/navFunctions.php';
 require 'inc/profileFunctions.php';
 
-session_start();
-
 if (!isset($_SESSION['user'])) {
     header("location: index.php");
     exit;

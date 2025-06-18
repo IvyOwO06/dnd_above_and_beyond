@@ -91,15 +91,35 @@ function login() {
                 '2fa_pending' => true
             ];
 
-            // Call Python script to send 2FA code
-            $pythonPath = "C:\Users\samde\AppData\Local\Programs\Python\Python313\python.exe";
-            $scriptPath = "scripts/python/send_2fa_code.py";
+            // Dynamically find Python executable
+            $pythonPath = shell_exec('where python 2>&1');
+            if (stripos($pythonPath, 'python') === false) {
+                unset($_SESSION['pending_2fa']);
+                $error = "Python is not installed or not found in PATH. Please install Python.";
+                header("Location: login?error=" . urlencode($error));
+                exit();
+            }
+            // Use the first Python path found (trim to avoid newlines)
+            $pythonPath = trim(explode("\n", $pythonPath)[0]);
+
+            // Use relative path for script
+            $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
+            if (!file_exists($scriptPath)) {
+                unset($_SESSION['pending_2fa']);
+                $error = "2FA script not found at $scriptPath.";
+                header("Location: login?error=" . urlencode($error));
+                exit();
+            }
+
             $email = $row['mail'];
             $username = $row['userName'];
             $escapedEmail = escapeshellarg($email);
             $escapedUsername = escapeshellarg($username);
             $command = "$pythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
             $output = shell_exec($command);
+
+            // Debug: Log command and output
+            file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
             // Parse Python output
             $result = json_decode($output, true);
