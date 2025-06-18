@@ -2,6 +2,7 @@
 require 'inc/navFunctions.php';
 require 'inc/profileFunctions.php';
 require 'inc/creationsFunctions.php';
+require 'inc/campaignFunctions.php';
 
 
 $profileId = $_GET['userId'];
@@ -81,29 +82,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h3 class="username"><?php echo $profile['userName']; ?></h3>
 
     <?php if (!empty($profile['profileInformation'])): ?>
-        <div class="profile-description">
-            <p><?php echo nl2br(htmlspecialchars($profile['profileInformation'])); ?></p>
-        </div>
+        <div class="description-container">
+    <textarea name="profileInformation"
+              rows="5"
+              class="profile-description"
+              placeholder="Tell the world who you are..."><?= htmlspecialchars($user['profileInformation'] ?? '') ?></textarea>
+</div>
+<hr>
+<div class="campaigns">
+    <h2>Campaigns</h2>
+    <?php
+    ?>
+</div>
+<div class="creations-section">
     <?php endif; ?>
 
     <br><br>
-    <a href="creations.php?userId=<?php echo $profileId; ?>">Creations</a>
+    <a href="creations.php?userId=<?php echo $profileId; ?>" class="creations-btn">Creations</a>
     <?php
 
     displayCharacters($userId, 3);
-    
-    $profiles = getProfiles();
     ?>
-    <ul>
-        <?php
-        foreach ($profiles as $profile) {
-            ?>
-            <li><a href="profile.php?userId=<?php echo $profile['userId']; ?>"><?php echo $profile['userName']; ?></a></li>
-            <?php
-        }
-        ?>
-    </ul>
-    <?php
+    </div>
+<?php
     displayFooter();
     ?>
 </body>

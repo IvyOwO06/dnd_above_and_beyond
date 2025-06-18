@@ -2,8 +2,6 @@
 require 'inc/navFunctions.php';
 require 'inc/profileFunctions.php';
 
-session_start();
-
 if (!isset($_SESSION['user'])) {
     header("location: index.php");
     exit;
@@ -13,39 +11,86 @@ $userId = $_SESSION['user']['id'];
 $profileId = $_GET['userId'] ?? $userId;
 $db = dbconnect();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['formType'])) {
-        die('Missing form type.');
-    }
+// Profile Picture
+if (isset($_POST['upload_picture']) && isset($_FILES['profile_picture'])) {
+    if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = 'uploads/profile_pictures/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+        $fileName = uniqid() . '-' . basename($_FILES['profile_picture']['name']);
+        $uploadPath = $uploadDir . $fileName;
 
-    switch ($_POST['formType']) {
-        case 'color':
-            $newColor = $_POST['profileColor'];
-            $stmt = $db->prepare("UPDATE user SET profileColor = ? WHERE userId = ?");
-            $stmt->execute([$newColor, $userId]);
-            header("Location: profile.php?userId=$userId");
+        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadPath)) {
+            $stmt = $db->prepare("UPDATE user SET profilePicture = ? WHERE userId = ?");
+            $stmt->execute([$uploadPath, $userId]);
+            header("Location: profileCustomization.php?userId=$userId");
             exit();
-
-        case 'description':
-            $profileInfo = trim($_POST['profileInformation']);
-            $stmt = $db->prepare("UPDATE user SET profileInformation = ? WHERE userId = ?");
-            $stmt->bind_param('si', $profileInfo, $userId);
-            if ($stmt->execute()) {
-                header("Location: profile.php?userId=$userId");
-                exit();
-            } else {
-                echo "Error saving description.";
-            }
-            break;
-
-        // Add other form cases here later (e.g. 'bannerUpload', 'pictureUpload')
-        
-        default:
-            echo "Unknown form submission.";
+        }
     }
 }
 
-$profile = getProfile($profileId);
+// Profile Banner
+if (isset($_POST['upload_banner']) && isset($_FILES['banner_image'])) {
+    if ($_FILES['banner_image']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = 'uploads/banners/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+        $fileName = uniqid() . '-' . basename($_FILES['banner_image']['name']);
+        $uploadPath = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES['banner_image']['tmp_name'], $uploadPath)) {
+            $stmt = $db->prepare("UPDATE user SET profileBanner = ? WHERE userId = ?");
+            $stmt->execute([$uploadPath, $userId]);
+            header("Location: profileCustomization.php?userId=$userId");
+            exit();
+        }
+    }
+}
+
+// Description
+if (isset($_POST['update_description'])) {
+    $profileInfo = trim($_POST['profileInformation']);
+    $stmt = $db->prepare("UPDATE user SET profileInformation = ? WHERE userId = ?");
+    $stmt->execute([$profileInfo, $userId]);
+    header("Location: profileCustomization.php?userId=$userId");
+    exit();
+}
+
+// Color
+if (isset($_POST['update_color'])) {
+    $color = $_POST['profileColor'];
+    $stmt = $db->prepare("UPDATE user SET profileColor = ? WHERE userId = ?");
+    $stmt->execute([$color, $userId]);
+    header("Location: profileCustomization.php?userId=$userId");
+    exit();
+}
+
+// Font
+if (isset($_POST['update_font'])) {
+    $font = $_POST['profileFont'];
+    $stmt = $db->prepare("UPDATE user SET profileFont = ? WHERE userId = ?");
+    $stmt->execute([$font, $userId]);
+    header("Location: profileCustomization.php?userId=$userId");
+    exit();
+}
+
+// Dark Mode Toggle
+if (isset($_POST['toggle_darkmode'])) {
+    $enabled = isset($_POST['darkMode']) ? 1 : 0;
+    $stmt = $db->prepare("UPDATE user SET darkMode = ? WHERE userId = ?");
+    $stmt->execute([$enabled, $userId]);
+    header("Location: profileCustomization.php?userId=$userId");
+    exit();
+}
+
+// Visibility
+if (isset($_POST['update_visibility'])) {
+    $visibility = $_POST['visibility'] === 'private' ? 'private' : 'public';
+    $stmt = $db->prepare("UPDATE user SET profileVisibility = ? WHERE userId = ?");
+    $stmt->execute([$visibility, $userId]);
+    header("Location: profileCustomization.php?userId=$userId");
+    exit();
+}
+
+// Refresh user
 $user = getUser($userId);
 ?>
 
@@ -53,174 +98,49 @@ $user = getUser($userId);
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Options</title>
+    <title>Profile Customization</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <?php displayHeader(); ?>
+<?php displayHeader(); ?>
 
-    <h2>Profile Options</h2>
+<h2>Profile Options</h2>
 
-    <!-- Profile Picture -->
+<!-- Profile Picture -->
+<form method="POST" enctype="multipart/form-data">
+    <h3>Profile Picture:</h3>
     <?php if (!empty($user['profilePicture'])): ?>
-        <img src="<?= htmlspecialchars($user['profilePicture']) ?>" alt="Profile Picture" width="150">
-    <?php else: ?>
-        <p>No profile picture uploaded.</p>
+        <img src="<?= htmlspecialchars($user['profilePicture']) ?>" class="profile-pic">
     <?php endif; ?>
+    <input type="file" name="profile_picture" accept="image/*" required>
+    <button type="submit" name="upload_picture">Upload</button>
+</form>
 
-    <form action="profileOptions.php?userId=<?= $userId ?>" method="POST" enctype="multipart/form-data">
-        <h3>Update Profile Picture:</h3>
-        <input type="file" name="profile_picture" accept="image/*">
-        <button type="submit">Upload</button>
-    </form>
-
-    <br>
-
-    <!-- Profile Banner -->
+<!-- Profile Banner -->
+<form method="POST" enctype="multipart/form-data">
+    <h3>Profile Banner:</h3>
     <?php if (!empty($user['profileBanner'])): ?>
-        <img src="<?= htmlspecialchars($user['profileBanner']) ?>" alt="Profile Banner" width="150">
-    <?php else: ?>
-        <p>No profile banner uploaded.</p>
+        <img src="<?= htmlspecialchars($user['profileBanner']) ?>" width="150">
     <?php endif; ?>
+    <input type="file" name="banner_image" accept="image/*" required>
+    <button type="submit" name="upload_banner">Upload Banner</button>
+</form>
 
-    <form action="profileOptions.php?userId=<?= $userId ?>" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="formType" value="bannerUpload">
-        <label for="banner_image">Upload your banner:</label><br>
-        <input type="file" name="banner_image" id="banner_image" accept="image/jpeg,image/png,image/gif" required><br><br>
-        <button type="submit">Upload Banner</button>
-    </form><?php
-require 'inc/navFunctions.php';
-require 'inc/profileFunctions.php';
-
-session_start();
-
-if (!isset($_SESSION['user'])) {
-    header("location: index.php");
-    exit;
-}
-
-$userId = $_SESSION['user']['id'];
-$profileId = $_GET['userId'] ?? $userId;
-$db = dbconnect();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['formType'])) {
-        die('Missing form type.');
-    }
-
-    switch ($_POST['formType']) {
-        case 'color':
-            $newColor = $_POST['profileColor'];
-            $stmt = $db->prepare("UPDATE user SET profileColor = ? WHERE userId = ?");
-            $stmt->execute([$newColor, $userId]);
-            header("Location: profile.php?userId=$userId");
-            exit();
-
-        case 'description':
-            $profileInfo = trim($_POST['profileInformation']);
-            $stmt = $db->prepare("UPDATE user SET profileInformation = ? WHERE userId = ?");
-            $stmt->bind_param('si', $profileInfo, $userId);
-            if ($stmt->execute()) {
-                header("Location: profile.php?userId=$userId");
-                exit();
-            } else {
-                echo "Error saving description.";
-            }
-            break;
-
-        // Add other form cases here later (e.g. 'bannerUpload', 'pictureUpload')
-        
-        default:
-            echo "Unknown form submission.";
-    }
-}
-
-$profile = getProfile($profileId);
-$user = getUser($userId);
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Options</title>
-    <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-    <?php displayHeader(); ?>
-
-    <h2>Profile Options</h2>
-
-    <!-- Profile Picture -->
-    <?php if (!empty($user['profilePicture'])): ?>
-        <img src="<?= htmlspecialchars($user['profilePicture']) ?>" alt="Profile Picture" width="150">
-    <?php else: ?>
-        <p>No profile picture uploaded.</p>
-    <?php endif; ?>
-
-    <form action="profileOptions.php?userId=<?= $userId ?>" method="POST" enctype="multipart/form-data">
-        <h3>Update Profile Picture:</h3>
-        <input type="file" name="profile_picture" accept="image/*">
-        <button type="submit">Upload</button>
-    </form>
-
+<!-- Description -->
+<form method="POST">
+    <h3>Description:</h3>
+    <textarea name="profileInformation" rows="4" cols="50"><?= htmlspecialchars($user['profileInformation'] ?? '') ?></textarea>
     <br>
+    <button type="submit" name="update_description">Save Description</button>
+</form>
 
-    <!-- Profile Banner -->
-    <?php if (!empty($user['profileBanner'])): ?>
-        <img src="<?= htmlspecialchars($user['profileBanner']) ?>" alt="Profile Banner" width="150">
-    <?php else: ?>
-        <p>No profile banner uploaded.</p>
-    <?php endif; ?>
+<!-- Color -->
+<form method="POST">
+    <h3>Profile Color:</h3>
+    <input type="color" name="profileColor" value="<?= htmlspecialchars($user['profileColor'] ?? '#000000') ?>" required>
+    <button type="submit" name="update_color">Save Color</button>
+</form>
 
-    <form action="profileOptions.php?userId=<?= $userId ?>" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="formType" value="bannerUpload">
-        <label for="banner_image">Upload your banner:</label><br>
-        <input type="file" name="banner_image" id="banner_image" accept="image/jpeg,image/png,image/gif" required><br><br>
-        <button type="submit">Upload Banner</button>
-    </form>
-
-    <!-- Profile Description -->
-    <form method="post">
-        <input type="hidden" name="formType" value="description">
-        <input type="hidden" name="userId" value="<?= $userId ?>">
-        <label for="profileInformation">Profile Description:</label><br>
-        <textarea name="profileInformation" id="profileInformation" rows="5" cols="50"><?= htmlspecialchars($profile['profileInformation'] ?? '') ?></textarea><br>
-        <button type="submit">Save Description</button>
-    </form>
-
-    <!-- Profile Color -->
-    <form method="post">
-        <input type="hidden" name="formType" value="color">
-        <label for="profileColor">Choose profile color:</label>
-        <input type="color" id="profileColor" name="profileColor" required>
-        <button type="submit">Save</button>
-    </form>
-
-    <?php displayFooter(); ?>
-</body>
-</html>
-
-
-    <!-- Profile Description -->
-    <form method="post">
-        <input type="hidden" name="formType" value="description">
-        <input type="hidden" name="userId" value="<?= $userId ?>">
-        <label for="profileInformation">Profile Description:</label><br>
-        <textarea name="profileInformation" id="profileInformation" rows="5" cols="50"><?= htmlspecialchars($profile['profileInformation'] ?? '') ?></textarea><br>
-        <button type="submit">Save Description</button>
-    </form>
-
-    <!-- Profile Color -->
-    <form method="post">
-        <input type="hidden" name="formType" value="color">
-        <label for="profileColor">Choose profile color:</label>
-        <input type="color" id="profileColor" name="profileColor" required>
-        <button type="submit">Save</button>
-    </form>
-
-    <?php displayFooter(); ?>
+<?php displayFooter(); ?>
 </body>
 </html>
