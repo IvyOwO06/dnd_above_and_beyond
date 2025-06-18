@@ -90,52 +90,53 @@ function login() {
                 // '2fa_pending' => true
             ];
 
-            // Dynamically find Python executable
-            $pythonPaths = shell_exec('where python');
-            $validPythonPath = null;
-            $paths = explode("\n", trim($pythonPaths));
-            foreach ($paths as $path) {
-                $path = trim($path);
-                // Skip Microsoft Store alias
-            }
+            // // Dynamically find Python executable
+            // $pythonPaths = shell_exec('where python');
+            // $validPythonPath = null;
+            // $paths = explode("\n", trim($pythonPaths));
+            // foreach ($paths as $path) {
+            //     $path = trim($path);
+            //     // Skip Microsoft Store alias
+            // }
 
-            if (!$path) {
-                unset($_SESSION['pending_2fa']);
-                $error = "No valid Python installation found. Please install Python 3 from python.org and add it to PATH.";
-                header("Location: login?error=" . urlencode($error));
-                exit();
-            }
+            // if (!$path) {
+            //     unset($_SESSION['pending_2fa']);
+            //     $error = "No valid Python installation found. Please install Python 3 from python.org and add it to PATH.";
+            //     header("Location: login?error=" . urlencode($error));
+            //     exit();
+            // }
 
-            // Use relative path for the script
-            $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
-            if (!file_exists($scriptPath)) {
-                unset($_SESSION['pending_2fa']);
-                $error = "2FA script not found at $scriptPath.";
-                header("Location: login?error=" . urlencode($error));
-                exit();
-            }
+            // // Use relative path for the script
+            // $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
+            // if (!file_exists($scriptPath)) {
+            //     unset($_SESSION['pending_2fa']);
+            //     $error = "2FA script not found at $scriptPath.";
+            //     header("Location: login?error=" . urlencode($error));
+            //     exit();
+            // }
 
-            $email = $row['mail'];
-            $username = $row['userName'];
-            $escapedEmail = escapeshellarg($email);
-            $escapedUsername = escapeshellarg($username);
-            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername";
-            $output = shell_exec($command);
+            // $email = $row['mail'];
+            // $username = $row['userName'];
+            // $escapedEmail = escapeshellarg($email);
+            // $escapedUsername = escapeshellarg($username);
+            // $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername";
+            // $output = shell_exec($command);
 
-            // Debug: Log the command and output
-            file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
+            // // Debug: Log the command and output
+            // file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
-            // Parse Python script output
-            $result = json_decode($output, true);
-            if (!$result || $result['status'] !== 'success') {
+            // // Parse Python script output
+            // $result = json_decode($output, true);
+            // if (!$result || $result['status'] !== 'success') {
                 
-            }
+            // }
 
-            // Store 2FA code and expiry
-            $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
-            $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
+            // // Store 2FA code and expiry
+            // $_SESSION['pending_2fa']['2fa_code'] = $result['code'];
+            // $_SESSION['pending_2fa']['2fa_expiry'] = $result['expiry'];
 
-            header("Location: verify2fa?user=" . urlencode($username));
+            // header("Location: verify2fa?user=" . urlencode($username));
+            header("Location: index");
             exit();
         }
     }

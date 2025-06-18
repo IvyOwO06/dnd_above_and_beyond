@@ -108,6 +108,19 @@ function displaycampaigns($userId)
     
     $campaigns = getInvitedCampaigns($userId);
 
+    // remove campaign
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['removeCampaign'])) {
+        $campaignId = $_POST['campaignId'];
+        $campaign = getCampaign($campaignId);
+        
+        if ($campaign && $campaign['userId'] == $_SESSION['user']['id']) {
+            removeCampaign($campaignId);
+        } else {
+            echo "You are not authorized to delete this campaign.";
+        }
+    }
+
+
     if($_SESSION['user']['id'] == $userId)
     {
         ?>
@@ -132,6 +145,14 @@ function displaycampaigns($userId)
             <h1><?php echo htmlspecialchars($campaign['name']); ?></h1>
             <p><?php echo htmlspecialchars($campaign['description']); ?></p>
             <a href="campaign?campaignId=<?php echo htmlspecialchars($campaign['campaignId']); ?>">View</a>
+            <form method="POST">
+                <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaign['campaignId']); ?>">
+                <?php
+                if ($campaign && $campaign['userId'] == $_SESSION['user']['id']) {
+                ?>
+                <button name="removeCampaign" onclick="return confirm('Remove the campaign?')">Remove</button>
+                <?php } ?>
+            </form>
         </campaign>
         <?php
     }
@@ -150,23 +171,47 @@ function displaycampaign($campaignId)
     $isCreator = $_SESSION['user']['id'] === (int)$campaign['userId'];
     $characters = getCharactersForCampaign($campaignId);
 
-    // ✅ Handle user removal request (only if creator)
+    // Handle user removal request (only if creator)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['removeUser']) && $isCreator) {
-        $userIdToRemove = $_POST['removeUserId'] ?? null;
-        $removeCampaignId = $_POST['campaignId'] ?? null;
+        $userIdToRemove = $_POST['removeUserId'];
+        $removeCampaignId = $_POST['campaignId'];
 
         if ($userIdToRemove && $removeCampaignId) {
             removeUserFromCampaign($userIdToRemove, $removeCampaignId);
         }
     }
 
+    // Handle user removal request (only if user)
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['removeUser']) && !$isCreator) {
+        $userIdToRemove = $_POST['removeUserId'];
+        $removeCampaignId = $_POST['campaignId'];
+
+        if ($userIdToRemove && $removeCampaignId) {
+            removeUserFromCampaign($userIdToRemove, $removeCampaignId);
+        }
+    }
+
+
     ?>
     <h1><?php echo htmlspecialchars($campaign['name']); ?></h1>
     <p><?php echo htmlspecialchars($campaign['description']); ?></p>
 
-    <?php if ($isCreator): ?>
-        <?php addUser(); ?>
-    <?php endif; ?>
+    <?php 
+    if (!$isCreator) 
+    {
+        ?>
+        <form method="POST">
+            <input type="hidden" name="removeUserId" value="<?php echo htmlspecialchars($_SESSION['user']['id']); ?>">
+            <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaignId); ?>">
+            <button name="removeUser" onclick="return confirm('Leave the campaign?')">Leave</button>
+        </form>
+        <?php
+    }
+    if ($isCreator)
+    {
+        addUser();
+    }
+    ?>
 
     <h2>Users</h2>
     <?php foreach ($users as $user): ?>
@@ -194,7 +239,6 @@ function displaycampaign($campaignId)
         <p>No characters linked to this campaign.</p>
     <?php endif;
 }
-
 
 function createcampaign($userId)
 {
@@ -361,6 +405,38 @@ function removeUserFromCampaign($userId, $campaignId)
 
     echo "User and their characters removed from campaign.";
     header("Location: campaign?campaignId=$campaignId");
+    exit;
+}
+
+function removeCampaign($campaignId)
+{
+    $db = dbConnect();
+
+    // Step 1: Delete all characters linked to this campaign
+    $deleteCharactersSql = "DELETE FROM campaignCharacters WHERE campaignId = ?";
+    $stmt1 = $db->prepare($deleteCharactersSql);
+    $stmt1->bind_param("i", $campaignId);
+    $stmt1->execute();
+    $stmt1->close();
+
+    // Step 2: Delete all user links from campaignUsers
+    $deleteUsersSql = "DELETE FROM campaignUsers WHERE campaignId = ?";
+    $stmt2 = $db->prepare($deleteUsersSql);
+    $stmt2->bind_param("i", $campaignId);
+    $stmt2->execute();
+    $stmt2->close();
+
+    // Step 3: Finally, delete the campaign itself
+    $deleteCampaignSql = "DELETE FROM campaign WHERE campaignId = ?";
+    $stmt3 = $db->prepare($deleteCampaignSql);
+    $stmt3->bind_param("i", $campaignId);
+    $stmt3->execute();
+    $stmt3->close();
+
+    $db->close();
+
+    echo "Campaign and all related data removed.";
+    header("Location: campaigns?userId=" . $_SESSION['user']['id']);
     exit;
 }
 
