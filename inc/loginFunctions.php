@@ -125,6 +125,12 @@ function login() {
             // Debug: Log the command and output
             file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
+            dd($row);
+            dd($_SESSION);
+            dd($command);
+            dd($output);
+            exit;
+
             // Parse Python script output
             $result = json_decode($output, true);
             if (!$result || $result['status'] !== 'success') {
