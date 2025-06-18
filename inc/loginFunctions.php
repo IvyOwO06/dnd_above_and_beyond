@@ -85,22 +85,30 @@ function login() {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             session_regenerate_id(true); // Prevent session fixation
-            $_SESSION['user'] = [
+            $_SESSION['pending_2fa'] = [
                 'username' => $row['userName'],
                 'id' => $row['userId'],
                 '2fa_pending' => true
             ];
 
             // Dynamically find Python executable
-            $pythonPath = shell_exec('where python 2>&1');
-            if (stripos($pythonPath, 'python') === false) {
+            $pythonPaths = shell_exec('where python 2>&1');
+            $validPythonPath = null;
+            foreach (explode("\n", trim($pythonPaths)) as $path) {
+                $path = trim($path);
+                // Skip Microsoft Store alias
+                if (strpos($path, 'Microsoft\WindowsApps\python.exe') === false && file_exists($path)) {
+                    $validPythonPath = $path;
+                    break;
+                }
+            }
+
+            if (!$validPythonPath) {
                 unset($_SESSION['pending_2fa']);
-                $error = "Python is not installed or not found in PATH. Please install Python.";
+                $error = "No valid Python installation found. Please install Python 3 and add it to PATH.";
                 header("Location: login?error=" . urlencode($error));
                 exit();
             }
-            // Use the first Python path found (trim to avoid newlines)
-            $pythonPath = trim(explode("\n", $pythonPath)[0]);
 
             // Use relative path for script
             $scriptPath = __DIR__ . "/../scripts/python/send_2fa_code.py";
@@ -111,15 +119,14 @@ function login() {
                 exit();
             }
 
-
             $email = $row['mail'];
             $username = $row['userName'];
             $escapedEmail = escapeshellarg($email);
             $escapedUsername = escapeshellarg($username);
-            $command = "$pythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
+            $command = "$validPythonPath $scriptPath $escapedEmail $escapedUsername 2>&1";
             $output = shell_exec($command);
 
-             // Debug: Log command and output
+            // Debug: Log command and output
             file_put_contents(__DIR__ . "/../debug.log", "Command: $command\nOutput: $output\n", FILE_APPEND);
 
             // Parse Python output
