@@ -3,8 +3,11 @@ function getCharactersForCampaign($campaignId)
 {
     $db = dbConnect();
 
-    // c. is alias for characters and cc. is a alias for campaignCharacters
-    $sql = "SELECT c.* FROM campaignCharacters cc JOIN characters c ON cc.characterId = c.characterId WHERE cc.campaignId = ?";
+    // Include c.userId in the SELECT statement
+    $sql = "SELECT c.*, cc.userId as campaignCharacterUserId 
+            FROM campaignCharacters cc 
+            JOIN characters c ON cc.characterId = c.characterId 
+            WHERE cc.campaignId = ?";
 
     $stmt = $db->prepare($sql);
     if (!$stmt) {
@@ -174,6 +177,25 @@ function displaycampaign($campaignId)
         }
     }
 
+    // Add this to handle character removal
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['removeCharacter'])) {
+        $characterId = $_POST['removeCharacterId'] ?? null;
+        $campaignId = $_POST['campaignId'] ?? null;
+        
+        if ($characterId && $campaignId) {
+            removeCharacterFromCampaign($characterId, $campaignId);
+        }
+    }
+
+    // Add this to handle character addition
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addCharacter'])) {
+        $characterId = $_POST['addCharacterId'] ?? null;
+        $campaignId = $_POST['campaignId'] ?? null;
+        
+        if ($characterId && $campaignId) {
+            addCharacterToCampaign($characterId, $campaignId);
+        }
+    }
 
     ?>
     <h1><?php echo htmlspecialchars($campaign['name']); ?></h1>
@@ -212,15 +234,69 @@ function displaycampaign($campaignId)
     <?php endforeach; ?>
 
     <h2>Characters</h2>
+    <button onclick="openAddCharacterModal()">Add Characters</button>
+
     <?php if (!empty($characters)): ?>
         <ul>
-        <?php foreach ($characters as $character): ?>
-            <li><?php echo htmlspecialchars($character['characterName']); ?></li>
+        <?php foreach ($characters as $character): 
+            $isCharacterOwner = ($character['userId'] == $_SESSION['user']['id']);
+            $canRemove = $isCreator || $isCharacterOwner;
+            ?>
+            <li>
+                <?php echo htmlspecialchars($character['characterName']); ?>
+                <?php if ($canRemove): ?>
+                    <form method="POST">
+                        <input type="hidden" name="removeCharacterId" value="<?php echo $character['characterId']; ?>">
+                        <input type="hidden" name="campaignId" value="<?php echo $campaignId; ?>">
+                        <button type="submit" name="removeCharacter" onclick="return confirm('Remove this character from campaign?')">
+                            Remove
+                        </button>
+                    </form>
+                <?php endif; ?>
+            </li>
         <?php endforeach; ?>
         </ul>
     <?php else: ?>
         <p>No characters linked to this campaign.</p>
-    <?php endif;
+    <?php endif; ?>
+    
+    <!-- Modal HTML - Fixed version -->
+    <div id="addCharacterModal">
+        <div id="addCharacterModalInside">
+            <h2>Add Characters to Campaign</h2>
+            <input type="text" id="characterSearch" placeholder="Search characters..." onkeyup="searchCharacters()">
+            <div id="characterResults">
+                <?php echo getAvailableCharactersList($campaignId); ?>
+            </div>
+            <button onclick="closeAddCharacterModal()">Close</button>
+        </div>
+    </div>
+    
+    <script>
+    function openAddCharacterModal() {
+        document.getElementById("addCharacterModal").style.display = "block";
+        document.getElementById("characterSearch").focus();
+    }
+    
+    function closeAddCharacterModal() {
+        document.getElementById("addCharacterModal").style.display = "none";
+    }
+    
+    function searchCharacters() {
+        const searchTerm = document.getElementById("characterSearch").value.toLowerCase();
+        const characters = document.querySelectorAll(".character-item");
+        
+        characters.forEach(character => {
+            const name = character.getAttribute("data-name").toLowerCase();
+            if (name.includes(searchTerm)) {
+                character.style.display = "block";
+            } else {
+                character.style.display = "none";
+            }
+        });
+    }
+    </script>
+    <?php
 }
 
 function createcampaign($userId)
@@ -423,4 +499,112 @@ function removeCampaign($campaignId)
     exit;
 }
 
+
+function getAvailableCharactersList($campaignId) {
+    $db = dbConnect();
+    
+    // Get characters not already in this campaign that belong to the current user
+    $sql = "SELECT c.* FROM characters c 
+            LEFT JOIN campaignCharacters cc ON c.characterId = cc.characterId AND cc.campaignId = ?
+            WHERE cc.characterId IS NULL AND c.userId = ?";
+    
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("ii", $campaignId, $_SESSION['user']['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $html = '';
+    while ($character = $result->fetch_assoc()) {
+        $html .= '
+        <div class="characterItem" data-name="'.htmlspecialchars($character['characterName']).'">
+            '.htmlspecialchars($character['characterName']).'
+            <form method="POST" class="addCharacterForm">
+                <input type="hidden" name="addCharacterId" value="'.$character['characterId'].'">
+                <input type="hidden" name="campaignId" value="'.$campaignId.'">
+                <button type="submit" name="addCharacter">Add</button>
+            </form>
+        </div>
+        ';
+    }
+    
+    if (empty($html)) {
+        $html = '<p>No characters available to add.</p>';
+    }
+    
+    $stmt->close();
+    $db->close();
+    
+    return $html;
+}
+
+function addCharacterToCampaign($characterId, $campaignId) {
+    $db = dbConnect();
+    
+    $sql = "INSERT INTO campaignCharacters (characterId, campaignId, userId) VALUES (?, ?, ?)";
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("iii", $characterId, $campaignId, $_SESSION['user']['id']);
+    
+    if ($stmt->execute()) {
+        header("Location: campaign?campaignId=$campaignId");
+        exit;
+    } else {
+        echo "Error adding character: ".$stmt->error;
+    }
+    
+    $stmt->close();
+    $db->close();
+}
+
+function removeCharacterFromCampaign($characterId, $campaignId) {
+    $db = dbConnect();
+    
+    // First get the character and campaign info to verify permissions
+    $checkSql = "SELECT c.userId as characterOwnerId, 
+                        cc.userId as addedByUserId,
+                        camp.userId as campaignOwnerId
+                 FROM campaignCharacters cc
+                 JOIN characters c ON cc.characterId = c.characterId
+                 JOIN campaign camp ON cc.campaignId = camp.campaignId
+                 WHERE cc.characterId = ? AND cc.campaignId = ?";
+    
+    $checkStmt = $db->prepare($checkSql);
+    $checkStmt->bind_param("ii", $characterId, $campaignId);
+    $checkStmt->execute();
+    $result = $checkStmt->get_result();
+    $data = $result->fetch_assoc();
+    $checkStmt->close();
+    
+    if (!$data) {
+        echo "Character not found in this campaign.";
+        return;
+    }
+    
+    $currentUserId = $_SESSION['user']['id'];
+    $isCreator = ($data['campaignOwnerId'] == $currentUserId);
+    $isCharacterOwner = ($data['characterOwnerId'] == $currentUserId);
+    $isCharacterAdder = ($data['addedByUserId'] == $currentUserId);
+    
+    // Only allow removal if:
+    // 1. User is campaign creator, OR
+    // 2. User owns the character, OR
+    // 3. User was the one who added the character to campaign
+    if ($isCreator || $isCharacterOwner || $isCharacterAdder) {
+        $deleteSql = "DELETE FROM campaignCharacters WHERE characterId = ? AND campaignId = ?";
+        $deleteStmt = $db->prepare($deleteSql);
+        $deleteStmt->bind_param("ii", $characterId, $campaignId);
+        
+        if ($deleteStmt->execute()) {
+            header("Location: campaign?campaignId=$campaignId");
+            exit;
+        } else {
+            echo "Error removing character: ".$deleteStmt->error;
+        }
+        
+        $deleteStmt->close();
+    } else {
+        echo "You don't have permission to remove this character.";
+    }
+    
+    $db->close();
+}
 ?>

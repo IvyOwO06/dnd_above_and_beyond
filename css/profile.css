@@ -15,18 +15,21 @@ body{
     position: absolute;
     left: 150px;
     top: 350px;
+    border-style:solid;
+    border-width: 5px;
 }
 
 .button-wrapper {
   position: relative;
   width: 100%;
+  z-index: 10;
 }
 
 .btn-options {
   position: absolute;
-  top: 40px;   /* adjust as needed */
-  left: 70%;  /* adjust as needed */
-  transform: translate(-50%, -50%); /* keeps it centered on the point */
+  top: 40px;
+  left: 70%;
+  transform: translate(-50%, -50%);
   
   padding: 0.6rem 1.4rem;
   font-size: 1.5rem;
@@ -44,7 +47,7 @@ body{
   position: absolute;
   top: 40px;
   left: 80%;
-  transform: translate(-50%, -50%); /* keeps it centered on the point */
+  transform: translate(-50%, -50%);
   
   padding: 0.6rem 1.4rem;
   font-size: 1.5rem;
@@ -68,7 +71,7 @@ body{
   align-items: center;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #000000; /* kinda Aphrodite vibes */
+  color: #000000;
   margin: 10px;
   padding: 30px;
   POSITION: RELATIVE;
@@ -78,7 +81,7 @@ body{
   position: absolute;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #000000; /* kinda Aphrodite vibes */
+  color: #000000;
   margin: 10px;
   left: 30%;
 } 
@@ -86,7 +89,7 @@ body{
 .username {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #000000; /* kinda Aphrodite vibes */
+  color: #000000;
   margin: 10px;
   position: absolute;
   left: 50%;
@@ -241,18 +244,18 @@ body{
 
 /* Character Class Badge */
 .character-class-badge {
-    display: block; /* Changed from inline-block to block for full-width centering */
+    display: block; 
     background: #4a3676;
     color: #d8b9ff;
     font-size: 0.9rem;
     font-weight: 600;
-    padding: 0.3rem 1rem; /* Slightly increased padding for balance */
+    padding: 0.3rem 1rem;
     border-radius: 15px;
-    margin: 0.5rem auto; /* Auto margins for horizontal centering */
-    text-align: center; /* Ensure text inside is centered */
+    margin: 0.5rem auto; 
+    text-align: center;
     text-transform: uppercase;
     border: 1px solid #8b6cc2;
-    max-width: 150px; /* Limit width to prevent stretching */
+    max-width: 150px;
 }
 
 /* Character Image */
@@ -286,7 +289,7 @@ body{
 }
 
 .action-button {
-    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
+    font-family: 'Poppins', sans-serif;
     display: inline-block;
     padding: 0.6rem 1.2rem;
     text-decoration: none;
@@ -334,7 +337,7 @@ body{
 
 /* No Characters Message */
 .no-characters {
-    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
+    font-family: 'Poppins', sans-serif;
     text-align: center;
     font-size: 1.4rem;
     color: #b0a0d8;
