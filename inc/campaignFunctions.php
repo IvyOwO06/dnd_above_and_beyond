@@ -146,7 +146,7 @@ function displaycampaign($campaignId)
     if (!$campaign) {
         die("Campaign not found.");
     }
-
+    
     $isCreator = $_SESSION['user']['id'] === (int)$campaign['userId'];
     $characters = getCharactersForCampaign($campaignId);
 

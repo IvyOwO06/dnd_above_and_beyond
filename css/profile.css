@@ -6,50 +6,56 @@ body{
     width: 100%;
     max-height: 400px;
     object-fit: cover;
-    border-radius: 12px;
     border-bottom-style:solid;
     border-bottom-width: 5px;
 }
 
 .profile-picture {
-    height: 300px;
     width: auto;
-    position: relative;
-    top: -200px;
+    position: absolute;
     left: 150px;
+    top: 350px;
 }
 
+.button-wrapper {
+  position: relative;
+  width: 100%;
+}
 
 .btn-options {
-    padding: 0.6rem 1.4rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #222; /* dark base for strong contrast */
-    color: #f9f9f9; /* bright text */
-    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    user-select: none;
-    position: relative;
-    top: -250px;
-    left: 1000px;
+  position: absolute;
+  top: 40px;   /* adjust as needed */
+  left: 70%;  /* adjust as needed */
+  transform: translate(-50%, -50%); /* keeps it centered on the point */
+  
+  padding: 0.6rem 1.4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #222;
+  color: #f9f9f9;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
 }
 
 .btn-customize {
-    padding: 0.6rem 1.4rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background-color: #222; 
-    color: #f9f9f9; 
-    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    user-select: none;
-    position: relative;
-    top: -250px;
-    left: 1030px;
+  position: absolute;
+  top: 40px;
+  left: 80%;
+  transform: translate(-50%, -50%); /* keeps it centered on the point */
+  
+  padding: 0.6rem 1.4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #222;
+  color: #f9f9f9;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
 }
 
 .btn-options:hover, .btn-customize:hover {
@@ -57,17 +63,35 @@ body{
   color: #fff;
 }
 
-
-
-.username {
+.name-wrapper {
+  display: flex;
+  align-items: center;
   font-size: 3.5rem;
   font-weight: bold;
   color: #000000; /* kinda Aphrodite vibes */
   margin: 10px;
-  position: relative;
-  top: -220px;
-  margin-left: 160px;
+  padding: 30px;
+  POSITION: RELATIVE;
 }
+
+.displayname {
+  position: absolute;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #000000; /* kinda Aphrodite vibes */
+  margin: 10px;
+  left: 30%;
+} 
+
+.username {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000000; /* kinda Aphrodite vibes */
+  margin: 10px;
+  position: absolute;
+  left: 50%;
+}
+
 
 .profile-picture {
     height: 300px;
@@ -79,9 +103,27 @@ body{
     display: flex;
     justify-content: center;
     position: relative;
-    top: -180px;    
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
+/* style for description text */
+.description-container p {
+    max-width: 600px;
+    width: 100%;
+    padding: 1rem;
+    font-family: var(--profile-font, sans-serif);
+    font-size: 1rem;
+    color: #333;
+    background-color: #fafafa;
+    border: 2px solid var(--profile-color, #ccc);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    white-space: pre-wrap; /* keeps newlines */
+    word-wrap: break-word;
+}
+
+/* textarea styles remain same */
 .profile-description {
     width: 100%;
     max-width: 600px;
@@ -106,7 +148,7 @@ body{
     outline: none;
     border-color: var(--profile-color, #888);
     box-shadow: 0 0 0 3px rgba(100, 100, 255, 0.15);
-}   
+}
 
 
 .creations-section {
@@ -115,6 +157,8 @@ body{
   color: #eee;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
+  position: relative;
+  height: auto;
 }
 
 .creations-btn {

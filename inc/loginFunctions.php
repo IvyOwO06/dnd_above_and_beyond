@@ -85,10 +85,10 @@ function login() {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             session_regenerate_id(true); // Prevent session fixation
-            $_SESSION['pending_2fa'] = [
+            $_SESSION['user'] = [
                 'username' => $row['userName'],
                 'id' => $row['userId'],
-                '2fa_pending' => true
+                // '2fa_pending' => true
             ];
 
             // Dynamically find Python executable

@@ -11,6 +11,8 @@ $userId = $_SESSION['user']['id'];
 $profileId = $_GET['userId'] ?? $userId;
 $db = dbconnect();
 
+
+
 // Profile Picture
 if (isset($_POST['upload_picture']) && isset($_FILES['profile_picture'])) {
     if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
@@ -90,6 +92,20 @@ if (isset($_POST['update_visibility'])) {
     exit();
 }
 
+// Display Name
+if (isset($_POST['update_displayName'])) {
+    $displayName = trim($_POST['displayName']);
+    // Optionally sanitize/validate here, e.g. limit length
+    if (strlen($displayName) > 50) {
+        $displayName = substr($displayName, 0, 50);
+    }
+    $stmt = $db->prepare("UPDATE user SET displayName = ? WHERE userId = ?");
+    $stmt->execute([$displayName, $userId]);
+    header("Location: profileCustomization.php?userId=$userId");
+    exit();
+}
+
+
 // Refresh user
 $user = getUser($userId);
 ?>
@@ -105,6 +121,14 @@ $user = getUser($userId);
 <?php displayHeader(); ?>
 
 <h2>Profile Options</h2>
+
+<!-- Display Name -->
+<form method="POST">
+    <h3>Display Name:</h3>
+    <input type="text" name="displayName" value="<?= htmlspecialchars($user['displayName'] ?? '') ?>" maxlength="50" placeholder="Your display name">
+    <br>
+    <button type="submit" name="update_displayName">Save Display Name</button>
+</form>
 
 <!-- Profile Picture -->
 <form method="POST" enctype="multipart/form-data">
