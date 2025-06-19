@@ -161,9 +161,15 @@ function searchProfile()
 {
     $userName = $_GET['search_profile'] ?? '';
 
+    
     if ($userName) {
         $matches = searchProfileByName($userName);
 
+        if (empty($matches)) {
+            // Redirect to the first matching user profile
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
         foreach ($matches as $match) {
             header('Location: profile.php?userId=' . $match['userId']);
             exit;
