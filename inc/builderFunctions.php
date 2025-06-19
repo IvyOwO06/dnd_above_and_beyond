@@ -177,6 +177,19 @@ function homeTabBuilder($characterId)
             echo '<p class="error">' . $uploadResult['message'] . '</p>';
         }
     }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $backstory = $_POST['backstory'] ?? '';
+    $personality = $_POST['personality'] ?? '';
+
+    $update = $conn->prepare("UPDATE characters SET characterBackstory = ?, characterPersonality = ? WHERE characterId = ?");
+    $update->bind_param("ssi", $backstory, $personality, $characterId);
+    $update->execute();
+
+    header("Location: character.php?id=$characterId");
+    exit;
+    }
+
     ?>
 
     <!-- Image Upload Form -->
@@ -232,6 +245,15 @@ function homeTabBuilder($characterId)
                 <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good') echo 'selected'; ?>>Neutral Good</option>
                 <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil') echo 'selected'; ?>>Neutral Evil</option>
             </select><br>
+            <form method="POST">
+        <label>Backstory:</label><br>
+        <textarea name="backstory" rows="10" cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
+
+        <label>Personality:</label><br>
+        <textarea name="personality" rows="6" cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
+
+        <button type="submit">Save</button>
+    </form>
         </div>
 
         <!-- Class Tab -->
