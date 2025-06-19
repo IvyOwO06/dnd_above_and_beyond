@@ -316,34 +316,68 @@ function homeTabBuilder($characterId)
         </div>
         
         <!-- Class Features Tab -->
+        <?php
+        include_once 'functions.php';
+
+        $characterId = $_GET['characterId'];
+        $character = getCharacter($characterId);
+        $classId = intval($character['classId']);
+        $class = getClassFromJson($classId);
+        ?>
+
         <div id="feats" class="tab-content search-section">
-            <?php
-            $classId = $character['classId'];
-            $class = getClassFromJson($classId);
-            ?>
-            <class>
+            <label for="characterFeats">Class Features:</label><br>
+            <input type="text" class="live-search" placeholder="Search class features...">
+
+            <feats>
                 <h2>Current Class</h2>
-                <p><?php echo $class['name'] ?></p>
+                <p><?php echo htmlspecialchars($class['name']); ?></p>
                 <label for="levels">Level:</label>
                 <select name="levels" id="levels">
                     <?php
-                    for ($i = 1; $i <= 20; $i++)
-                    {
+                    for ($i = 1; $i <= 20; $i++) {
                         ?>
                         <option value="<?php echo $i ?>" <?php if ($character['level'] == $i) echo 'selected'; ?>><?php echo $i ?></option>
                         <?php
                     }
                     ?>
                 </select>
-                <br>
-                <br>
-            </class>
-            <level>
-                <?php
-                $level = getClassLevel($classId);
-                dd($level);
-                ?>
-            </level>
+                <br><br>
+            </feats>
+                
+            <?php
+            // Call getClassFeatures to retrieve filtered features
+            $features = getClassFeatures($characterId);
+                
+            if (!empty($features)) {
+                foreach ($features as $feature) {
+                    $name = htmlspecialchars($feature['name']);
+                    $level = $feature['level'];
+                    $entries = is_array($feature['entries']) ? (isset($feature['entries'][0]) && is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES)) : htmlspecialchars($feature['entries'], ENT_QUOTES);
+                    ?>
+                    <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-level="<?php echo $level; ?>">
+                        <p><?php echo $name; ?> (Level <?php echo $level; ?>)</p>
+                        <button type="button"
+                                class="show-feature-modal"
+                                data-name="<?php echo $name; ?>"
+                                data-info="<?php echo $entries; ?>"
+                                data-level="<?php echo $level; ?>">
+                                Read more
+                        </button>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "<p>No class features found for this level or source.</p>";
+            }
+            ?>
+
+            <div id="feature-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">x</span>
+                    <div id="modal-feature-info"></div>
+                </div>
+            </div>
         </div>
 
         <!-- Race Tab -->
