@@ -14,6 +14,7 @@ loggedInCheck();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>ඞ</title>
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/campaign.css">
     </head>
     <body>
         <?php
@@ -21,7 +22,7 @@ loggedInCheck();
         if($_SESSION['user']['id'] == $userId)
         {
             ?>
-            <form method="POST" action="campaigns?userId=<?php echo $userId ?>">
+            <form method="POST" action="campaigns?userId=<?php echo $userId ?>" class="campaignform">
                 <label for="campaignName">Create Campaign</label><br>
 
                 <input type="text" id="campaignName" name="campaignName" placeholder="Campaign Name" required><br><br>

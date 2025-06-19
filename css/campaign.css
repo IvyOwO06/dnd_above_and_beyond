@@ -1,0 +1,113 @@
+.campaignform {
+  background-color: #f7f4ff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(90, 70, 130, 0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+form label {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #4a3665;
+  justify-content: center;
+  display: flex;
+}
+
+form input[type="text"],
+form textarea {
+  width: 460px;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 0.5rem;
+  margin-bottom: 1.2rem;
+  background-color: #fff;
+  font-size: 1rem;
+}
+
+
+form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+form button {
+  background-color: #5e3da7;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-left: 200px;
+}
+
+form button:hover {
+  background-color: #4c2f89;
+}
+
+#campaigns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+campaign {
+  display: block;
+  background-color: #fff;
+  padding: 1.4rem;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(140, 90, 180, 0.08);
+  position: relative;
+}
+
+campaign h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #5e3da7;
+}
+
+campaign p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+campaign a {
+  display: inline-block;
+  background-color: #3b8b75;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+campaign a:hover {
+  background-color: #31715e;
+}
+
+campaign form button {
+  background-color: #c94c4c;
+  color: white;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  position: absolute;
+  top: 120px;
+}
+
+campaign form button:hover {
+  background-color: #a43737;
+}
