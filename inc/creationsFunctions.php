@@ -3,6 +3,21 @@
 require_once 'functions.php';
 require_once 'classesFunctions.php';
 
+$conn = dbConnect();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete']) && isset($_POST['delete_character_id'])) {
+    $charId = intval($_POST['delete_character_id']);
+    $userId = $_SESSION['user']['id'] ?? null;
+
+    if (deleteCharacter($conn, $charId, $userId)) {
+    header("Location: index.php");
+    } else {
+        echo "❌ You can’t delete this character.";
+        exit;
+    }
+}
+
+
 function getCharacters($userId)
 {
     $db = dbConnect();
@@ -42,8 +57,8 @@ function displayCharacters($userId, $limit = null)
             <p class="no-characters">No characters found. Forge a new legend in the annals of adventure!</p>
         <?php else: ?>
             <?php foreach ($characters as $character):
-            $classId = $character['classId'];
-            $class = getClassFromJson($classId);
+                $classId = $character['classId'];
+                $class = getClassFromJson($classId);
             ?>
                 <div class="character-card" data-class="<?php echo htmlspecialchars($character['classId'] ?? 'unknown'); ?>">
                     <div class="rune-glow"></div>
@@ -54,10 +69,15 @@ function displayCharacters($userId, $limit = null)
                              alt="<?php echo htmlspecialchars($character['characterName']); ?>'s portrait" 
                              class="character-image">
                     </div>
-                    <?php if (isset($_GET['userId'], $_SESSION['user']['id']) && $_GET['userId'] == $_SESSION['user']['id']): ?>
+                    <?php if (isset($_SESSION['user']['id']) && $userId == $_SESSION['user']['id']): ?>
                         <div class="character-actions">
                             <a href="builder.php?characterId=<?php echo $character['characterId']; ?>" class="action-button edit-button">Edit</a>
                             <a href="characterSheet.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">View Sheet</a>
+                            <a href="characterprofile.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">View Profile</a>
+                            <form method="POST" onsubmit="return confirm('Are you sure?');">
+                                <input type="hidden" name="delete_character_id" value="<?php echo $character['characterId']; ?>">
+                                <button type="submit" name="delete" value="1">🗑️ Delete Character</button>
+                            </form>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -65,4 +85,31 @@ function displayCharacters($userId, $limit = null)
         <?php endif; ?>
     </div>
     <?php
+}
+
+function deleteCharacter($conn, $characterId, $userId) {
+    // Make sure $characterId and $userId are valid integers
+    $characterId = intval($characterId);
+    $userId = intval($userId);
+
+    // Verify that the character belongs to the user
+    $sql = "SELECT userId FROM characters WHERE characterId = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $characterId);
+    $stmt->execute();
+    $stmt->bind_result($ownerId);
+    if (!$stmt->fetch() || $ownerId !== $userId) {
+        $stmt->close();
+        return false; // Not authorized or character not found
+    }
+    $stmt->close();
+
+    // Delete character
+    $sql = "DELETE FROM characters WHERE characterId = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $characterId);
+    $success = $stmt->execute();
+    $stmt->close();
+
+    return $success;
 }
