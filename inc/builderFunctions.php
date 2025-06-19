@@ -206,7 +206,6 @@ function homeTabBuilder($characterId)
         <a href="#feats">Class Features</a><br>
         <a href="#race">Race</a><br>
         <a href="#abilities">Abilities</a><br>
-        <a href="#submit">Submit Character</a><br>
     </div>
 
     <!-- Single Shared Overlay -->
@@ -409,13 +408,6 @@ function homeTabBuilder($characterId)
             }
             ?>
         </div>
-
-        <!-- Submit Tab -->
-        <div id="submit" class="tab-content">
-            <label>Submit:</label><br>
-            <button type="submit">Create Character</button>
-        </div>
-
         <?php $userId = json_encode($_SESSION['user']['id']); ?>
         <script>
             const userId = <?php echo $userId; ?>;
