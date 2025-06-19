@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h2 class="campaignh2">Campaigns</h2>
 <div class="campaign-profile">
     <?php
-    displaycampaigns($userId);
+    displaycampaigns($profileId);
     ?>
 </div>
 
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <a href="creations.php?userId=<?php echo $profileId; ?>" class="creations-btn">Creations</a>
     <?php
 
-    displayCharacters($userId, 3);
+    displayCharacters($profileId, 3);
     ?>
     </div>
 <?php

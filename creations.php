@@ -3,7 +3,6 @@
 require 'inc/navFunctions.php';
 require 'inc/creationsFunctions.php';
 $userId = $_GET['userId'];
-$character = getCharacters($userId);
 
 ?>
 
