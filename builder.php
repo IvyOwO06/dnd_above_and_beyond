@@ -4,6 +4,18 @@ require 'inc/classesFunctions.php';
 require 'inc/racesFunctions.php';
 require 'inc/navFunctions.php';
 require 'inc/levelFunctions.php';
+
+$characterId = $_GET['characterId'];
+$character = getCharacter($characterId);
+
+if ($_SESSION['user']['id'] !== intval($character['userId'])) {
+    echo '<script>
+            alert("This is not your Character");
+            window.location.href = "index";
+            </script>';
+            exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
