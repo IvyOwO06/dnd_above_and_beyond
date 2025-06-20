@@ -1,0 +1,102 @@
+/* Blog Post View */
+.blog {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #0d0311;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(102, 51, 153, 0.1);
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.blog h1 {
+  font-size: 2rem;
+  color: #6e2ea8;
+  margin-bottom: 0.5rem;
+}
+
+.blog p {
+  line-height: 1.6;
+  margin: 0.75rem 0;
+}
+
+.blog img.blog-header-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Comments */
+.comment {
+  background: #f0e6ff;
+  border-left: 4px solid #a972d8;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.comment strong {
+  color: #5c258d;
+  font-weight: bold;
+}
+
+.comment em {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Comment form */
+#commentForm {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #fff;
+  border: 2px solid #d5bfff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(115, 75, 160, 0.1);
+}
+
+form.form label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+form.form textarea.form-control {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+
+button.button,
+form.form button.submit {
+  background: #9f4ed7;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+    margin-left: 46%;
+    margin-bottom: 5%;
+}
+
+button.button:hover,
+form.form button.submit:hover {
+  background: #7b2cbf;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

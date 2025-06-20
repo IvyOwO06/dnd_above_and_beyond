@@ -12,19 +12,20 @@ $posts = getBlogs($categoryId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="styesheet" href="css/blog.css">
+    <link rel="stylesheet" href="css/blog.css">
 </head>
 <?Php 
 displayHeader();
 ?>
 
 <div class="blog-page-containerr">
-<aside class="category-sidebar" >
+  <nav class="blog-category-bar">
     <?php displayBlogCategories(); ?>
-</aside>
+  </nav>
 
-<?php 
-displayBlogs($posts);
+  <?php displayBlogs($posts); ?>
+</div>
+
 ?>
 </div>  
 <h2>Create a New Blog Post</h2> <!-- form to create a new blog post -->

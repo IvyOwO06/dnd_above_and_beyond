@@ -106,18 +106,14 @@ function getBlogCategories() //get blog per category
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-function displayBlogCategories() //display blog per category
-{
+function displayBlogCategories() {
     $categories = getBlogCategories();
-    echo "<nav class='sidebar-categories'>";
-    echo "<h3>Categories</h3>";
-    echo "<ul>";
-    echo "<li><a href='blog.php'</a>All</li>";
+    echo "<ul class='category-bar-list'>";
+    echo "<li><a href='blog.php'>All</a></li>";
     foreach ($categories as $category) {
         echo "<li><a href='?categoryId=" . htmlspecialchars($category['blogCategoryId']) . "'>" . htmlspecialchars($category['blogCategoryName']) . "</a></li>";
     }
     echo "</ul>";
-    echo "</nav>";
 }
 
 function getBlogComments($blogId) //fetch blog comments from database

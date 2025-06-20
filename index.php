@@ -44,7 +44,7 @@ $posts = getBlogs();
         </div>
     </a>
     
-    <a href="campaigns?userId=<?php echo $_SESSION['user']['id'] ?>">
+    <a href="campaigns?userId=<?php echo isset($_SESSION['user']['id']); ?>">
         <div class="image-container">
             <img src="Uploads/beholder.png" alt="image description">
             <div class="text-overlay">
