@@ -48,6 +48,12 @@ if ($field == "level" && $value > 20) {
     $value = 2147483647;
 } elseif ($field == "characterAge" && $value < 0) {
     $value = 0;
+} elseif ($field == "strength" || $field == "dexterity" || $field == "constitution" || $field == "intelligence" || $field == "wisdom" || $field == "charisma") {
+    if ($value > 20) {
+        $value = 20;
+    } elseif ($value < 3) {
+        $value = 3;
+    }
 }
 
 $allowed_fields = array_keys($fieldTypes); // cleaner than manually listing again

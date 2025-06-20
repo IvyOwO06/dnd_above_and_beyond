@@ -65,7 +65,6 @@ function timer()
         };
     </script>
     <?php
-
 }
 
 function loggedInCheck()
