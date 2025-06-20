@@ -20,7 +20,7 @@ $.ajax({
     },
 
     error: function() {
-    alert(`Failed to update ${field}`);
+    console.log(`Failed to update ${field}`);
     }
 });
 }
@@ -44,6 +44,14 @@ updateField('levels', $(this).val());
 
 $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
+});
+
+$('#characterBackstory').on('change', function () {
+updateField('characterBackstory', $(this).val());
+});
+
+$('#characterPersonality').on('change', function () {
+updateField('characterPersonality', $(this).val());
 });
 
 document.addEventListener('click', function(e) {

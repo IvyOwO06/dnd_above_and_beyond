@@ -163,6 +163,7 @@ function handleSkillUpdates($characterId)
 
 function homeTabBuilder($characterId)
 {
+    $conn = dbConnect();
     $classes = getClassesFromJson();
     $races = getRacesFromJson();
     $raceFluff = getRacesFluffFromJson();
@@ -176,18 +177,6 @@ function homeTabBuilder($characterId)
         } else {
             echo '<p class="error">' . $uploadResult['message'] . '</p>';
         }
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $backstory = $_POST['backstory'] ?? '';
-    $personality = $_POST['personality'] ?? '';
-
-    $update = $conn->prepare("UPDATE characters SET characterBackstory = ?, characterPersonality = ? WHERE characterId = ?");
-    $update->bind_param("ssi", $backstory, $personality, $characterId);
-    $update->execute();
-
-    header("Location: character.php?id=$characterId");
-    exit;
     }
 
     ?>
@@ -247,12 +236,11 @@ function homeTabBuilder($characterId)
             </select><br>
             <form method="POST">
         <label>Backstory:</label><br>
-        <textarea name="backstory" rows="10" cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
+        <textarea name="characterBackstory" id="characterBackstory" rows="10" cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
 
         <label>Personality:</label><br>
-        <textarea name="personality" rows="6" cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
+        <textarea name="characterPersonality" id="characterPersonality" rows="6" cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
 
-        <button type="submit">Save</button>
     </form>
         </div>
 

@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete']) && isset($_
     $userId = $_SESSION['user']['id'] ?? null;
 
     if (deleteCharacter($conn, $charId, $userId)) {
-    header("Location: index.php");
+    header("Location: creations?userId=$userId");
     } else {
         echo "❌ You can’t delete this character.";
         exit;
