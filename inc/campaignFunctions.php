@@ -138,7 +138,7 @@ function displaycampaigns($userId)
             <form method="POST">
                 <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaign['campaignId']); ?>">
                 <?php
-                if ($campaign && $campaign['userId'] == $_SESSION['user']['id'] ) {
+                if (isset($_SESSION['user']['id']) && $campaign && $campaign['userId'] == $_SESSION['user']['id']) {
                 ?>
                 <button name="removeCampaign" onclick="return confirm('Remove the campaign?')">Remove</button>
                 <?php } ?>
