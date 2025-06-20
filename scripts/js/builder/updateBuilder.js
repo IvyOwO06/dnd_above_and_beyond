@@ -17,6 +17,7 @@ $.ajax({
     },
     success: function(response) {
     console.log(`Updated ${field} to ${value}: ${response}`);
+    location.reload();
     },
 
     error: function() {
@@ -55,18 +56,16 @@ updateField('characterPersonality', $(this).val());
 });
 
 document.addEventListener('click', function(e) {
-    if (e.target && e.target.id === 'confirm-race-selection') {
+    if (e.target && e.target.id === 'confirm-class-selection') {
         const index = e.target.value;
-        updateField('raceId', index);
-        location.reload();
+        updateField('classId', index);
     }
 });
 
 document.addEventListener('click', function(e) {
-    if (e.target && e.target.id === 'confirm-class-selection') {
+    if (e.target && e.target.id === 'confirm-race-selection') {
         const index = e.target.value;
-        updateField('classId', index);
-        location.reload();
+        updateField('raceId', index);
     }
 });
 
