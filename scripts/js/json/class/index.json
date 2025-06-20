@@ -6,11 +6,9 @@
 	"druid": "class-Druid.json",
 	"fighter": "class-Fighter.json",
 	"monk": "class-Monk.json",
-	"mystic": "class-Mystic.json",
 	"paladin": "class-Paladin.json",
 	"ranger": "class-Ranger.json",
 	"rogue": "class-Rogue.json",
-	"sidekick": "class-Sidekick.json",
 	"sorcerer": "class-Sorcerer.json",
 	"warlock": "class-Warlock.json",
 	"wizard": "class-Wizard.json"

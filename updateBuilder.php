@@ -23,7 +23,9 @@ $fieldTypes = [
     'wisdom' => 'i',
     'charisma' => 'i',
     'classId' => 'i',
-    'raceId' => 'i'
+    'raceId' => 'i',
+    'characterBackstory' => 's',
+    'characterPersonality' => 's'
 ];
 
 if ($field == "levels") {
@@ -34,8 +36,8 @@ if ($field == "level" && $value > 20) {
     $value = 20;
 } elseif ($field == "level" && $value < 1) {
     $value = 1;
-} elseif ($field == "classId" && $value > 14) {
-    $value = 14;
+} elseif ($field == "classId" && $value > 12) {
+    $value = 12;
 } elseif ($field == "classId" && $value < 0) {
     $value = 0;
 } elseif ($field == "raceId" && $value > 144) {

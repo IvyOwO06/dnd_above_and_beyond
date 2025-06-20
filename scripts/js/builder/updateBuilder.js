@@ -17,10 +17,11 @@ $.ajax({
     },
     success: function(response) {
     console.log(`Updated ${field} to ${value}: ${response}`);
+    location.reload();
     },
 
     error: function() {
-    alert(`Failed to update ${field}`);
+    console.log(`Failed to update ${field}`);
     }
 });
 }
@@ -46,19 +47,25 @@ $('#alignment').on('change', function () {
 updateField('alignment', $(this).val());
 });
 
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.id === 'confirm-race-selection') {
-        const index = e.target.value;
-        updateField('raceId', index);
-        location.reload();
-    }
+$('#characterBackstory').on('change', function () {
+updateField('characterBackstory', $(this).val());
+});
+
+$('#characterPersonality').on('change', function () {
+updateField('characterPersonality', $(this).val());
 });
 
 document.addEventListener('click', function(e) {
     if (e.target && e.target.id === 'confirm-class-selection') {
         const index = e.target.value;
         updateField('classId', index);
-        location.reload();
+    }
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'confirm-race-selection') {
+        const index = e.target.value;
+        updateField('raceId', index);
     }
 });
 
