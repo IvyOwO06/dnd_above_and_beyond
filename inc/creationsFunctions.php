@@ -76,7 +76,7 @@ function displayCharacters($userId, $limit = null)
                             <a href="characterprofile.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">View Profile</a>
                             <form method="POST" onsubmit="return confirm('Are you sure?');">
                                 <input type="hidden" name="delete_character_id" value="<?php echo $character['characterId']; ?>">
-                                <button type="submit" name="delete" value="1">🗑️ Delete Character</button>
+                                <button type="submit" name="delete" value="1" class="delete-character">Delete</button>
                             </form>
                         </div>
                     <?php endif; ?>

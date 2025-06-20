@@ -29,8 +29,8 @@ $posts = getBlogs();
 
     <main>
         <section class="welcome">
-            <h2>PLACEHOLDER TEXT</h2>
-            <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum in sit sapiente consectetur laudantium repudiandae error, maxime temporibus? Cumque recusandae ipsum quisquam nesciunt voluptatum quod perspiciatis natus iusto error ut.</P>
+            <h2>DUNGEONS AND MASTERS</h2>
+            <P>Step into a world where your D&D stories come alive! Our site lets you create, manage, and dive deep into your campaigns and characters! Complete with sleek sheets, DM tools, and even dice rolling at your fingertips. Whether you’re crafting epic quests or building legendary heroes, we’ve got your back. Ready to level up your game? Join us and bring your adventures to life like never before!</P>
         </section>
     </main>
 
@@ -44,7 +44,7 @@ $posts = getBlogs();
         </div>
     </a>
     
-    <a href="#">
+    <a href="campaigns?userId=<?php echo $_SESSION['user']['id'] ?>">
         <div class="image-container">
             <img src="Uploads/beholder.png" alt="image description">
             <div class="text-overlay">
@@ -53,7 +53,7 @@ $posts = getBlogs();
         </div>
     </a>
 
-    <a href="#">
+    <a href="classes.php">
         <div class="image-container">
             <img src="Uploads/book.png">
             <div class="text-overlay">
@@ -67,14 +67,14 @@ $posts = getBlogs();
     <div class="image-link-grid">
         <div class="image-link-stack">
             <a href="page1.php" class="image-link image-link-small">
-                <img src="https://placehold.co/300x300" class="slide-image" alt="Featured Adventure: Upper Realm Quest">
+                <img src="https://www.wargamer.com/wp-content/sites/wargamer/2024/07/dnd-art-video-backgrounds.jpg" class="slide-image" alt="Featured Adventure: Upper Realm Quest">
             </a>
             <a href="page2.php" class="image-link image-link-small">
-                <img src="https://placehold.co/300x300" class="slide-image" alt="Featured Guide: Character Creation Tips">
+                <img src="https://cdn.mos.cms.futurecdn.net/ac5WH9LkYKbWMVYrXborF7.jpg" class="slide-image" alt="Featured Guide: Character Creation Tips">
             </a>
         </div>
         <a href="page3.php" class="image-link image-link-large">
-            <img src="https://placehold.co/300x300" class="slide-image" alt="Featured Campaign: Dragon's Lair">
+            <img src="https://cdn.mos.cms.futurecdn.net/neigNTpGV7TYP4LLrJuq9A-1200-80.png" class="slide-image" alt="Featured Campaign: Dragon's Lair">
         </a>
     </div>
 </section>
@@ -101,7 +101,7 @@ $posts = getBlogs();
     </section>
 
     <section class="blog-preview">
-    <h1 class="blog-preview-title">Recent Articles</h1>
+    <h1 class="blog-preview-title">Join the conversation!</h1>
     <div class="blog-grid">
         <?php
         displayBlogs($posts);

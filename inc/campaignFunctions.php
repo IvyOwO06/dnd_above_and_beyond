@@ -1,4 +1,8 @@
 <?php
+
+require_once 'dmFunctions.php';
+require_once 'functions.php';
+
 function getCharactersForCampaign($campaignId)
 {
     $db = dbConnect();
@@ -202,6 +206,11 @@ function displaycampaign($campaignId)
     <p><?php echo htmlspecialchars($campaign['description']); ?></p>
 
     <?php 
+    // Add DM Corner link for campaign creator
+    if ($isCreator) {
+        echo '<p><a href="dm_notes.php?campaignId=' . htmlspecialchars($campaignId) . '">DM Corner - Manage Notes</a></p>';
+    }
+
     if (!$isCreator) 
     {
         ?>

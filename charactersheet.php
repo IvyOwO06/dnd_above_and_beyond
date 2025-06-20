@@ -73,6 +73,8 @@ foreach ($raceFluff as $fluff) {
 <h2>Proficiency Bonus</h2>
 <p><strong>Proficiency Bonus:</strong> +<?php echo getProficiencyBonus($character['level']); ?></p>
 
+
+
 <h2>Skills</h2>
 <ul id="skills-list">
     <?php

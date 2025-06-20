@@ -35,8 +35,6 @@ function displayHeader()
                             <a href="races.php">Races</a>
                         </div>
                     </div> 
-                <li><a href="classes.php">Classes</a></li>
-                <li><a href="races.php">Races</a></li>
                 <?php
                 if (isset($_SESSION['user']))
                 {

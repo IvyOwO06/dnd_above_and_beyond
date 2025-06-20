@@ -37,14 +37,14 @@ function displayBlogs($posts) // Displays blogs from database
     <div class="blog-container">
         <div class="blog-list">
             <?php foreach ($posts as $post): ?>
-                <article class="blog-post" data-category="<?php echo htmlspecialchars($post['blogCategory'] ?? 'general'); ?>">
+                <article class="blog-post" data-category="<?php echo htmlspecialchars($post['blogCategoryId'] ?? 'general'); ?>">
                     <div class="blog-image-container">
                         <img src="<?php echo !empty($post['blogImage']) ? 'Uploads/' . htmlspecialchars($post['blogImage']) : 'images/default_blog.png'; ?>" 
                              alt="<?php echo !empty($post['blogImage']) ? htmlspecialchars($post['blogTitle']) . ' header image' : 'Default blog header image'; ?>" 
                              class="blog-header-image">
                     </div>
                     <div class="blog-content">
-                        <span class="blog-category"><?php echo htmlspecialchars($post['blogCategory'] ?? 'General'); ?></span>
+                        <span class="blog-category"><?php echo htmlspecialchars($post['blogCategoryId'] ?? 'General'); ?></span>
                         <h2 class="blog-title">
                             <a href="blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>">
                                 <?php echo htmlspecialchars($post['blogTitle']); ?>

@@ -105,56 +105,10 @@
 .character-actions {
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1rem;
+    gap: 20px;
 }
 
-.action-button {
-    font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
-    display: inline-block;
-    padding: 0.6rem 1.2rem;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
 
-.action-button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: 0.5s;
-}
-
-.action-button:hover::after {
-    left: 100%;
-}
-
-.edit-button {
-    background: #6b4e9e;
-    color: #ffffff;
-}
-
-.edit-button:hover {
-    background: #9b7ed2;
-    box-shadow: 0 0 10px #6b4e9e;
-}
-
-.view-button {
-    background: #4a3676;
-    color: #ffffff;
-}
-
-.view-button:hover {
-    background: #7b56a6;
-    box-shadow: 0 0 10px #4a3676;
-}
 
 /* No Characters Message */
 .no-characters {
@@ -182,4 +136,44 @@
     height: 100%;
     background: radial-gradient(circle, rgba(107, 78, 158, 0.2) 0%, transparent 70%);
     opacity: 0.5;
+}
+
+
+.action-button {
+  background: #a04ae2;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  flex: 1 1 48%;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.action-button.edit-button{
+    height: 15px;
+}
+
+.action-button:hover {
+  background: #5e2182;
+}
+
+.delete-character {
+  background: #e24a4a;
+  border: none;
+  padding: 8px 12px;
+  color: white;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 1 1 100%;
+  margin-top: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.delete-character:hover {
+  background: #a82f2f;
 }
