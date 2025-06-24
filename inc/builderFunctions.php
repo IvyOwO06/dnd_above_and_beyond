@@ -336,7 +336,7 @@ function homeTabBuilder($characterId)
                         if ($classData && isset($classData['class'][0]) && isset($classData['classFeature'])) {
                             foreach ($classData['classFeature'] as $feature) {
                                 if ($feature['level'] == 1 && strpos($feature['name'], 'Optional Rule') === false) {
-                                    $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES));
+                                    $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars(stripJsonTags($feature['entries'][0]), ENT_QUOTES));
                                     break;
                                 }
                             }
@@ -408,7 +408,7 @@ function homeTabBuilder($characterId)
                 foreach ($features as $feature) {
                     $name = htmlspecialchars($feature['name']);
                     $level = $feature['level'];
-                    $entries = is_array($feature['entries']) ? (isset($feature['entries'][0]) && is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES)) : htmlspecialchars($feature['entries'], ENT_QUOTES);
+                    $entries = is_array($feature['entries']) ? (isset($feature['entries'][0]) && is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars(stripJsonTags($feature['entries'][0]), ENT_QUOTES)) : htmlspecialchars(stripJsonTags($feature['entries']), ENT_QUOTES);
                     ?>
                     <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-level="<?php echo $level; ?>">
                         <p><?php echo $name; ?> (Level <?php echo $level; ?>)</p>
@@ -455,7 +455,7 @@ function homeTabBuilder($characterId)
             foreach ($races as $index => $race) {
                 $name = htmlspecialchars($race['name']);
                 $source = isset($race['source']) ? htmlspecialchars($race['source']) : '';
-                $fluffSnippet = htmlspecialchars(getFluffSnippet($race['entries'] ?? []), ENT_QUOTES);
+                $fluffSnippet = htmlspecialchars(stripJsonTags(getFluffSnippet($race['entries'] ?? [])), ENT_QUOTES);
                 ?>
                 <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
                     data-source="<?php echo strtolower($source); ?>">
