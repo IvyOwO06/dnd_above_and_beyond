@@ -70,7 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="button-wrapper">
                     <a href="profileOptions.php?userId=<?php echo $userId ?>" class="btn-options" >options</a>
                     <a href="profileCustomization.php?userId=<?php echo $userId ?>" class="btn-customize">customize</a>
-                     <a href="profileCustomization.php?userId=<?php echo $userId ?>" class="btn-customize">customize</a>
 
                     <br>
                 </div>
