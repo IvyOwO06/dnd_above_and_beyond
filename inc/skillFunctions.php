@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo updateSkillProficiency($input['characterId'], $input['skillId'], $input['proficiency']);
             break;
         default:
-            echo json_encode(['success' => false, 'message' => 'Invalid action']);
+            // echo json_encode(['success' => false, 'message' => 'Invalid action']);
             break;
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo getSkillModifier($_GET['characterId'], $_GET['skillId']);
             break;
         default:
-            echo json_encode(['success' => false, 'message' => 'Invalid action']);
+            // echo json_encode(['success' => false, 'message' => 'Invalid action']);
             break;
     }
 }
