@@ -65,8 +65,13 @@ function timer()
         };
     </script>
     <?php
-
 }
+
+function stripJsonTags($text) {
+    // Match things like {@tag display|...} or {@tag display}
+    return preg_replace('/\{@\w+\s+([^|}]+)[^}]*\}/', '$1', $text);
+}
+
 
 function loggedInCheck()
 {

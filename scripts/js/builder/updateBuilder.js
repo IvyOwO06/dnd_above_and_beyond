@@ -17,11 +17,10 @@ $.ajax({
     },
     success: function(response) {
     console.log(`Updated ${field} to ${value}: ${response}`);
-    location.reload();
     },
 
     error: function() {
-    console.log(`Failed to update ${field}`);
+    console.log(`Failed to update ${field} to ${value}`);
     }
 });
 }
@@ -73,4 +72,5 @@ $('.ability-score').on('change', function () {
 const field = $(this).data('field'); // gets "strength", "dexterity", etc.
 const value = $(this).val();
 updateField(field, value);
+location.reload();
 });

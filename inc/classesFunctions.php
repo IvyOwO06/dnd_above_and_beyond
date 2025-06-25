@@ -103,7 +103,7 @@ function getClassFromJson($classId) {
 function renderEntries($entries, $depth = 2) {
     foreach ($entries as $entry) {
         if (is_string($entry)) {
-            echo "<p>" . htmlspecialchars($entry, ENT_QUOTES, 'UTF-8') . "</p>";
+            echo "<p>" . htmlspecialchars(stripJsonTags($entry), ENT_QUOTES, 'UTF-8') . "</p>";
         } elseif (is_array($entry)) {
             $type = $entry['type'] ?? null;
             $name = $entry['name'] ?? null;

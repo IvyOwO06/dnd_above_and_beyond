@@ -2,7 +2,7 @@
 
 require_once 'functions.php';
 
-function getBlogs($categoryId = null) //fetch blogs, if no id default to null
+function getBlogs($categoryId = null) 
 {
     $db = dbConnect();
     if ($categoryId) {
@@ -16,11 +16,16 @@ function getBlogs($categoryId = null) //fetch blogs, if no id default to null
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-function createBlogPost($title, $content, $author) //inserts data into database
+// Fetch category name by category ID
+function getBlogCategoryName($categoryId) 
 {
     $db = dbConnect();
-    $stmt = $db->prepare("INSERT INTO blogposts (title, content, author) VALUES (?, ?, ?)");  //placeholder values that will later be bound
-    return $stmt->execute();
+    $stmt = $db->prepare("SELECT blogCategoryName FROM blogCategories WHERE blogCategoryId = ?");
+    $stmt->bind_param("i", $categoryId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $category = $result->fetch_assoc();
+    return $category ? $category['blogCategoryName'] : 'General';
 }
 
 function displayBlogs($posts) // Displays blogs from database
@@ -37,14 +42,14 @@ function displayBlogs($posts) // Displays blogs from database
     <div class="blog-container">
         <div class="blog-list">
             <?php foreach ($posts as $post): ?>
-                <article class="blog-post" data-category="<?php echo htmlspecialchars($post['blogCategoryId'] ?? 'general'); ?>">
+                <article class="blog-post" data-category="<?php echo htmlspecialchars(getBlogCategoryName($post['blogCategoryId'])); ?>">
                     <div class="blog-image-container">
                         <img src="<?php echo !empty($post['blogImage']) ? 'Uploads/' . htmlspecialchars($post['blogImage']) : 'images/default_blog.png'; ?>" 
                              alt="<?php echo !empty($post['blogImage']) ? htmlspecialchars($post['blogTitle']) . ' header image' : 'Default blog header image'; ?>" 
                              class="blog-header-image">
                     </div>
                     <div class="blog-content">
-                        <span class="blog-category"><?php echo htmlspecialchars($post['blogCategoryId'] ?? 'General'); ?></span>
+                        <span class="blog-category"><?php echo htmlspecialchars(getBlogCategoryName($post['blogCategoryId'])); ?></span>
                         <h2 class="blog-title">
                             <a href="blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>">
                                 <?php echo htmlspecialchars($post['blogTitle']); ?>
@@ -127,26 +132,26 @@ function getBlogComments($blogId) //fetch blog comments from database
     return $result->fetch_all(MYSQLI_ASSOC);
 }
 
-function submitComment($blogId, $author = null, $comment = null) //insert blog comment into database
+function submitComment($blogId, $author = null, $comment = null) // Insert blog comment into database
 {
-    // Check if the form is submitted and if the fields exist
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION['user']['username']) && isset($_POST['content']))
-    {
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SESSION['user']['username']) && isset($_POST['content'])) {
         $author = trim($_SESSION['user']['username']);
         $comment = trim($_POST['content']);
         $blogId = intval($blogId);
 
         if (!empty($author) && !empty($comment)) {
             date_default_timezone_set('Europe/Amsterdam');
-            $date = date('Y-m-d H:i:s'); // Format for DATETIME
+            $date = date('Y-m-d');
             $conn = dbConnect();
-            $stmt = $conn->prepare("INSERT INTO blogPosts (blogTitle, blogContent, blogAuthor, blogPostDate, blogCategoryId, blogImage) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $title, $content, $author, $date, $categoryId, $imageName);
-            $stmt->execute();
-
-            // Redirect to avoid resubmission on refresh
-            header("Location: blogpost.php?id=" . $blogId);
-            exit();
+            $stmt = $conn->prepare("INSERT INTO blogComments (postId, commenterName, commentContent, commentDate) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isss", $blogId, $author, $comment, $date);
+            
+            if ($stmt->execute()) {
+                header("Location: blogpost.php?id=" . $blogId);
+                exit();
+            } else {
+                echo "Error saving comment: " . $conn->error;
+            }
         }
     }
 }

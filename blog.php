@@ -26,7 +26,6 @@ displayHeader();
   <?php displayBlogs($posts); ?>
 </div>
 
-?>
 </div>  
 <h2>Create a New Blog Post</h2> <!-- form to create a new blog post -->
 <form class="form" method="POST" action="blog" enctype="multipart/form-data">

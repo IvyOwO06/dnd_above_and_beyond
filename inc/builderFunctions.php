@@ -169,15 +169,25 @@ function homeTabBuilder($characterId)
     $raceFluff = getRacesFluffFromJson();
     $character = getCharacter($characterId);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['characterImage'])) {
-        $uploadResult = handleImageUpload($characterId);
-        if ($uploadResult['success']) {
-            echo '<p class="success">' . $uploadResult['message'] . '</p>';
-            $character = getCharacter($characterId);
-        } else {
-            echo '<p class="error">' . $uploadResult['message'] . '</p>';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_FILES['characterImage'])) {
+            $uploadResult = handleImageUpload($characterId);
+            if ($uploadResult['success']) {
+                echo '<p class="success">' . $uploadResult['message'] . '</p>';
+                $character = getCharacter($characterId);
+            } else {
+                echo '<p class="error">' . $uploadResult['message'] . '</p>';
+            }
+        }
+        if (isset($_POST['health'])) {
+            $health = $_POST['health'];
+            $conn = dbConnect();
+            
+            $stmt = $conn->prepare('UPDATE characters SET health = ? WHERE characterId = ?');
+            $stmt->execute([$health, $characterId]);
         }
     }
+
 
     ?>
 
@@ -189,9 +199,8 @@ function homeTabBuilder($characterId)
             <div id="image-preview" class="preview-image"></div>
             <?php if ($character['characterImage']): ?>
                 <div class="current-image">
-                    <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" 
-                         alt="Current character portrait" 
-                         class="preview-image">
+                    <img src="<?php echo htmlspecialchars($character['characterImage']); ?>" alt="Current character portrait"
+                        class="preview-image">
                     <p>Current Image</p>
                 </div>
             <?php endif; ?>
@@ -217,31 +226,51 @@ function homeTabBuilder($characterId)
         <!-- General Tab -->
         <div id="general" class="tab-content">
             <label for="characterName">Character Name:</label>
-            <input type="text" id="characterName" name="characterName" value="<?php echo htmlspecialchars($character['characterName']); ?>"
-                   required><br>
+            <input type="text" id="characterName" name="characterName"
+                value="<?php echo htmlspecialchars($character['characterName']); ?>" required><br>
             <label for="age">Age:</label>
-            <input type="number" id="characterAge" name="age" value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
+            <input type="number" id="characterAge" name="age"
+                value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
             <label>Alignment:</label>
             <select name="alignment" id="alignment" required>
                 <option value="">--Choose Option--</option>
-                <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral') echo 'selected'; ?>>Chaotic Neutral</option>
-                <option value="Chaotic Good" <?php if ($character['alignment'] == 'Chaotic Good') echo 'selected'; ?>>Chaotic Good</option>
-                <option value="Chaotic Evil" <?php if ($character['alignment'] == 'Chaotic Evil') echo 'selected'; ?>>Chaotic Evil</option>
-                <option value="Lawful Neutral" <?php if ($character['alignment'] == 'Lawful Neutral') echo 'selected'; ?>>Lawful Neutral</option>
-                <option value="Lawful Good" <?php if ($character['alignment'] == 'Lawful Good') echo 'selected'; ?>>Lawful Good</option>
-                <option value="Lawful Evil" <?php if ($character['alignment'] == 'Lawful Evil') echo 'selected'; ?>>Lawful Evil</option>
-                <option value="Neutral" <?php if ($character['alignment'] == 'Neutral') echo 'selected'; ?>>Neutral</option>
-                <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good') echo 'selected'; ?>>Neutral Good</option>
-                <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil') echo 'selected'; ?>>Neutral Evil</option>
+                <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
+                    echo 'selected'; ?>>
+                    Chaotic Neutral</option>
+                <option value="Chaotic Good" <?php if ($character['alignment'] == 'Chaotic Good')
+                    echo 'selected'; ?>>Chaotic
+                    Good</option>
+                <option value="Chaotic Evil" <?php if ($character['alignment'] == 'Chaotic Evil')
+                    echo 'selected'; ?>>Chaotic
+                    Evil</option>
+                <option value="Lawful Neutral" <?php if ($character['alignment'] == 'Lawful Neutral')
+                    echo 'selected'; ?>>
+                    Lawful Neutral</option>
+                <option value="Lawful Good" <?php if ($character['alignment'] == 'Lawful Good')
+                    echo 'selected'; ?>>Lawful
+                    Good</option>
+                <option value="Lawful Evil" <?php if ($character['alignment'] == 'Lawful Evil')
+                    echo 'selected'; ?>>Lawful
+                    Evil</option>
+                <option value="Neutral" <?php if ($character['alignment'] == 'Neutral')
+                    echo 'selected'; ?>>Neutral</option>
+                <option value="Neutral Good" <?php if ($character['alignment'] == 'Neutral Good')
+                    echo 'selected'; ?>>Neutral
+                    Good</option>
+                <option value="Neutral Evil" <?php if ($character['alignment'] == 'Neutral Evil')
+                    echo 'selected'; ?>>Neutral
+                    Evil</option>
             </select><br>
             <form method="POST">
-        <label>Backstory:</label><br>
-        <textarea name="characterBackstory" id="characterBackstory" rows="10" cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
+                <label>Backstory:</label><br>
+                <textarea name="characterBackstory" id="characterBackstory" rows="10"
+                    cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
 
-        <label>Personality:</label><br>
-        <textarea name="characterPersonality" id="characterPersonality" rows="6" cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
+                <label>Personality:</label><br>
+                <textarea name="characterPersonality" id="characterPersonality" rows="6"
+                    cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
 
-    </form>
+            </form>
         </div>
 
         <!-- Class Tab -->
@@ -251,24 +280,38 @@ function homeTabBuilder($characterId)
             <?php
             $classId = $character['classId'];
             $class = getClassFromJson($classId);
+            $filePath = __DIR__ . '/../scripts/js/json/class/class-' . $class['name'] . '.json';
+
+            // Read and parse the JSON
+            $jsonData = file_get_contents($filePath);
+            $data = json_decode($jsonData, true);
+
+            // Get the hit dice "faces" value (e.g., 8 for d8)
+            $faces = $data['class'][0]['hd']['faces'];
+
+            // Combine level and faces into hit dice format (e.g., "5d8")
+            $hitDice = $character['level'] . 'd' . $faces;
+
             ?>
-                <class>
-                    <h2>Current Class</h2>
-                    <p><?php echo $class['name'] ?></p>
-                    <label for="level">Level:</label>
-                    <select name="level" id="level">
-                        <?php
-                        for ($i = 1; $i <= 20; $i++)
-                        {
-                            ?>
-                            <option value="<?php echo $i ?>" <?php if ($character['level'] == $i) echo 'selected'; ?>><?php echo $i ?></option>
-                            <?php
-                        }
+            <class>
+                <h2>Current Class</h2>
+                <p><?php echo $class['name'] ?></p>
+                <label for="level">Level:</label>
+                <select name="level" id="level">
+                    <?php
+                    for ($i = 1; $i <= 20; $i++) {
                         ?>
-                    </select>
-                    <br>
-                    <br>
-                </class>
+                        <option value="<?php echo $i ?>" <?php if ($character['level'] == $i)
+                               echo 'selected'; ?>><?php echo $i ?>
+                        </option>
+                        <?php
+                    }
+                    ?>
+                </select>
+                <br>
+                <p>Hit Dice: <?php echo $hitDice ?></p>
+                <br>
+            </class>
 
             <?php
             $indexPath = __DIR__ . "/../scripts/js/json/class/index.json";
@@ -293,7 +336,7 @@ function homeTabBuilder($characterId)
                         if ($classData && isset($classData['class'][0]) && isset($classData['classFeature'])) {
                             foreach ($classData['classFeature'] as $feature) {
                                 if ($feature['level'] == 1 && strpos($feature['name'], 'Optional Rule') === false) {
-                                    $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES));
+                                    $info = $feature['name'] . ': ' . (is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars(stripJsonTags($feature['entries'][0]), ENT_QUOTES));
                                     break;
                                 }
                             }
@@ -303,28 +346,26 @@ function homeTabBuilder($characterId)
 
                 echo "<!-- Debug: Processing $name (key: $classKey) -->";
                 ?>
-                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
+                    data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
-                    <button type="button"
-                            class="show-class-modal"
-                            data-index="<?php echo $index; ?>"
-                            data-name="<?php echo $name; ?>"
-                            data-info="<?php echo htmlspecialchars($info, ENT_QUOTES); ?>">
-                            Read more
+                    <button type="button" class="show-class-modal" data-index="<?php echo $index; ?>"
+                        data-name="<?php echo $name; ?>" data-info="<?php echo htmlspecialchars($info, ENT_QUOTES); ?>">
+                        Read more
                     </button>
                 </div>
                 <?php
             }
             ?>
             <div id="class-modal" class="modal" hidden>
-                    <div class="modal-content">
-                        <span class="close-button">x</span>
-                        <div id="modal-class-info"></div>
-                    </div>
+                <div class="modal-content">
+                    <span class="close-button">x</span>
+                    <div id="modal-class-info"></div>
                 </div>
             </div>
         </div>
-        
+        </div>
+
         <!-- Class Features Tab -->
         <?php
         include_once 'functions.php';
@@ -347,32 +388,33 @@ function homeTabBuilder($characterId)
                     <?php
                     for ($i = 1; $i <= 20; $i++) {
                         ?>
-                        <option value="<?php echo $i ?>" <?php if ($character['level'] == $i) echo 'selected'; ?>><?php echo $i ?></option>
+                        <option value="<?php echo $i ?>" <?php if ($character['level'] == $i)
+                               echo 'selected'; ?>><?php echo $i ?>
+                        </option>
                         <?php
                     }
                     ?>
                 </select>
-                <br><br>
+                <br>
+                <p>Hit Dice: <?php echo $hitDice ?></p>
+                <br>
             </feats>
-                
+
             <?php
             // Call getClassFeatures to retrieve filtered features
             $features = getClassFeatures($characterId);
-                
+
             if (!empty($features)) {
                 foreach ($features as $feature) {
                     $name = htmlspecialchars($feature['name']);
                     $level = $feature['level'];
-                    $entries = is_array($feature['entries']) ? (isset($feature['entries'][0]) && is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars($feature['entries'][0], ENT_QUOTES)) : htmlspecialchars($feature['entries'], ENT_QUOTES);
+                    $entries = is_array($feature['entries']) ? (isset($feature['entries'][0]) && is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars(stripJsonTags($feature['entries'][0]), ENT_QUOTES)) : htmlspecialchars(stripJsonTags($feature['entries']), ENT_QUOTES);
                     ?>
                     <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-level="<?php echo $level; ?>">
                         <p><?php echo $name; ?> (Level <?php echo $level; ?>)</p>
-                        <button type="button"
-                                class="show-feature-modal"
-                                data-name="<?php echo $name; ?>"
-                                data-info="<?php echo $entries; ?>"
-                                data-level="<?php echo $level; ?>">
-                                Read more
+                        <button type="button" class="show-feature-modal" data-name="<?php echo $name; ?>"
+                            data-info="<?php echo $entries; ?>" data-level="<?php echo $level; ?>">
+                            Read more
                         </button>
                     </div>
                     <?php
@@ -399,7 +441,7 @@ function homeTabBuilder($characterId)
             $raceId = $character['raceId'];
             $race = getraceFromJson($raceId);
             ?>
-            
+
             <race>
                 <h2>Current Race</h2>
                 <p><?php echo $race['name'] ?></p>
@@ -413,29 +455,27 @@ function homeTabBuilder($characterId)
             foreach ($races as $index => $race) {
                 $name = htmlspecialchars($race['name']);
                 $source = isset($race['source']) ? htmlspecialchars($race['source']) : '';
-                $fluffSnippet = htmlspecialchars(getFluffSnippet($race['entries'] ?? []), ENT_QUOTES);
+                $fluffSnippet = htmlspecialchars(stripJsonTags(getFluffSnippet($race['entries'] ?? [])), ENT_QUOTES);
                 ?>
-                <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-source="<?php echo strtolower($source); ?>">
+                <div class="filter-item" data-name="<?php echo strtolower($name); ?>"
+                    data-source="<?php echo strtolower($source); ?>">
                     <p><?php echo $name; ?></p>
-                    <button type="button"
-                            class="show-race-modal"
-                            data-index="<?php echo $index; ?>"
-                            data-name="<?php echo htmlspecialchars($name, ENT_QUOTES); ?>"
-                            data-info="<?php echo $fluffSnippet; ?>">
-                            More Info
+                    <button type="button" class="show-race-modal" data-index="<?php echo $index; ?>"
+                        data-name="<?php echo htmlspecialchars($name, ENT_QUOTES); ?>" data-info="<?php echo $fluffSnippet; ?>">
+                        More Info
                     </button>
                 </div>
                 <?php
             }
             ?>
-                <div id="race-modal" class="modal" hidden>
-                    <div class="modal-content">
-                        <span class="close-button">x</span>
-                        <div id="modal-race-info"></div>
-                    </div>
+            <div id="race-modal" class="modal" hidden>
+                <div class="modal-content">
+                    <span class="close-button">x</span>
+                    <div id="modal-race-info"></div>
                 </div>
             </div>
-            
+        </div>
+
         <!-- Abilities Tab -->
         <div id="abilities" class="tab-content">
             <h3>Ability Scores</h3>
@@ -447,10 +487,21 @@ function homeTabBuilder($characterId)
                 ?>
                 <label for="<?php echo $ability; ?>"><?php echo ucfirst($ability); ?>:</label>
                 <input type="number" name="<?php echo $ability; ?>" id="<?php echo $ability; ?>" class="ability-score"
-                       data-field="<?php echo $ability; ?>" value="<?php echo htmlspecialchars($value); ?>" required><br>
+                    data-field="<?php echo $ability; ?>" value="<?php echo htmlspecialchars($value); ?>" required><br>
                 <?php
             }
+            $constitution = $character['constitution'];
+            $conbonus = floor(($constitution - 10) / 2);
+
+            $health = floor($faces + ($faces * ($level) - 1) / 2 + ($conbonus * $level));
+
             ?>
+            <form method="POST">
+                <label for="health">Health:</label>
+                <input type="number" name="health" id="health" class="ability-score" value="<?php echo $health ?>"
+                    readonly><br><br>
+                    <input type="submit" value="Update Health" >
+            </form>
         </div>
         <?php $userId = json_encode($_SESSION['user']['id']); ?>
         <script>
