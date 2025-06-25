@@ -10,6 +10,7 @@ function signup()
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn, $_POST['pass']);
         $cpassword = mysqli_real_escape_string($conn, $_POST['cpass']);
+        $banner = "files/banners/banner_68527a720a7bc1.81326786.jpg";
 
         $profilePicture = "images/defaultPFP.png";
 
@@ -25,7 +26,7 @@ function signup()
 
             if ($password == $cpassword) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO user(userName, mail, password, profilePicture) VALUES ('$username', '$email', '$hash', '$profilePicture')";
+                $sql = "INSERT INTO user(userName, mail, password, profilePicture, profileBanner, displayName) VALUES ('$username', '$email', '$hash', '$profilePicture', '$banner', '$username')";
                 $result = mysqli_query($conn, $sql);
                 if ($result) {
                     echo '<script>
