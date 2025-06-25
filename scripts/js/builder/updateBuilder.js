@@ -4,6 +4,8 @@ const params = new URLSearchParams(window.location.search);
 // Get specific value
 const characterId = params.get('characterId');
 
+let refresh = false;
+
 function updateField(field, value) {
 $.ajax({
     url: 'updateBuilder',
@@ -17,6 +19,10 @@ $.ajax({
     },
     success: function(response) {
     console.log(`Updated ${field} to ${value}: ${response}`);
+    if (refresh) {
+        refresh = false;
+        location.reload();
+    }
     },
 
     error: function() {
@@ -34,11 +40,12 @@ $('#characterAge').on('change', function() {
 updateField('characterAge', $(this).val());
 });
 
-$('#level').on('change', function() {
-updateField('level', $(this).val());
-});
+// $('#level').on('change', function() {
+// updateField('level', $(this).val());
+// });
 
 $('#levels').on('change', function() {
+refresh = true;
 updateField('levels', $(this).val());
 });
 
@@ -56,6 +63,7 @@ updateField('characterPersonality', $(this).val());
 
 document.addEventListener('click', function(e) {
     if (e.target && e.target.id === 'confirm-class-selection') {
+        refresh = true;
         const index = e.target.value;
         updateField('classId', index);
     }
@@ -63,6 +71,7 @@ document.addEventListener('click', function(e) {
 
 document.addEventListener('click', function(e) {
     if (e.target && e.target.id === 'confirm-race-selection') {
+        refresh = true;
         const index = e.target.value;
         updateField('raceId', index);
     }
