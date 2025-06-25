@@ -38,7 +38,6 @@
     height: 200px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease, filter 0.3s ease;
 }
 
 .image-link-large .slide-image {
@@ -117,10 +116,13 @@
     max-width: 1280px; 
     margin: 3rem auto;
     padding: 2rem 1rem;
-    background: #1a1a2e; 
+    background: #ffffff; 
     border-radius: 8px;
     position: relative;
     z-index: 1;
+    border-style: solid;
+    border-color: rgb(84, 41, 84);
+
 }
 
 .blog-preview-title {
@@ -259,15 +261,17 @@
 }
 
 .see-all-posts {
-    display: block;
     font-family: 'Poppins', sans-serif; /* Clean sans-serif for body text */
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #8b6cc2;
     text-align: center;
     text-decoration: none;
-    padding: 0.5rem 0;
+    padding: 1rem 0;
     transition: color 0.3s ease, text-shadow 0.3s ease;
+    margin-top: 20px;
+    margin-left: 45%;
+    background-COLOR: WHITE;
 }
 
 .see-all-posts:hover {

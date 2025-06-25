@@ -64,19 +64,20 @@ $posts = getBlogs();
 </section>
 
 <section class="quick-links">
-    <div class="image-link-grid">
-        <div class="image-link-stack">
-            <a href="page1.php" class="image-link image-link-small">
-                <img src="https://www.wargamer.com/wp-content/sites/wargamer/2024/07/dnd-art-video-backgrounds.jpg" class="slide-image" alt="Featured Adventure: Upper Realm Quest">
-            </a>
-            <a href="page2.php" class="image-link image-link-small">
-                <img src="https://cdn.mos.cms.futurecdn.net/ac5WH9LkYKbWMVYrXborF7.jpg" class="slide-image" alt="Featured Guide: Character Creation Tips">
-            </a>
+<div class="image-link-grid">
+    <div class="image-link-stack">
+        <div class="image-link image-link-small">
+            <img src="https://www.wargamer.com/wp-content/sites/wargamer/2024/07/dnd-art-video-backgrounds.jpg" class="slide-image" alt="Featured Adventure: Upper Realm Quest">
         </div>
-        <a href="page3.php" class="image-link image-link-large">
-            <img src="https://cdn.mos.cms.futurecdn.net/neigNTpGV7TYP4LLrJuq9A-1200-80.png" class="slide-image" alt="Featured Campaign: Dragon's Lair">
-        </a>
+        <div class="image-link image-link-smaltl">
+            <img src="https://cdn.mos.cms.futurecdn.net/ac5WH9LkYKbWMVYrXborF7.jpg" class="slide-image" alt="Featured Guide: Character Creation Tips">
+        </div>
     </div>
+    <div class="image-link image-link-large">
+        <img src="https://cdn.mos.cms.futurecdn.net/neigNTpGV7TYP4LLrJuq9A-1200-80.png" class="slide-image" alt="Featured Campaign: Dragon's Lair">
+    </div>
+</div>
+
 </section>
 
     <section class="features">
