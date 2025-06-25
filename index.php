@@ -69,7 +69,7 @@ $posts = getBlogs();
         <div class="image-link image-link-small">
             <img src="https://www.wargamer.com/wp-content/sites/wargamer/2024/07/dnd-art-video-backgrounds.jpg" class="slide-image" alt="Featured Adventure: Upper Realm Quest">
         </div>
-        <div class="image-link image-link-smaltl">
+        <div class="image-link image-link-small">
             <img src="https://cdn.mos.cms.futurecdn.net/ac5WH9LkYKbWMVYrXborF7.jpg" class="slide-image" alt="Featured Guide: Character Creation Tips">
         </div>
     </div>

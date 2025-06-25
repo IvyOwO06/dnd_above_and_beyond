@@ -221,6 +221,12 @@ form.form button.submit:focus {
   background: #a95bff;
 }
 
+h2{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .blog-list {
