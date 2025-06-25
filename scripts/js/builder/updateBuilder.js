@@ -40,9 +40,10 @@ $('#characterAge').on('change', function() {
 updateField('characterAge', $(this).val());
 });
 
-// $('#level').on('change', function() {
-// updateField('level', $(this).val());
-// });
+$('#level').on('change', function() {
+refresh = true;
+updateField('level', $(this).val());
+});
 
 $('#levels').on('change', function() {
 refresh = true;
@@ -78,8 +79,8 @@ document.addEventListener('click', function(e) {
 });
 
 $('.ability-score').on('change', function () {
+refresh = true;
 const field = $(this).data('field'); // gets "strength", "dexterity", etc.
 const value = $(this).val();
 updateField(field, value);
-location.reload();
 });
