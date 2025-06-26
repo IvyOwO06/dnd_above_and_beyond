@@ -22,6 +22,7 @@ loggedInCheck();
         if($_SESSION['user']['id'] == $userId)
         {
             ?>
+            <div class="campaigncreation">
             <form method="POST" action="campaigns?userId=<?php echo $userId ?>" class="campaignform">
                 <label for="campaignName">Create Campaign</label><br>
 
@@ -31,6 +32,7 @@ loggedInCheck();
 
                 <button type="submit">Create</button>
             </form>
+            </div>
             <?php
             createcampaign($userId);
         }

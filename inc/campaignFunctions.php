@@ -134,8 +134,9 @@ function displaycampaigns($userId)
         <campaign>
             <h1><?php echo htmlspecialchars($campaign['name']); ?></h1>
             <p><?php echo htmlspecialchars($campaign['description']); ?></p>
-            <a href="campaign?campaignId=<?php echo htmlspecialchars($campaign['campaignId']); ?>">View</a>
             <form method="POST">
+                            <a href="campaign?campaignId=<?php echo htmlspecialchars($campaign['campaignId']); ?>">View</a>
+
                 <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaign['campaignId']); ?>">
                 <?php
                 if (isset($_SESSION['user']['id']) && $campaign && $campaign['userId'] == $_SESSION['user']['id']) {

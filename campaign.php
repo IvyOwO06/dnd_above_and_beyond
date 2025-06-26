@@ -16,6 +16,7 @@ loggedInCheck();
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/campaignModal.css">
         <link rel="stylesheet" href="css/viewcampaign.css">
+        <link rel="stylesheet" href="css/campaign.css">
     </head>
     <body>
         <?php

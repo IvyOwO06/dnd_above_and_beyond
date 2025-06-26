@@ -1,3 +1,4 @@
+/* Campaign Form Styles */
 .campaignform {
   background-color: #f7f4ff;
   padding: 2rem;
@@ -5,6 +6,17 @@
   box-shadow: 0 0 10px rgba(90, 70, 130, 0.1);
   max-width: 500px;
   margin: 2rem auto;
+}
+
+.campaigncreation {
+  width: max;
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  display: inline-block;
+  margin-top: 0.5rem;
 }
 
 form label {
@@ -17,7 +29,7 @@ form label {
 
 form input[type="text"],
 form textarea {
-  width: 460px;
+  width: 90%;
   padding: 0.8rem 1rem;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -26,7 +38,6 @@ form textarea {
   background-color: #fff;
   font-size: 1rem;
 }
-
 
 form textarea {
   resize: vertical;
@@ -42,13 +53,58 @@ form button {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-  margin-left: 200px;
+  margin-left: 10px;
 }
 
 form button:hover {
   background-color: #4c2f89;
 }
 
+/* Campaign Container Styles */
+.campaign-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: #1a0b24;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(200, 150, 255, 0.1);
+  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.campaign-container h1 {
+  font-size: 2.5rem;
+  color: #c084f5;
+  margin-bottom: 1rem;
+}
+
+.campaign-container p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.campaign-container a {
+  color: #e0b0ff;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.campaign-container a:hover {
+  color: #e0b0ff;
+  text-decoration: underline;
+}
+
+.campaign-container h2 {
+  margin-top: 2rem;
+  color: #c084f5;
+  border-bottom: 1px solid #3a2551;
+  padding-bottom: 0.4rem;
+}
+
+/* Campaign List Styles */
 #campaigns {
   display: flex;
   flex-wrap: wrap;
@@ -95,19 +151,146 @@ campaign a {
 campaign a:hover {
   background-color: #31715e;
 }
-
-campaign form button {
-  background-color: #c94c4c;
-  color: white;
-  padding: 0.4rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  position: absolute;
-  top: 120px;
-}
-
 campaign form button:hover {
   background-color: #a43737;
+}
+
+/* Modal Styles */
+#addCharacterModal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.7); /* Chosen from second file for darker overlay */
+}
+
+#addCharacterModalInside {
+  background-color: #1a0b24; /* Consistent with campaign-container theme */
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 25px rgba(200, 150, 255, 0.15);
+}
+
+#addCharacterModalInside h2 {
+  color: #e0b0ff;
+  margin-bottom: 1rem;
+}
+
+#characterSearch {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #311a4c;
+  color: #eee;
+}
+
+#characterResults {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+#characterResults .character-item {
+  background: #2b1a3c;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.6rem;
+  border-radius: 10px;
+  color: #ddd;
+  border-bottom: 1px solid #eee; /* Merged from .characterItem */
+}
+
+.addCharacterForm {
+  display: inline;
+  float: right;
+}
+
+/* General Input and Button Styles */
+input[type="text"],
+input[type="search"],
+input[type="hidden"] {
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #311a4c;
+  color: #000000;
+  font-size: 1rem;
+  box-shadow: 0 0 8px rgba(200, 150, 255, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin-top: 0.5rem;
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 12px rgba(200, 150, 255, 0.3);
+  background: #3b2055;
+}
+
+button:hover {
+  background-color: #44205e;
+}
+
+/* User List and Section Styles */
+.user-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user-entry {
+  background: #2a1a3c;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(200, 150, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.creator-label {
+  font-style: italic;
+  color: #aaa;
+  margin-left: 0.5rem;
+}
+
+.remove-user-form {
+  margin-top: 0.5rem;
+}
+
+.add-user-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #3a2551;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  color: #c084f5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #e0b0ff;
+  text-decoration: underline;
 }

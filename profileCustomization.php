@@ -119,7 +119,7 @@ $user = getUser($userId);
     <meta charset="UTF-8">
     <title>Profile Customization</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/customization.css">
+    <link rel="stylesheet" href="css/options.css">
     <?php displayHeader(); ?>
 </head>
 <body>
