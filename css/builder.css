@@ -8,6 +8,10 @@
     --border: #5e3ca8;
 }
 
+p {
+    color: white;
+}
+
 h2 {
     text-align: center;
 }
