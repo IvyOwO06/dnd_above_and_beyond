@@ -85,10 +85,12 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(255, 255, 255);
+  color: white;
+  background-color: rgb(110, 57, 157);
   width: 150px;
   border-radius: 10px;
   margin: 0 auto; /* center horizontally */
+  margin-top: 20px;
 }
 
 .welcome {
@@ -215,7 +217,7 @@ p {
 }
 
 .card {
-    background-color: var(--color);
+    background-color: var(--color-purple-light);
     color: var(--white);
     border-radius: 12px;
     padding: 2rem;
@@ -227,13 +229,13 @@ p {
 .card h3{
     font-size: 1.8rem;
     margin-bottom: 1rem;
-    color: #e1c5f7;
+    color: #fffeff;
 
 }
 
 .card p{
     font-size: 1rem;
-    color: #d3aaff;
+    color: #ffffff;
 }
 
 .card:hover {
@@ -478,9 +480,8 @@ header h1 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 250px; 
-    left: 20px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+    left: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 
@@ -494,7 +495,7 @@ header h1 {
     width: 100px;
     height: 75px;
     position: relative;
-    left: 75px;
+    left: 85px;
 }
 
 .image-container h2 {

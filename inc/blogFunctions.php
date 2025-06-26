@@ -58,7 +58,7 @@ function displayBlogs($posts) // Displays blogs from database
                         <p class="blog-meta">
                             By <?php echo htmlspecialchars($post['blogAuthor']); ?> | <?php echo htmlspecialchars($post['blogPostDate']); ?>
                         </p>
-                        <p class="blog-excerpt"><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 150))); ?>...</p>
+                        <p class="blog-excerpt"><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 29))); ?>...</p>
                         <a href="blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>" class="read-more">Read More</a>
                     </div>
                 </article>
@@ -67,8 +67,7 @@ function displayBlogs($posts) // Displays blogs from database
     </div>
     <?php
 }
-function displayBlog($blogId) // Displays blog details from database
-{
+function displayBlog($blogId) {
     $comments = getBlogComments($blogId);
     $blog = getBlog($blogId);
 
@@ -81,28 +80,29 @@ function displayBlog($blogId) // Displays blog details from database
         <?php if (!empty($blog['blogImage'])): ?>
             <img src="Uploads/<?php echo htmlspecialchars($blog['blogImage']); ?>" alt="Blog header image" class="blog-header-image">
         <?php endif; ?>
+        <div class="blog-content">
             <h1><?php echo htmlspecialchars($blog["blogTitle"]); ?></h1>
-            <p>By: <?php echo htmlspecialchars($blog["blogAuthor"]); ?> | <?php echo $blog["blogPostDate"]; ?></p>
-            <p><?php echo nl2br(htmlspecialchars($blog["blogContent"])); ?></p>
-            <hr>
-            <h2>Comments</h2>
-            <?php
-            if (count($comments) > 0) {
-                foreach ($comments as $comment) {
-                    echo "<div class='comment'>";
-                    echo "<p><strong>" . htmlspecialchars($comment['commenterName']) . "</strong></p>";
-                    echo "<p>" . nl2br(htmlspecialchars($comment['commentContent'])) . "</p>";
-                    echo "<p><em>Posted on " . $comment['commentDate'] . "</em></p>";
-                    echo "</div>";
-                }
-            } else {
-                echo "<p>No comments yet.</p>";
+            <p class="blog-meta">By: <?php echo htmlspecialchars($blog["blogAuthor"]); ?> | <?php echo $blog["blogPostDate"]; ?></p>
+            <p class="blog-excerpt"><?php echo nl2br(htmlspecialchars($blog["blogContent"])); ?></p>
+        </div>
+        <hr>
+        <h2>Comments</h2>
+        <?php
+        if (count($comments) > 0) {
+            foreach ($comments as $comment) {
+                echo "<div class='comment'>";
+                echo "<p><strong>" . htmlspecialchars($comment['commenterName']) . "</strong></p>";
+                echo "<p>" . nl2br(htmlspecialchars($comment['commentContent'])) . "</p>";
+                echo "<p><em>Posted on " . $comment['commentDate'] . "</em></p>";
+                echo "</div>";
             }
-            ?>
+        } else {
+            echo "<p>No comments yet.</p>";
+        }
+        ?>
     </article>
     <?php
 }
-
 function getBlogCategories() //get blog per category
 {
     $db = dbConnect();

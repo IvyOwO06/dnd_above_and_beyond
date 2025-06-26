@@ -134,7 +134,7 @@
 
 .blog-excerpt {
   line-height: 1.4;
-  color: #444;
+  color: #999999;
   margin-bottom: 1rem;
   word-break: break-word;
   overflow: hidden;
@@ -339,7 +339,6 @@ form.form button.submit {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-left: 46%;
   margin-bottom: 5%;
 }
 
