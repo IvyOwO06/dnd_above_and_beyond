@@ -164,6 +164,19 @@ section, /* if you wrap stuff in sections, good for grid */
   font-weight: 600;
 }
 
+.show-feature-modal {
+    background: #8e7cc3;
+  color: #1c1330;
+  border: none;
+  padding: 8px 15px;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
 #currency-form button {
   background: #8e7cc3;
   color: #1c1330;

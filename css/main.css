@@ -786,6 +786,7 @@ nav a:hover::after {
 
 /* Media Queries */
 @media (max-width: 1000px) {
+
   header {
     display: flex;
     flex-wrap: wrap;
@@ -795,6 +796,7 @@ nav a:hover::after {
     height: auto;
     gap: 1vw;
   }
+  
     header h1 {
     font-size: 6vw;
     letter-spacing: 0.5vw;
@@ -807,6 +809,7 @@ nav a:hover::after {
     height: 12vw;
     margin: 0 auto;
     flex: 1 1 40%;
+    margin-left: 26vw;
   }
 
   nav ul.navigation-links {
@@ -835,6 +838,13 @@ nav a:hover::after {
     font-size: 0.9rem;
     margin-top: 1px;
   }
+
+  .dropbtn {
+    font-size: 7.5vw;
+    padding: 1.5vw 3vw;
+    border-radius: 8px;
+  }
+
   .pfp {
     height: 8vw;
     width: 8vw;
@@ -845,6 +855,7 @@ nav a:hover::after {
     font-size: 4vw;
     padding: 1vw;
     margin-top: 1vw;
+
   }
 
   .search-img {
