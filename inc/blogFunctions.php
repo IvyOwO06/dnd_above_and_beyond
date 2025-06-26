@@ -58,7 +58,7 @@ function displayBlogs($posts) // Displays blogs from database
                         <p class="blog-meta">
                             By <?php echo htmlspecialchars($post['blogAuthor']); ?> | <?php echo htmlspecialchars($post['blogPostDate']); ?>
                         </p>
-                        <p class="blog-excerpt"><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 29))); ?>...</p>
+                        <p class="blog-excerpt"><?php echo nl2br(htmlspecialchars(substr($post['blogContent'], 0, 20))); ?>...</p>
                         <a href="blogpost.php?id=<?php echo htmlspecialchars($post['blogId']); ?>" class="read-more">Read More</a>
                     </div>
                 </article>
