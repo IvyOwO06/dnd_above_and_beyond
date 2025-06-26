@@ -83,56 +83,25 @@ function displayFooter()
                 <h3 class="footer-title">Explore</h3>
                 <a href="index.php" class="footer-link">Home</a>
                 <a href="builder.php" class="footer-link">Create Character</a>
-                <a href="about.php" class="footer-link">About</a>
-                <a href="resources.php" class="footer-link">Resources</a>
-                <a href="contact.php" class="footer-link">Contact</a>
+                <a href="classes.php" class="footer-link">Resources</a>
             </div>
 
-            <!-- Newsletter Signup -->
-            <div class="footer-column footer-newsletter">
-                <h3 class="footer-title">Stay Updated</h3>
-                <p>Subscribe for news, updates, and exclusive content.</p>
-                <form action="subscribe.php" method="POST" class="newsletter-form">
-                    <input type="email" name="email" placeholder="Enter your email" required aria-label="Email address">
-                    <button type="submit" class="newsletter-button">Subscribe</button>
-                </form>
-            </div>
-
-            <!-- Social Links -->
-            <div class="footer-column footer-social">
-                <h3 class="footer-title">Connect</h3>
-                <div class="social-links">
-                    <a href="https://discord.com" target="_blank" class="social-link discord" title="Join our Discord community">
-                        
-                    </a>
-                    <a href="https://x.com" target="_blank" class="social-link twitter" title="Follow us on X">
-
-                    </a>
-                    <a href="https://github.com" target="_blank" class="social-link github" title="Check our GitHub">
-
-                    </a>
-                </div>
-            </div>  
-        </div>
-        
-    </footer>
-        
-<section class="legal-section">
-    <div class="legal-content">
-        <div class="legal-text-buttons">
-            <div class="legal-text">
+            <!-- Legal Part 1 (Copyright and First Disclaimer) -->
+            <div class="footer-column footer-legal-part1">
+                <h3 class="footer-title">Legal</h3>
                 <p class="legal-copyright">© 2025 Dungeons and Monsters. All rights reserved.</p>
                 <p class="legal-disclaimer">Dungeons and Monsters, D&D Beyond 2.0, and all original content, tools, and resources found on this site are the intellectual property of Dungeons and Monsters unless otherwise stated.</p>
-                <p class="legal-disclaimer">This site is an independent creation and is not affiliated with, endorsed by, or sponsored by Wizards of the Coast. Dungeons & Dragons and related marks are trademarks of Wizards of the Coast LLC. Used under fair use for fan content.</p>
             </div>
+        </div>
+
+        <!-- Legal Part 2 (Second Disclaimer and Links) -->
+        <div class="footer-legal">
+            <p class="legal-disclaimer">This site is an independent creation and is not affiliated with, endorsed by, or sponsored by Wizards of the Coast. Dungeons & Dragons and related marks are trademarks of Wizards of the Coast LLC. Used under fair use for fan content.</p>
             <div class="legal-links">
-                <a href="tos.php" class="legal-button">Terms of Service</a>
-                <a href="privacy.php" class="legal-button">Privacy Policy</a>
                 <a href="files/copyright.pdf" class="legal-button">Copyright</a>
             </div>
         </div>
-    </div>
-</section>
+    </footer>
     <?php
 }
 

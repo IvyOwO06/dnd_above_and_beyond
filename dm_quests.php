@@ -108,3 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>" class="back-link">Back to DM Notes</a>
     <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>" class="back-link">Manage Sessions</a>
 </div>
+    <?php
+    displayFooter();
+    ?>

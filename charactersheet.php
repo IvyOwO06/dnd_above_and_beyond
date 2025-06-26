@@ -4,6 +4,7 @@ require 'inc/builderFunctions.php';
 require 'inc/racesFunctions.php';
 require 'inc/inventoryFunctions.php';
 require_once 'inc/skillFunctions.php';
+require 'inc/navFunctions.php';
 
 if (!isset($_GET['characterId']) || !is_numeric($_GET['characterId'])) {
     die("Character ID not provided.");
@@ -29,14 +30,18 @@ foreach ($raceFluff as $fluff) {
 }
 ?><!DOCTYPE html>
 <html>
-
 <head>
     <title><?php echo htmlspecialchars($character['characterName']); ?> - Character Sheet</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/sheet.css">
+    <?php
+    displayHeader();
+    ?>
+    
 </head>
 
 <body>
+    <div class="sheetbody">
     
     <h1><?php echo htmlspecialchars($character['characterName']); ?></h1>
 <button class="go-to-profile-btn" onclick="window.location.href='characterprofile.php?characterId=<?php echo $character['characterId']; ?>'">Go to Character Profile</button>
@@ -356,7 +361,10 @@ foreach ($raceFluff as $fluff) {
         sortItems();
     </script>
 
-
+    </div>
+       <?php
+    displayFooter();
+    ?>
 </body>
 
 </html>
