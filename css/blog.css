@@ -233,7 +233,7 @@ h2{
   justify-content: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .blog-list {
     grid-template-columns: 1fr;
   }

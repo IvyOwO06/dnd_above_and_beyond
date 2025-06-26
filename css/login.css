@@ -94,7 +94,7 @@ a.small-button:hover {
   background-color: #555; /* Second file's hover */
 }
 
-@media (max-width: 400px) {
+@media (max-width: 1000px) {
   .login-form {
     padding: 2rem 1.5rem;
     width: 90vw;

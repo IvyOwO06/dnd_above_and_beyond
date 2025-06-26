@@ -261,7 +261,7 @@ section, /* if you wrap stuff in sections, good for grid */
 }
 
 /* Responsive for smaller screens */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .character-header,
   .race-lore-container,
   .stats-skills-container {

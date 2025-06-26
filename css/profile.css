@@ -455,7 +455,7 @@ campaign button:hover {
   height: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .profile-banner {
     max-height: 200px;
   }

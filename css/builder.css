@@ -404,7 +404,7 @@ input[type="file"]::-webkit-file-upload-button:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .creation-section {
         padding: 15px 10px;
         margin: 10px;

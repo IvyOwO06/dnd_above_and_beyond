@@ -58,4 +58,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <a href="dm_initiative.php?sessionId=<?php echo $initiative['sessionId']; ?>">Cancel</a>
 </body>
-</html> 
+</html> wa
