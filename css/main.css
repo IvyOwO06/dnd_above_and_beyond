@@ -809,7 +809,8 @@ nav a:hover::after {
     height: 12vw;
     margin: 0 auto;
     flex: 1 1 40%;
-    margin-left: 26vw;
+    margin-left: 27vw;
+
   }
 
   nav ul.navigation-links {
@@ -820,7 +821,15 @@ nav a:hover::after {
     padding: 0;
     margin: 1vw 0;
     flex: 1 1 100%;
+    margin-left: 7vw;
   }
+
+  .dropdown .dropbtn {
+  font-size: 7.5vw;
+  padding: 1.5vw 3vw;
+  border-radius: 8px;
+  margin-top: 1px;
+}
 
   nav ul.navigation-links {
     gap: 0.3rem;
@@ -831,12 +840,6 @@ nav a:hover::after {
     font-size: 3.5vw;
     padding: 1.5vw 3vw;
     border-radius: 8px;
-  }
-
-  .dropdown .dropbtn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.9rem;
-    margin-top: 1px;
   }
 
   .dropbtn {
@@ -855,6 +858,8 @@ nav a:hover::after {
     font-size: 4vw;
     padding: 1vw;
     margin-top: 1vw;
+    text-align: center;
+        margin-left: 17vw;
 
   }
 
