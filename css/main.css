@@ -786,56 +786,65 @@ nav a:hover::after {
 
 /* Media Queries */
 @media (max-width: 1000px) {
-header {
+  header {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0.5rem 0.75rem;
+    align-items: center;
+    padding: 2vw 4vw;
     height: auto;
-    gap: 0.5rem;
+    gap: 1vw;
+  }
+    header h1 {
+    font-size: 6vw;
+    letter-spacing: 0.5vw;
+    margin: 0;
+    flex: 1 1 100%;
+    text-align: center;
   }
 
   .logoimg {
-     height: 45px;
-    margin: 0;
+    height: 12vw;
+    margin: 0 auto;
+    flex: 1 1 40%;
   }
 
   nav ul.navigation-links {
     display: flex;
-    gap: 0.5rem;
-    margin: 0;
-}
+    flex-wrap: wrap;
+    gap: 2vw;
+    justify-content: center;
+    padding: 0;
+    margin: 1vw 0;
+    flex: 1 1 100%;
+  }
 
   nav ul.navigation-links {
     gap: 0.3rem;
   }
 
-nav a,
-.dropdown .dropbtn {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    height: auto;
-    line-height: normal;
-}
+  nav a,
+  .dropdown .dropbtn {
+    font-size: 3.5vw;
+    padding: 1.5vw 3vw;
+    border-radius: 8px;
+  }
 
   .dropdown .dropbtn {
     padding: 0.25rem 0.5rem;
     font-size: 0.9rem;
     margin-top: 1px;
   }
-
   .pfp {
-    height: 32px;
-    width: 32px;
+    height: 8vw;
+    width: 8vw;
   }
 
   #searchBar {
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.25rem 0.5rem;
+    width: 90%;
+    font-size: 4vw;
+    padding: 1vw;
+    margin-top: 1vw;
   }
 
   .search-img {
@@ -843,9 +852,9 @@ nav a,
   }
 
   .loginbtn, .signinbtn {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.8rem;
-
+    font-size: 3.5vw;
+    padding: 1vw 2vw;
+    white-space: nowrap;
   }
 
   .image-link-grid {
