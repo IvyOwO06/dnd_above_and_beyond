@@ -49,3 +49,6 @@ displayHeader();
     </select>
     <button type="submit" class="submit">Post Blog</button>
 </form>
+    <?php
+    displayFooter();
+    ?>

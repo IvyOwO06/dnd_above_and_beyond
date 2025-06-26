@@ -1,5 +1,6 @@
 /* Base setup */
-body {
+
+.sheetbody {
   background: #1c1330; /* Dark purple background */
   color: #dcd6f7; /* Light purple-ish text */
   margin: 20px auto;
@@ -7,7 +8,6 @@ body {
   padding: 20px;
   line-height: 1.4;
 }
-
 /* Headings - DnD Beyond style purple */
 h1, h2, h3 {
   color: #8e7cc3;
@@ -285,7 +285,6 @@ section, /* if you wrap stuff in sections, good for grid */
     transition: background-color 0.3s ease;
     margin-top: 10px;
     margin-bottom: 20px;
-    margin-left: 50px;
 }
 
 .go-to-profile-btn:hover {

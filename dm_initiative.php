@@ -109,3 +109,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="dm_sessions.php?campaignId=<?php echo $session['campaignId']; ?>" class="back-to-sessions">Back to Sessions</a>
 
 </div>
+    <?php
+    displayFooter();
+    ?>

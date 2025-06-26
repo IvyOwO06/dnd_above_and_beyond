@@ -65,5 +65,8 @@ if (!$character) {
         <h2>Health</h2>
         <p><?= $character['currentHP'] ?> / <?= $character['maxHP'] ?> HP</p>
     </div>
+        <?php
+    displayFooter();
+    ?>
 </body>
 </html>

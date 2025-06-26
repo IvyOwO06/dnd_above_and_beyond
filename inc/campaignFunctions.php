@@ -228,20 +228,31 @@ function displaycampaign($campaignId)
     ?>
 
     <h2>Users</h2>
+<div class="user-list">
     <?php foreach ($users as $user): ?>
-        <p><?php echo htmlspecialchars($user['userName']); ?>
-        <?php if ((int)$user['userId'] === (int)$campaign['userId']): ?>
-            (creator)</p>
-        <?php elseif ($isCreator): ?>
-            <form method="POST">
-                <input type="hidden" name="removeUserId" value="<?php echo htmlspecialchars($user['userId']); ?>">
-                <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaignId); ?>">
-                <button name="removeUser" onclick="return confirm('Remove user and all their characters?')">Remove</button>
-            </form>
-        <?php endif; ?>
-        <br>
+        <div class="user-entry">
+            <p><?php echo htmlspecialchars($user['userName']); ?>
+            <?php if ((int)$user['userId'] === (int)$campaign['userId']): ?>
+                <span class="creator-label">(creator)</span>
+            <?php endif; ?>
+            </p>
+
+            <?php if ($isCreator && (int)$user['userId'] !== (int)$campaign['userId']): ?>
+                <form method="POST" class="remove-user-form">
+                    <input type="hidden" name="removeUserId" value="<?php echo htmlspecialchars($user['userId']); ?>">
+                    <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($campaignId); ?>">
+                    <button name="removeUser" onclick="return confirm('Remove user and all their characters?')">Remove</button>
+                </form>
+            <?php endif; ?>
+        </div>
     <?php endforeach; ?>
 
+    <?php if ($isCreator): ?>
+        <div class="add-user-section">
+            <?php addUser(); ?>
+        </div>
+    <?php endif; ?>
+</div>
     <h2>Characters</h2>
     <button onclick="openAddCharacterModal()">Add Characters</button>
 

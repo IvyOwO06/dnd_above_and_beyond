@@ -159,4 +159,7 @@ $user = getUser($userId);
         <button type="submit">Save Bio</button>
     </form>
 </div>
+    <?php
+    displayFooter();
+    ?>
 </body>
