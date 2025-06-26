@@ -459,20 +459,16 @@ campaign button:hover {
 
 @media (max-width: 1000px) {
   .profile-banner {
-    max-height: 200px;
+    max-height: 400px;
   }
 
-.profile-picture {
-  position: absolute;
-  bottom: -75px; /* half of image height to hang below */
-  left: 50%;
-  transform: translateX(-50%);
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  z-index: 2;
-}
+  .profile-picture {
+    left: 50%;
+    top: 600px; /* a bit higher for better balance */
+    transform: translate(-50%, 0);
+    height: 180px;
+    width: 180px;
+  }
 
   .button-wrapper {
     margin-top: 7rem;
@@ -481,7 +477,6 @@ campaign button:hover {
     gap: 1rem;
     position: relative;
     z-index: 1;
-    margin-left: 10px;
   }
 
   .btn-options,
