@@ -1,4 +1,5 @@
 <?php
+require_once 'classesFunctions.php';
 function getClassFeatures($characterId) 
 {
     $character = getCharacter($characterId);
