@@ -4,6 +4,7 @@ require 'inc/builderFunctions.php';
 require 'inc/racesFunctions.php';
 require 'inc/inventoryFunctions.php';
 require_once 'inc/skillFunctions.php';
+require 'inc/levelFunctions.php';
 require 'inc/navFunctions.php';
 
 if (!isset($_GET['characterId']) || !is_numeric($_GET['characterId'])) {
@@ -28,7 +29,8 @@ foreach ($raceFluff as $fluff) {
         break;
     }
 }
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -76,9 +78,41 @@ foreach ($raceFluff as $fluff) {
         } catch (error) {
             ?>
             <p>No lore available</p>
-            <?php
+        <?php
         }
         ?>
+        <h2>Class Features</h2>
+        <div>
+            <?php
+            // Call getClassFeatures to retrieve filtered features
+            $features = getClassFeatures($characterId);
+
+            if (!empty($features)) {
+                foreach ($features as $feature) {
+                    $name = htmlspecialchars($feature['name']);
+                    $level = $feature['level'];
+                    $entries = is_array($feature['entries']) ? (isset($feature['entries'][0]) && is_array($feature['entries'][0]) ? 'See details.' : htmlspecialchars(stripJsonTags($feature['entries'][0]), ENT_QUOTES)) : htmlspecialchars(stripJsonTags($feature['entries']), ENT_QUOTES);
+                    ?>
+                    <div class="filter-item" data-name="<?php echo strtolower($name); ?>" data-level="<?php echo $level; ?>">
+                        <p><?php echo $name; ?> (Level <?php echo $level; ?>)</p>
+                        <button type="button" class="show-feature-modal" data-name="<?php echo $name; ?>"
+                            data-info="<?php echo $entries; ?>" data-level="<?php echo $level; ?>">
+                            Read more
+                        </button>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "<p>No class features found for this level or source.</p>";
+            }
+            ?>
+
+            <div id="feature-modal" class="modal">
+                <div class="modal-content">
+                    <div id="modal-feature-info"></div>
+                </div>
+            </div>
+        </div>
 
         <h2>Proficiency Bonus</h2>
         <p><strong>Proficiency Bonus:</strong> +<?php echo getProficiencyBonus($character['level']); ?></p>
@@ -122,12 +156,12 @@ foreach ($raceFluff as $fluff) {
                             $skillModifier = calculateSkillModifier($character, $skill, $proficiencyLevel);
                             $modifierDisplay = $skillModifier >= 0 ? "+$skillModifier" : $skillModifier;
                             $modifierClass = $skillModifier >= 0 ? 'positive' : 'negative';
-                            ?>
+                    ?>
                             <li data-skill-id="<?php echo $skill['skillId']; ?>">
                                 <strong><?php echo $skillName; ?>:</strong>
                                 <span class="<?php echo $modifierClass; ?>"><?php echo $modifierDisplay; ?></span>
                             </li>
-                            <?php
+                    <?php
                         }
                     }
                     ?>
@@ -185,6 +219,7 @@ foreach ($raceFluff as $fluff) {
         <script>
             const characterId = <?php echo json_encode($characterId); ?>;
             const items = <?php echo json_encode($items); ?>;
+
             function updateCurrency(action) {
                 const cp = parseInt(document.getElementById("cp").value) || 0;
                 const sp = parseInt(document.getElementById("sp").value) || 0;
@@ -193,10 +228,20 @@ foreach ($raceFluff as $fluff) {
                 const pp = parseInt(document.getElementById("pp").value) || 0;
 
                 fetch("update_currency", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ characterId, cp, sp, ep, gp, pp, action }),
-                })
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            characterId,
+                            cp,
+                            sp,
+                            ep,
+                            gp,
+                            pp,
+                            action
+                        }),
+                    })
                     .then((response) => response.json())
                     .then((data) => {
                         if (data.success) {
@@ -233,8 +278,8 @@ foreach ($raceFluff as $fluff) {
                     .value.toLowerCase();
                 const filteredItems = items.filter(
                     (item) =>
-                        item.name.toLowerCase().includes(searchTerm) ||
-                        (item.type && item.type.toLowerCase().includes(searchTerm))
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    (item.type && item.type.toLowerCase().includes(searchTerm))
                 );
                 displayItems(filteredItems);
             }
@@ -265,14 +310,16 @@ foreach ($raceFluff as $fluff) {
 
             function addItem(itemName) {
                 fetch("add_item", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        characterId: characterId,
-                        itemName: itemName,
-                        quantity: 1,
-                    }),
-                })
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            characterId: characterId,
+                            itemName: itemName,
+                            quantity: 1,
+                        }),
+                    })
                     .then((response) => response.json())
                     .then((data) => {
                         if (data.success) {
@@ -328,9 +375,11 @@ foreach ($raceFluff as $fluff) {
         </div>
 
     </div>
+    <div id="modal-overlay" class="overlay"></div>
     <?php
     displayFooter();
     ?>
 </body>
+<script src="scripts/js/builder/modal.js"></script>
 
 </html>
