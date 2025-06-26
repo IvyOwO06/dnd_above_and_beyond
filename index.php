@@ -69,7 +69,7 @@ $posts = getBlogs();
             <img src="https://www.wargamer.com/wp-content/sites/wargamer/2024/07/dnd-art-video-backgrounds.jpg" class="slide-image" alt="Featured Adventure: Upper Realm Quest">
         </div>
         <div class="image-link image-link-small">
-            <img src="https://cdn.mos.cms.futurecdn.net/ac5WH9LkYKbWMVYrXborF7.jpg" class="slide-image" alt="Featured Guide: Character Creation Tips">
+            <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2023/04/overpowered-character-builds-dnd-party-facing-dragon.jpg" class="slide-image" alt="Featured Guide: Character Creation Tips">
         </div>
     </div>
     <div class="image-link image-link-large">
