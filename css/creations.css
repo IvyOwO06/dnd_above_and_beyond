@@ -151,6 +151,9 @@
   flex: 1 1 48%;
   transition: background-color 0.3s ease;
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .action-button.edit-button{
@@ -159,21 +162,4 @@
 
 .action-button:hover {
   background: #5e2182;
-}
-
-.delete-character {
-  background: #e24a4a;
-  border: none;
-  padding: 8px 12px;
-  color: white;
-  font-weight: 600;
-  border-radius: 6px;
-  cursor: pointer;
-  flex: 1 1 100%;
-  margin-top: 6px;
-  transition: background-color 0.3s ease;
-}
-
-.delete-character:hover {
-  background: #a82f2f;
 }

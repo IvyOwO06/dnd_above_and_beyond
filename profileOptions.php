@@ -117,6 +117,7 @@ $user = getUser($userId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Options</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/options.css">
 </head>
 
 <body>
@@ -124,43 +125,38 @@ $user = getUser($userId);
     displayHeader();
 
     $profile = getProfile($profileId);
+?>
+<div class="options-container">
+    <h2>Profile Settings</h2>   
+    <form method="POST">
+        <h3>Change Username</h3>
+        <input type="text" name="username" placeholder="<?= htmlspecialchars($_SESSION['user']['username']) ?>">
+        <input type="submit" value="Update Username" onclick="return confirm('Are you sure you want to change your username?')">
+    </form>
 
-    if (!empty($user['profilePicture'])) { ?>
-        <img src="<?php echo htmlspecialchars($user['profilePicture']); ?>" alt="Profile Picture" width="150">
-        <?php
-    } else {
-        ?>
-        <p>No profile picture uploaded.</p>
-        <?php
-    }
-    ?>
-    <form action="profileOptions?userId=<?php echo $userId; ?>" method="POST" enctype="multipart/form-data">
-        <h3>Update Profile Picture:</h3>
-        <input type="file" name="profile_picture" accept="image/*">
-        <button type="submit" class="normal-button">Upload</button>
-    </form>
-    <br>
-    <h3>Change Username</h3>
+    <hr>
+
     <form method="POST">
-        <input type="text" name="username" id="username"
-            placeholder="<?php echo $_SESSION['user']['username'] ?>"><br><br>
-        <input type="submit" onclick="return confirm('Are you sure you want to change your username?')">
+        <h3>Change Password</h3>
+        <input type="password" name="password" placeholder="New Password" minlength="8">
+        <input type="password" name="cpassword" placeholder="Retype New Password" minlength="8">
+        <input type="submit" value="Update Password" onclick="return confirm('Are you sure you want to change your password?\nYou will be logged out.')">
     </form>
-    <h3>Change password</h3>
+
+    <hr>
+
     <form method="POST">
-        <input type="password" name="password" id="password" minlength="8" placeholder="New Password"><br><br>
-        <input type="password" name="cpassword" id="cpassword" minlength="8" placeholder="Retype New password"><br><br>
-        <input type="submit"
-            onclick="return confirm('Are you sure you want to change your password?\nYou will be logged out')">
+        <h3>Change Email</h3>
+        <input type="email" name="email" placeholder="New Email">
+        <input type="submit" value="Update Email" onclick="return confirm('Are you sure you want to change your email?')">
     </form>
-    <h3>Change Email</h3>
+
+    <hr>
+
     <form method="POST">
-        <input type="email" name="email" id="email" placeholder="New Email"><br><br>
-        <input type="submit" onclick="return confirm('Are you sure you want to change your Email?')">
+        <h3>Change Bio</h3>
+        <textarea name="bio"><?= htmlspecialchars($profile['profileInformation']) ?></textarea>
+        <button type="submit">Save Bio</button>
     </form>
-    <h3>Change bio</h3>
-    <form action="profileOptions?userId=<?php echo $userId ?>" method="POST">
-        <textarea name="bio" id="bio"><?php echo $profile['profileInformation']; ?></textarea><br><br>
-        <button type="submit" class="normal-button">submit</button>
-    </form>
+</div>
 </body>

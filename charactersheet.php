@@ -27,17 +27,20 @@ foreach ($raceFluff as $fluff) {
         break;
     }
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 
 <head>
     <title><?php echo htmlspecialchars($character['characterName']); ?> - Character Sheet</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sheet.css">
 </head>
 
 <body>
+    
     <h1><?php echo htmlspecialchars($character['characterName']); ?></h1>
+<button class="go-to-profile-btn" onclick="window.location.href='characterprofile.php?characterId=<?php echo $character['characterId']; ?>'">Go to Character Profile</button>
+
     <p><strong>Age:</strong> <?php echo htmlspecialchars($character['characterAge']); ?></p>
     <p><strong>Level:</strong> <?php echo htmlspecialchars($character['level']); ?></p>
     <p><strong>Alignment:</strong> <?php echo htmlspecialchars($character['alignment']); ?></p>
@@ -65,81 +68,80 @@ foreach ($raceFluff as $fluff) {
         <p>No lore available</p>
         <?php
     }
-
     ?>
+
     <h2>Proficiency Bonus</h2>
     <p><strong>Proficiency Bonus:</strong> +<?php echo getProficiencyBonus($character['level']); ?></p>
 
-    <h2>Ability Scores</h2>
-    <ul>
-        <li><strong>STR:</strong>
-            <?php echo $character['strength'] . ' (' . getAbilityModifier($character['strength']) . ')'; ?></li>
-        <li><strong>DEX:</strong>
-            <?php echo $character['dexterity'] . ' (' . getAbilityModifier($character['dexterity']) . ')'; ?></li>
-        <li><strong>CON:</strong>
-            <?php echo $character['constitution'] . ' (' . getAbilityModifier($character['constitution']) . ')'; ?></li>
-        <li><strong>INT:</strong>
-            <?php echo $character['intelligence'] . ' (' . getAbilityModifier($character['intelligence']) . ')'; ?></li>
-        <li><strong>WIS:</strong>
-            <?php echo $character['wisdom'] . ' (' . getAbilityModifier($character['wisdom']) . ')'; ?></li>
-        <li><strong>CHA:</strong>
-            <?php echo $character['charisma'] . ' (' . getAbilityModifier($character['charisma']) . ')'; ?></li>
-    </ul>
-    <h2>Proficiency Bonus</h2>
-    <p><strong>Proficiency Bonus:</strong> +<?php echo getProficiencyBonus($character['level']); ?></p>
+    <div class="stats-skills-container">
+        <div>
+            <h2>Ability Scores</h2>
+            <ul>
+                <li><strong>STR:</strong>
+                    <?php echo $character['strength'] . ' (' . getAbilityModifier($character['strength']) . ')'; ?></li>
+                <li><strong>DEX:</strong>
+                    <?php echo $character['dexterity'] . ' (' . getAbilityModifier($character['dexterity']) . ')'; ?></li>
+                <li><strong>CON:</strong>
+                    <?php echo $character['constitution'] . ' (' . getAbilityModifier($character['constitution']) . ')'; ?></li>
+                <li><strong>INT:</strong>
+                    <?php echo $character['intelligence'] . ' (' . getAbilityModifier($character['intelligence']) . ')'; ?></li>
+                <li><strong>WIS:</strong>
+                    <?php echo $character['wisdom'] . ' (' . getAbilityModifier($character['wisdom']) . ')'; ?></li>
+                <li><strong>CHA:</strong>
+                    <?php echo $character['charisma'] . ' (' . getAbilityModifier($character['charisma']) . ')'; ?></li>
+            </ul>
+        </div>
 
-
-
-    <h2>Skills</h2>
-    <ul id="skills-list">
-        <?php
-        $skills = getCharacterSkills($characterId);
-        if (empty($skills)) {
-            echo "<li>No skills available.</li>";
-        } else {
-            foreach ($skills as $skill) {
-                $skillName = htmlspecialchars($skill['skillName'] ?? 'Unknown Skill');
-                $abilityName = htmlspecialchars($skill['abilityName'] ?? 'Unknown');
-                $proficiencyLevel = $skill['proficiency'] ?? 'none';
-                $skillModifier = calculateSkillModifier($character, $skill, $proficiencyLevel);
-                $modifierDisplay = $skillModifier >= 0 ? "+$skillModifier" : $skillModifier;
-                $modifierClass = $skillModifier >= 0 ? 'positive' : 'negative';
-                ?>
-                <li data-skill-id="<?php echo $skill['skillId']; ?>">
-                    <strong><?php echo $skillName; ?>:</strong>
-                    <span class="<?php echo $modifierClass; ?>"><?php echo $modifierDisplay; ?></span>
-                    (<?php echo $abilityName; ?>)
-                    <select onchange="updateSkillProficiency(<?php echo $skill['skillId']; ?>, this.value)">
-                        <option value="none" <?php if ($proficiencyLevel === 'none')
-                            echo 'selected'; ?>>None</option>
-                        <option value="proficient" <?php if ($proficiencyLevel === 'proficient')
-                            echo 'selected'; ?>>Proficient
-                        </option>
-                        <option value="expertise" <?php if ($proficiencyLevel === 'expertise')
-                            echo 'selected'; ?>>Expertise
-                        </option>
-                    </select>
-                </li>
+        <div>
+            <h2>Skills</h2>
+            <ul id="skills-list">
                 <?php
-            }
-        }
-        ?>
-    </ul>
+                $skills = getCharacterSkills($characterId);
+                if (empty($skills)) {
+                    echo "<li>No skills available.</li>";
+                } else {
+                    foreach ($skills as $skill) {
+                        $skillName = htmlspecialchars($skill['skillName'] ?? 'Unknown Skill');
+                        $abilityName = htmlspecialchars($skill['abilityName'] ?? 'Unknown');
+                        $proficiencyLevel = $skill['proficiency'] ?? 'none';
+                        $skillModifier = calculateSkillModifier($character, $skill, $proficiencyLevel);
+                        $modifierDisplay = $skillModifier >= 0 ? "+$skillModifier" : $skillModifier;
+                        $modifierClass = $skillModifier >= 0 ? 'positive' : 'negative';
+                        ?>
+                        <li data-skill-id="<?php echo $skill['skillId']; ?>">
+                            <strong><?php echo $skillName; ?>:</strong>
+                            <span class="<?php echo $modifierClass; ?>"><?php echo $modifierDisplay; ?></span>
+                            (<?php echo $abilityName; ?>)
+                            <select onchange="updateSkillProficiency(<?php echo $skill['skillId']; ?>, this.value)">
+                                <option value="none" <?php if ($proficiencyLevel === 'none') echo 'selected'; ?>>None</option>
+                                <option value="proficient" <?php if ($proficiencyLevel === 'proficient') echo 'selected'; ?>>Proficient</option>
+                                <option value="expertise" <?php if ($proficiencyLevel === 'expertise') echo 'selected'; ?>>Expertise</option>
+                            </select>
+                        </li>
+                        <?php
+                    }
+                }
+                ?>
+            </ul>
+        </div>
 
-    <h2>Saving Throws</h2>
-    <ul>
-        <?php
-        $proficiencyBonus = getProficiencyBonus($character['level']);
-        $abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
-        foreach ($abilities as $ability) {
-            $savingThrowModifier = calculateSavingThrowModifier($character, $ability, $proficiencyBonus);
-            $modifierDisplay = $savingThrowModifier >= 0 ? "+$savingThrowModifier" : $savingThrowModifier;
-            $modifierClass = $savingThrowModifier >= 0 ? 'positive' : 'negative';
-            $isProficient = in_array($ability, explode(',', $character['savingThrowProficiencies'] ?? '')) ? 'Proficient' : 'None';
-            echo "<li><strong>" . ucfirst($ability) . ":</strong> <span class='$modifierClass'>$modifierDisplay</span> ($isProficient)</li>";
-        }
-        ?>
-    </ul>
+        <div>
+            <h2>Saving Throws</h2>
+            <ul>
+                <?php
+                $proficiencyBonus = getProficiencyBonus($character['level']);
+                $abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
+                foreach ($abilities as $ability) {
+                    $savingThrowModifier = calculateSavingThrowModifier($character, $ability, $proficiencyBonus);
+                    $modifierDisplay = $savingThrowModifier >= 0 ? "+$savingThrowModifier" : $savingThrowModifier;
+                    $modifierClass = $savingThrowModifier >= 0 ? 'positive' : 'negative';
+                    $isProficient = in_array($ability, explode(',', $character['savingThrowProficiencies'] ?? '')) ? 'Proficient' : 'None';
+                    echo "<li><strong>" . ucfirst($ability) . ":</strong> <span class='$modifierClass'>$modifierDisplay</span> ($isProficient)</li>";
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
     <?php
     $items = getItemsFromJson();
     ?>

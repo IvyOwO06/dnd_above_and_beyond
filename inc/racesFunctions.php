@@ -51,36 +51,68 @@ function getRaceFromJson($raceId) {
 function displayRaces() {
     $races = getRacesFromJson();
     $search = isset($_GET['search']) ? strtolower(trim($_GET['search'])) : '';
-    $selectedRaceId = isset($_GET['raceId']) && is_numeric($_GET['raceId']);
 
     foreach ($races as $index => $race) {
-        // Skip selected race
-        if ($selectedRaceId !== null && $index === $selectedRaceId) {
-            continue;
-        }
-
-        // Skip if search is active and this race or source doesn't match
         if ($search) {
             $nameMatch = strpos(strtolower($race['name']), $search) !== false;
             $sourceMatch = isset($race['source']) && strpos(strtolower($race['source']), $search) !== false;
 
             if (!$nameMatch && !$sourceMatch) {
-                continue; // Skip if it matches neither name nor source
+                continue;
             }
         }
-
-
         ?>
         <div class="filter-item"
-            data-name="<?php echo strtolower(htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8')); ?>"
-            data-source="<?php echo strtolower(htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8')); ?>">
-            <a href="?raceId=<?php echo $index; ?>">
+             data-name="<?php echo strtolower(htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8')); ?>"
+             data-source="<?php echo strtolower(htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8')); ?>"
+             data-race-id="<?php echo $index; ?>">
+            <div class="class-card">
                 <h1><?php echo htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
                 <p>Source: <?php echo htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8'); ?></p>
-            </a>
+            </div>
         </div>
         <?php
     }
+}
+
+// New function to output race data as JSON
+function outputRaceJson($raceId) {
+    $race = getRaceFromJson($raceId);
+    if (!$race) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Race not found']);
+        return;
+    }
+
+    // Prepare race data
+    $output = [
+        'name' => $race['name'],
+        'source' => $race['source'],
+        'page' => $race['page'],
+        'entries' => $race['entries'] ?? [],
+    ];
+
+    // Load fluff
+    $fluffEntries = getRacesFluffFromJson();
+    foreach ($fluffEntries as $fluff) {
+        if (
+            isset($fluff['name'], $fluff['source']) &&
+            $fluff['name'] === $race['name'] &&
+            $fluff['source'] === $race['source']
+        ) {
+            $output['fluff'] = $fluff['entries'] ?? [];
+            break;
+        }
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($output);
+}
+
+// Handle AJAX request
+if (isset($_GET['action']) && $_GET['action'] === 'get_race' && isset($_GET['raceId']) && is_numeric($_GET['raceId'])) {
+    outputRaceJson($_GET['raceId']);
+    exit;
 }
 
 

@@ -106,7 +106,7 @@ function displayBlog($blogId) // Displays blog details from database
 function getBlogCategories() //get blog per category
 {
     $db = dbConnect();
-    $sql = "SELECT * FROM blogCategories";
+        $sql = "SELECT * FROM blogCategories";
     $result = $db->query($sql) or die ($db->error);
     return $result->fetch_all(MYSQLI_ASSOC);
 }

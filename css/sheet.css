@@ -1,0 +1,293 @@
+/* Base setup */
+body {
+  background: #1c1330; /* Dark purple background */
+  color: #dcd6f7; /* Light purple-ish text */
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 20px;
+  line-height: 1.4;
+}
+
+/* Headings - DnD Beyond style purple */
+h1, h2, h3 {
+  color: #8e7cc3;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+h1 {
+  font-size: 2.8rem;
+  border-bottom: 3px solid #6c5ca5;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-top: 40px;
+  border-bottom: 2px solid #6c5ca5;
+  padding-bottom: 6px;
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin-top: 25px;
+  color: #b2a1f7;
+}
+
+/* Layout grid for main sections */
+body > h1,
+body > p,
+section, /* if you wrap stuff in sections, good for grid */
+#character-currency,
+#currency-form,
+#character-inventory,
+#item-list {
+  max-width: 1100px;
+  margin: 0 auto 20px auto;
+}
+
+/* Grid container for character basics & stats */
+.character-header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  background: #2a2140;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(80, 60, 140, 0.7);
+  margin-bottom: 30px;
+}
+
+.character-header p {
+  margin: 6px 0;
+  font-size: 1.1rem;
+}
+
+/* Race and Lore side by side */
+.race-lore-container {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 25px;
+  background: #2a2140;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(80, 60, 140, 0.6);
+  margin-bottom: 30px;
+}
+
+.race-lore-container h2 {
+  grid-column: span 2;
+  margin-bottom: 15px;
+}
+
+/* Ability Scores & Skills & Saving Throws side by side */
+.stats-skills-container {
+  display: grid;
+  grid-template-columns: 1.8fr 2.5fr 1.5fr;
+  gap: 30px;
+  background: #2a2140;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(80, 60, 140, 0.6);
+  margin-bottom: 40px;
+}
+
+/* Ability Scores list styling */
+.stats-skills-container ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.stats-skills-container ul li {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+/* Highlight positive and negative modifiers */
+.positive {
+  color: #9ee79e;
+  font-weight: 600;
+}
+
+.negative {
+  color: #e79e9e;
+  font-weight: 600;
+}
+
+/* Skills list style */
+#skills-list li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#skills-list select {
+  background: #6c5ca5;
+  color: #dcd6f7;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#skills-list select:hover {
+  background: #8e7cc3;
+}
+
+/* Currency section */
+#character-currency p {
+  margin: 6px 0;
+  font-size: 1.1rem;
+}
+
+#currency-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+#currency-form input[type=number] {
+  width: 60px;
+  margin-left: 8px;
+  border-radius: 4px;
+  border: none;
+  padding: 5px;
+  background: #6c5ca5;
+  color: #dcd6f7;
+  font-weight: 600;
+}
+
+#currency-form button {
+  background: #8e7cc3;
+  color: #1c1330;
+  border: none;
+  padding: 8px 15px;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#currency-form button:hover {
+  background: #b2a1f7;
+}
+
+/* Inventory section */
+#character-inventory ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+#character-inventory li {
+  background: #3a2e5a;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#character-inventory button {
+  background: #8e7cc3;
+  border: none;
+  padding: 5px 10px;
+  font-weight: 700;
+  color: #1c1330;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#character-inventory button:hover {
+  background: #b2a1f7;
+}
+
+/* Item list */
+#item-search, #sort-items {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 6px;
+  border: none;
+  background: #6c5ca5;
+  color: #dcd6f7;
+  font-weight: 600;
+  margin-bottom: 15px;
+  max-width: 200px;
+}
+
+#item-list > div {
+  background: #3a2e5a;
+  color: #dcd6f7;
+  padding: 10px;
+  margin-bottom: 6px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#item-list button {
+  background: #8e7cc3;
+  border: none;
+  padding: 5px 12px;
+  font-weight: 700;
+  color: #1c1330;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#item-list button:hover {
+  background: #b2a1f7;
+}
+
+/* Scrollbar for long lists */
+#item-list {
+  max-height: 280px;
+  overflow-y: auto;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 900px) {
+  .character-header,
+  .race-lore-container,
+  .stats-skills-container {
+    grid-template-columns: 1fr !important;
+  }
+  
+  #item-search, #sort-items {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.go-to-profile-btn {
+    background-color: #74378a; /* pinkish vibe */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+}
+
+.go-to-profile-btn:hover {
+    background-color: #4a2968; /* darker pink on hover */
+}

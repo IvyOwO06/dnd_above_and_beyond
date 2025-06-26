@@ -2,6 +2,7 @@
 
 require_once 'inc/campaignFunctions.php';
 require_once 'inc/dmFunctions.php';
+require_once 'inc/navFunctions.php';    
 
 // Get campaignId from URL
 $campaignId = $_GET['campaignId'] ?? null;
@@ -51,18 +52,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>DM Corner - Quests</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        textarea { width: 100%; height: 100px; }
-    </style>
-</head>
-<body>
-    <h1>Quests for <?php echo htmlspecialchars($campaign['name']); ?></h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800">
+    <title>DM Corner - Notes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/quests.css">
+    <link rel="stylesheet" href="css/notes.css">
 
-    <!-- Form to create a new quest -->
-    <form method="POST">
+    <?php displayHeader(); ?>
+</head>
+<body><h1>Quests for <?php echo htmlspecialchars($campaign['name']); ?></h1>
+
+<div class="quest-container">
+
+    <form method="POST" class="quest-form">
         <input type="text" name="questTitle" placeholder="Quest Title" required>
         <textarea name="questDescription" placeholder="Quest Description" required></textarea>
         <select name="questStatus" required>
@@ -73,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" name="createQuest">Create Quest</button>
     </form>
 
-    <!-- Display existing quests -->
     <?php if (!empty($quests)): ?>
         <table>
             <tr>
@@ -89,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?php echo htmlspecialchars($quest['questStatus']); ?></td>
                     <td>
                         <a href="edit_quest.php?questId=<?php echo $quest['questId']; ?>">Edit</a>
-                        <form method="POST" style="display:inline;">
+                        <form method="POST">
                             <input type="hidden" name="questId" value="<?php echo $quest['questId']; ?>">
                             <button type="submit" name="deleteQuest" onclick="return confirm('Delete this quest?')">Delete</button>
                         </form>
@@ -101,8 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>No quests yet. Create one above!</p>
     <?php endif; ?>
 
-    <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>">Back to DM Notes</a>
-    <br>
-    <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>">Manage Sessions</a>
-</body>
-</html>
+    <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>" class="back-link">Back to DM Notes</a>
+    <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>" class="back-link">Manage Sessions</a>
+</div>

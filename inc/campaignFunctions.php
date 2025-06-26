@@ -229,9 +229,9 @@ function displaycampaign($campaignId)
 
     <h2>Users</h2>
     <?php foreach ($users as $user): ?>
-        <?php echo htmlspecialchars($user['userName']); ?>
+        <p><?php echo htmlspecialchars($user['userName']); ?>
         <?php if ((int)$user['userId'] === (int)$campaign['userId']): ?>
-            (creator)
+            (creator)</p>
         <?php elseif ($isCreator): ?>
             <form method="POST">
                 <input type="hidden" name="removeUserId" value="<?php echo htmlspecialchars($user['userId']); ?>">
@@ -252,7 +252,7 @@ function displaycampaign($campaignId)
             $canRemove = $isCreator || $isCharacterOwner;
             ?>
             <li>
-                <?php echo htmlspecialchars($character['characterName']); ?>
+                <p><?php echo htmlspecialchars($character['characterName']); ?></p>
                 <?php if ($canRemove): ?>
                     <form method="POST">
                         <input type="hidden" name="removeCharacterId" value="<?php echo $character['characterId']; ?>">
@@ -355,7 +355,9 @@ function addUser()
     ?>
     <form method="GET">
         <input type="hidden" name="campaignId" value="<?php echo htmlspecialchars($_GET['campaignId'] ?? ''); ?>" />
-        <input type="search" name="search" placeholder="Add users..." />
+        <div class="searchuser">
+            <input type="search" name="search" placeholder="Add users..." />
+        </div>
     </form>
     <?php
 

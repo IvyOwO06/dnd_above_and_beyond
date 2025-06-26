@@ -1,0 +1,169 @@
+.initiative-container {
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+}
+
+.initiative-form {
+    background-color: var(--color-dark-secondary);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 12px var(--color-shadow-purple-light);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.initiative-form input[type="text"],
+.initiative-form input[type="number"] {
+    flex: 1 1 200px;
+    padding: 0.9rem;
+    border: 1px solid var(--color-purple-medium);
+    border-radius: 8px;
+    background-color: var(--color-dark-navy);
+    color: var(--color-text-color);
+    font-size: 1rem;
+}
+
+.initiative-form label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-color);
+}
+
+.initiative-form input[type="checkbox"] {
+    transform: scale(1.2);
+}
+
+.initiative-form button {
+    background-color: var(--color-purple-primary);
+    color: var(--color-white);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.initiative-form button:hover {
+    background-color: var(--color-purple-dark);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-dark-secondary);
+    color: var(--color-text-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--color-shadow-purple-light);
+    margin-bottom: 2rem;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-purple-dark);
+}
+
+th {
+    background-color: var(--color-purple-dark);
+    color: var(--color-white);
+}
+
+td a {
+    color: var(--color-purple-light);
+    text-decoration: underline;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+}
+
+td form {
+    display: inline-block;
+}
+
+td button {
+    background-color: var(--color-purple-dark);
+    color: var(--color-white);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+td button:hover {
+    background-color: var(--color-purple-primary);
+}
+
+a.back-to-sessions {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    background-color: var(--color-dark-navy);
+    background-color: var(--color-purple-primary);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px var(--color-shadow-purple-light);
+    display: inline-block;
+    margin-top: 1.5rem;
+}
+
+a.back-to-sessions:hover {
+    background-color: var(--color-dark-navy);
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+td.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center; /* vertically center all children */
+  padding: 1rem 0;
+}
+
+td.actions a {
+  color: var(--color-purple-light);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+td.actions a:hover {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+}
+
+td.actions form {
+  margin: 0;
+  display: flex;       /* make form flex container */
+  align-items: center; /* vertically center button */
+}
+
+td.actions button {
+  background-color: var(--color-purple-dark);
+  color: var(--color-white);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  line-height: 1;
+  height: auto;
+}
+
+td.actions button:hover {
+  background-color: var(--color-purple-primary);
+}

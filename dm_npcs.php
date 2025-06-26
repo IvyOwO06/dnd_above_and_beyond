@@ -2,6 +2,7 @@
 
 require_once 'inc/campaignFunctions.php';
 require_once 'inc/dmFunctions.php';
+require_once 'inc/navFunctions.php';
 
 // Get campaignId from URL
 $campaignId = $_GET['campaignId'] ?? null;
@@ -79,19 +80,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>DM Corner - NPCs</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        textarea { width: 100%; height: 100px; }
-        img { max-width: 100px; height: auto; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800">
+    <title>DM Corner - Notes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/npcs.css">
+    <link rel="stylesheet" href="css/notes.css">
+    <?php displayHeader(); ?>
 </head>
 <body>
-    <h1>NPCs for <?php echo htmlspecialchars($campaign['name']); ?></h1>
-
+        <h1>NPCs for <?php echo htmlspecialchars($campaign['name']); ?></h1>
+    <div class="npc-container">
     <!-- Form to create a new NPC -->
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="npcform">
         <input type="text" name="npcName" placeholder="NPC Name" required>
         <input type="text" name="npcRace" placeholder="NPC Race" required>
         <input type="text" name="npcClass" placeholder="NPC Class" required>
@@ -103,46 +105,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Display existing NPCs -->
     <?php if (!empty($npcs)): ?>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Race</th>
-                <th>Class</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Friendly</th>
-                <th>Actions</th>
-            </tr>
-            <?php foreach ($npcs as $npc): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($npc['npcName']); ?></td>
-                    <td><?php echo htmlspecialchars($npc['npcRace']); ?></td>
-                    <td><?php echo htmlspecialchars($npc['npcClass']); ?></td>
-                    <td>
-                        <?php if ($npc['npcImage']): ?>
-                            <img src="<?php echo htmlspecialchars($npc['npcImage']); ?>" alt="NPC Image">
-                        <?php else: ?>
-                            No Image
-                        <?php endif; ?>
-                    </td>
-                    <td><?php echo htmlspecialchars($npc['npcDescription']); ?></td>
-                    <td><?php echo $npc['npcIsFriendly'] ? 'Yes' : 'No'; ?></td>
-                    <td>
-                        <a href="edit_npc.php?npcId=<?php echo $npc['npcId']; ?>">Edit</a>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="npcId" value="<?php echo $npc['npcId']; ?>">
-                            <button type="submit" name="deleteNPC" onclick="return confirm('Delete this NPC?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>No NPCs yet. Create one above!</p>
-    <?php endif; ?>
+  <div class="npc-grid">
+    <?php foreach ($npcs as $npc): ?>
+      <div class="npc-card">
+        <?php if ($npc['npcImage']): ?>
+          <img src="<?php echo htmlspecialchars($npc['npcImage']); ?>" alt="NPC Image">
+        <?php endif; ?>
+        <div class="npc-details">
+          <h3><?php echo htmlspecialchars($npc['npcName']); ?></h3>
+          <p><strong>Race:</strong> <?php echo htmlspecialchars($npc['npcRace']); ?></p>
+          <p><strong>Class:</strong> <?php echo htmlspecialchars($npc['npcClass']); ?></p>
+          <p><strong>Description:</strong> <?php echo htmlspecialchars($npc['npcDescription']); ?></p>
+          <p><strong>Friendly:</strong> <?php echo $npc['npcIsFriendly'] ? 'Yes' : 'No'; ?></p>
+          <div class="npc-actions">
+            <a href="edit_npc.php?npcId=<?php echo $npc['npcId']; ?>">Edit</a>
+            <form method="POST">
+              <input type="hidden" name="npcId" value="<?php echo $npc['npcId']; ?>">
+              <button type="submit" name="deleteNPC" onclick="return confirm('Delete this NPC?')">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </div>
+<?php else: ?>
+  <p>No NPCs yet. Create one above!</p>
+<?php endif; ?>
 
-    <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>">Back to DM Notes</a><br>
-    <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>">Manage Sessions</a><br>
-    <a href="dm_quests.php?campaignId=<?php echo $campaignId; ?>">Manage Quests</a>
+</div>
+<div class="backlink-row">
+  <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>">Back to DM Notes</a>
+  <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>">Manage Sessions</a>
+  <a href="dm_quests.php?campaignId=<?php echo $campaignId; ?>">Manage Quests</a>
+</div>
+
 </body>
 </html>

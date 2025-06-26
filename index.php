@@ -29,7 +29,7 @@ $posts = getBlogs();
 
     <main>
         <section class="welcome">
-            <h2>DUNGEONS AND MASTERS</h2>
+            <h2>DUNGEONS AND MONSTERS</h2>
             <P>Step into a world where your D&D stories come alive! Our site lets you create, manage, and dive deep into your campaigns and characters! Complete with sleek sheets, DM tools, and even dice rolling at your fingertips. Whether you’re crafting epic quests or building legendary heroes, we’ve got your back. Ready to level up your game? Join us and bring your adventures to life like never before!</P>
         </section>
     </main>

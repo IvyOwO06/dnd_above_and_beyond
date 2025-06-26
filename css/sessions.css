@@ -1,0 +1,119 @@
+.session-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+}
+
+.session-form {
+    background-color: var(--color-dark-secondary);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--color-shadow-purple-light);
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.session-form input[type="text"],
+.session-form input[type="date"] {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-purple-medium);
+    border-radius: 8px;
+    background-color: var(--color-dark-navy);
+    color: var(--color-text-color);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.session-form button {
+    align-self: flex-start;
+    background-color: var(--color-purple-primary);
+    color: var(--color-white);
+    padding: 0.7rem 1.4rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.session-form button:hover {
+    background-color: var(--color-purple-dark);
+}
+
+.session-card {
+    background-color: var(--color-dark-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px var(--color-shadow-purple-light);
+    color: var(--color-text-color);
+}
+
+.session-card h3 {
+    color: var(--color-purple-light);
+    margin-bottom: 0.5rem;
+}
+
+.session-card p {
+    margin-bottom: 1rem;
+}
+
+.session-card a {
+    margin-right: 1rem;
+    color: var(--color-purple-light);
+    text-decoration: underline;
+    font-size: 0.95rem;
+}
+
+.session-card form {
+    display: inline-block;
+}
+
+.session-card button {
+    background-color: var(--color-purple-dark);
+    color: var(--color-white);
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.session-card button:hover {
+    background-color: var(--color-purple-primary);
+}
+
+.session-navigation a {
+    display: inline-block;
+    margin-top: 2rem;
+    margin-right: 1.5rem;
+    color: var(--color-purple-light);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.session-navigation a:hover {
+    text-decoration: underline;
+}
+
+a.button-link {
+    display: inline-block;
+    text-decoration: none;
+    background-color: var(--color-purple-primary);
+    color: var(--color-white);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px var(--color-shadow-purple-light);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+a.button-link:hover {
+    background-color: var(--color-purple-dark);
+    transform: translateY(-2px);
+    text-decoration: none;
+}

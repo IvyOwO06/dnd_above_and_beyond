@@ -187,11 +187,25 @@ function homeTabBuilder($characterId)
             $stmt->execute([$health, $characterId]);
         }
     }
+?>
 
+    <h2>Create Your Character</h2>
 
-    ?>
+    <!-- Tab Links -->
+    <div class="tab-links">
+        <a href="#general">General</a><br>
+        <a href="#class">Class</a><br>
+        <a href="#feats">Class Features</a><br>
+        <a href="#race">Race</a><br>
+        <a href="#abilities">Abilities</a><br>
+    </div>
+    
+    <div class="fold-in-button">
+        <button onclick="toggleSection('imageUploadSection')" class="action-button">Toggle Image Upload</button>
+    </div>
 
-    <!-- Image Upload Form -->
+    <!-- Inklapbare sectie -->
+<div id="imageUploadSection" class="creation-section" style="display: none;">
     <form method="POST" enctype="multipart/form-data" class="character-image-form">
         <div class="form-group">
             <label for="characterImage">Character Image</label>
@@ -207,18 +221,15 @@ function homeTabBuilder($characterId)
         </div>
         <button type="submit" class="action-button submit-button">Upload Image</button>
     </form>
+</div>
 
-    <h2>Create Your Character</h2>
 
-    <!-- Tab Links -->
-    <div class="tab-links">
-        <a href="#general">General</a><br>
-        <a href="#class">Class</a><br>
-        <a href="#feats">Class Features</a><br>
-        <a href="#race">Race</a><br>
-        <a href="#abilities">Abilities</a><br>
-    </div>
-
+<script>
+function toggleSection(id) {
+    const section = document.getElementById(id);
+    section.style.display = section.style.display === "none" ? "block" : "none";
+}
+</script>
     <!-- Single Shared Overlay -->
     <div id="modal-overlay" class="overlay"></div>
 
@@ -226,13 +237,13 @@ function homeTabBuilder($characterId)
         <!-- General Tab -->
         <div id="general" class="tab-content">
             <label for="characterName">Character Name:</label>
-            <input type="text" id="characterName" name="characterName"
+            <input type="text" cLASS="characterName" name="characterName"
                 value="<?php echo htmlspecialchars($character['characterName']); ?>" required><br>
             <label for="age">Age:</label>
-            <input type="number" id="characterAge" name="age"
+            <input type="number" class="characterAge" name="age"
                 value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
             <label>Alignment:</label>
-            <select name="alignment" id="alignment" required>
+            <select name="alignment" class="alignment" required>
                 <option value="">--Choose Option--</option>
                 <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
                     echo 'selected'; ?>>
@@ -263,11 +274,11 @@ function homeTabBuilder($characterId)
             </select><br>
             <form method="POST">
                 <label>Backstory:</label><br>
-                <textarea name="characterBackstory" id="characterBackstory" rows="10"
+                <textarea name="characterBackstory" class="characterBackstory" rows="10"
                     cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
 
                 <label>Personality:</label><br>
-                <textarea name="characterPersonality" id="characterPersonality" rows="6"
+                <textarea name="characterPersonality" class="characterPersonality" rows="6"
                     cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
 
             </form>

@@ -117,55 +117,62 @@ $user = getUser($userId);
     <meta charset="UTF-8">
     <title>Profile Customization</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/customization.css">
 </head>
-<body>
-<?php displayHeader(); ?>
+<body><?php displayHeader(); ?>
 
-<h2>Profile Options</h2>
+<div class="profile-container">
+  <h2>Profile Options</h2>
 
-<!-- Display Name -->
+ <!-- Display Name -->
 <form method="POST">
-    <h3>Display Name:</h3>
-    <input type="text" name="displayName" value="<?= htmlspecialchars($user['displayName'] ?? '') ?>" maxlength="50" placeholder="Your display name">
-    <br>
-    <button type="submit" name="update_displayName">Save Display Name</button>
+  <h3>Display Name:</h3>
+  <input type="text" name="displayName" value="<?= htmlspecialchars($user['displayName'] ?? '') ?>" maxlength="50" placeholder="Your display name">
+  <button type="submit" name="update_displayName">Save Display Name</button>
 </form>
+<hr>
 
 <!-- Profile Picture -->
 <form method="POST" enctype="multipart/form-data">
-    <h3>Profile Picture:</h3>
-    <?php if (!empty($user['profilePicture'])): ?>
-        <img src="<?= htmlspecialchars($user['profilePicture']) ?>" class="profile-pic">
-    <?php endif; ?>
-    <input type="file" name="profile_picture" accept="image/*" required>
-    <button type="submit" name="upload_picture">Upload</button>
+  <h3>Profile Picture:</h3>
+  <?php if (!empty($user['profilePicture'])): ?>
+    <img src="<?= htmlspecialchars($user['profilePicture']) ?>" class="profile-pic">
+  <?php endif; ?>
+  <input type="file" name="profile_picture" accept="image/*" required>
+  <button type="submit" name="upload_picture">Upload</button>
 </form>
+<hr>
 
 <!-- Profile Banner -->
 <form method="POST" enctype="multipart/form-data">
-    <h3>Profile Banner:</h3>
-    <?php if (!empty($user['profileBanner'])): ?>
-        <img src="<?= htmlspecialchars($user['profileBanner']) ?>" width="150">
-    <?php endif; ?>
-    <input type="file" name="banner_image" accept="image/*" required>
-    <button type="submit" name="upload_banner">Upload Banner</button>
+  <h3>Profile Banner:</h3>
+  <?php if (!empty($user['profileBanner'])): ?>
+    <img src="<?= htmlspecialchars($user['profileBanner']) ?>" class="profile-banner-preview">
+  <?php endif; ?>
+  <input type="file" name="banner_image" accept="image/*" required>
+  <button type="submit" name="upload_banner">Upload Banner</button>
 </form>
+<hr>
 
 <!-- Description -->
 <form method="POST">
-    <h3>Description:</h3>
-    <textarea name="profileInformation" rows="4" cols="50"><?= htmlspecialchars($user['profileInformation'] ?? '') ?></textarea>
-    <br>
-    <button type="submit" name="update_description">Save Description</button>
+  <h3>Description:</h3>
+  <textarea name="profileInformation" rows="4"><?= htmlspecialchars($user['profileInformation'] ?? '') ?></textarea>
+  <button type="submit" name="update_description">Save Description</button>
 </form>
+<hr>
 
 <!-- Color -->
 <form method="POST">
-    <h3>Profile Color:</h3>
-    <input type="color" name="profileColor" value="<?= htmlspecialchars($user['profileColor'] ?? '#000000') ?>" required>
-    <button type="submit" name="update_color">Save Color</button>
+  <h3>Profile Color:</h3>
+  <div class="color-picker-wrapper">
+    <label for="profileColor">Choose a color:</label>
+    <input type="color" id="profileColor" name="profileColor" value="<?= htmlspecialchars($user['profileColor'] ?? '#000000') ?>" required>
+  </div>
+  <button type="submit" name="update_color">Save Color</button>
 </form>
+  </div>
+  <?php displayFooter(); ?>
 
-<?php displayFooter(); ?>
 </body>
 </html>

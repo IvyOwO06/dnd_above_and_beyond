@@ -1,28 +1,24 @@
 <?php
 require_once 'inc/campaignFunctions.php';
 require_once 'inc/dmFunctions.php';
+require_once 'inc/navFunctions.php';
 
-// Get campaignId from URL
 $campaignId = $_GET['campaignId'] ?? null;
 if (!$campaignId) {
     die("No campaign specified.");
 }
 
-// Fetch campaign details
 $campaign = getCampaign($campaignId);
 if (!$campaign) {
     die("Campaign not found.");
 }
 
-// Check if the current user is the campaign creator
 if ($_SESSION['user']['id'] !== (int)$campaign['userId']) {
     die("You are not the creator of this campaign.");
 }
 
-// Get all notes for this campaign
 $notes = getNotesForCampaign($campaignId);
 
-// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['createNote'])) {
         $title = $_POST['noteTitle'] ?? '';
@@ -46,41 +42,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800">
     <title>DM Corner - Notes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/notes.css">
+    <?php displayHeader(); ?>
 </head>
 <body>
-    <h1>Notes for <?php echo htmlspecialchars($campaign['name']); ?></h1>
+<h1>Notes for <?php echo htmlspecialchars($campaign['name']); ?></h1>
 
-    <!-- Form to create a new note -->
-    <form method="POST">
+<div class="note-container">
+
+    <form method="POST" class="note-form">
         <input type="text" name="noteTitle" placeholder="Note Title" required>
         <textarea name="noteContent" placeholder="Note Content" required></textarea>
         <button type="submit" name="createNote">Create Note</button>
     </form>
 
-    <!-- Display existing notes -->
     <?php if (!empty($notes)): ?>
         <?php foreach ($notes as $note): ?>
-            <div>
+            <div class="note-card">
                 <h3><?php echo htmlspecialchars($note['noteTitle']); ?></h3>
-                <p><?php echo htmlspecialchars($note['noteContent']); ?></p>
+                <p><?php echo nl2br(htmlspecialchars($note['noteContent'])); ?></p>
                 <p><small>Created: <?php echo $note['noteCreatedAt']; ?></small></p>
-                <form method="POST" style="display:inline;">
-                    <input type="hidden" name="noteId" value="<?php echo $note['noteId']; ?>">
-                    <button type="submit" name="deleteNote" onclick="return confirm('Delete this note?')">Delete</button>
-                </form>
-                <a href="edit_note.php?noteId=<?php echo $note['noteId']; ?>">Edit</a>
+                <div class="note-card-actions">
+                    <form method="POST" style="display:inline;">
+                        <input type="hidden" name="noteId" value="<?php echo $note['noteId']; ?>">
+                        <button type="submit" name="deleteNote" onclick="return confirm('Delete this note?')">Delete</button>
+                    </form>
+                    <a href="edit_note.php?noteId=<?php echo $note['noteId']; ?>">Edit</a>
+                </div>
             </div>
-            <hr>
         <?php endforeach; ?>
     <?php else: ?>
         <p>No notes yet. Create one above!</p>
     <?php endif; ?>
 
-    <a href="campaign?campaignId=<?php echo $campaignId; ?>">Back to Campaign</a>
-    <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>">Manage Sessions</a>
-    <a href="dm_quests.php?campaignId=<?php echo $campaignId; ?>">Manage Quests</a><br>
-    <a href="dm_npcs.php?campaignId=<?php echo $campaignId; ?>">Manage NPCs</a><br>
+    <div class="note-navigation">
+        <a href="campaign?campaignId=<?php echo $campaignId; ?>">Back to Campaign</a>
+        <a href="dm_sessions.php?campaignId=<?php echo $campaignId; ?>">Manage Sessions</a>
+        <a href="dm_quests.php?campaignId=<?php echo $campaignId; ?>">Manage Quests</a>
+        <a href="dm_npcs.php?campaignId=<?php echo $campaignId; ?>">Manage NPCs</a>
+    </div>
 
-</body>
-</html>
+</div>

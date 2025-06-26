@@ -22,7 +22,6 @@ loggedInCheck();
         if($_SESSION['user']['id'] == $userId)
         {
             ?>
-            <a href="dm_notes.php">Dm Notes</a>
             <form method="POST" action="campaigns?userId=<?php echo $userId ?>" class="campaignform">
                 <label for="campaignName">Create Campaign</label><br>
 

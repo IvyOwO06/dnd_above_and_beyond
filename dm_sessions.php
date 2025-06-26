@@ -1,6 +1,7 @@
 <?php
 require_once 'inc/campaignFunctions.php';
 require_once 'inc/dmFunctions.php';
+require_once 'inc/navFunctions.php';
 
 // Get campaignId from URL
 $campaignId = $_GET['campaignId'] ?? null;
@@ -46,36 +47,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DM Corner - Sessions</title>
-</head>
-<body>
-    <h1>Sessions for <?php echo htmlspecialchars($campaign['name']); ?></h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800">
+    <title>DM Corner - Notes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sessions.css">
+        <link rel="stylesheet" href="css/notes.css">
 
-    <!-- Form to create a new session -->
-    <form method="POST">
+    <?php displayHeader(); ?>
+</head>
+<body><h1>Sessions for <?php echo htmlspecialchars($campaign['name']); ?></h1>
+
+<div class="session-container">
+
+    <form method="POST" class="session-form">
         <input type="text" name="sessionName" placeholder="Session Name" required>
         <input type="date" name="sessionDate" required>
         <button type="submit" name="createSession">Create Session</button>
     </form>
 
-    <!-- Display existing sessions -->
     <?php if (!empty($sessions)): ?>
         <?php foreach ($sessions as $session): ?>
-            <div>
+            <div class="session-card">
                 <h3><?php echo htmlspecialchars($session['sessionName']); ?></h3>
                 <p>Date: <?php echo htmlspecialchars($session['sessionDate']); ?></p>
-                <a href="dm_initiative.php?sessionId=<?php echo $session['sessionId']; ?>">Manage Initiative</a>
-                <form method="POST" style="display:inline;">
+                <a href="dm_initiative.php?sessionId=<?php echo $session['sessionId']; ?>" class="button-link">Manage Initiative</a>
+                <form method="POST">
                     <input type="hidden" name="sessionId" value="<?php echo $session['sessionId']; ?>">
                     <button type="submit" name="deleteSession" onclick="return confirm('Delete this session and all its initiative entries?')">Delete</button>
                 </form>
             </div>
-            <hr>
         <?php endforeach; ?>
     <?php else: ?>
         <p>No sessions yet. Create one above!</p>
     <?php endif; ?>
 
-    <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>">Back to DM Notes</a>
-</body>
-</html>
+    <div class="session-navigation">
+        <a href="dm_notes.php?campaignId=<?php echo $campaignId; ?>" class="button-link">Back to DM Notes</a>
+    </div>
+
+</div>

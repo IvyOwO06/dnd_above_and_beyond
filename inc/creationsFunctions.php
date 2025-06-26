@@ -71,12 +71,11 @@ function displayCharacters($userId, $limit = null)
                     </div>
                     <?php if (isset($_SESSION['user']['id']) && $userId == $_SESSION['user']['id']): ?>
                         <div class="character-actions">
-                            <a href="builder.php?characterId=<?php echo $character['characterId']; ?>" class="action-button edit-button">Edit</a>
+                            <a href="builder.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">Edit Character</a>
                             <a href="characterSheet.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">View Sheet</a>
-                            <a href="characterprofile.php?characterId=<?php echo $character['characterId']; ?>" class="action-button view-button">View Profile</a>
                             <form method="POST" onsubmit="return confirm('Are you sure?');">
                                 <input type="hidden" name="delete_character_id" value="<?php echo $character['characterId']; ?>">
-                                <button type="submit" name="delete" value="1" class="delete-character">Delete</button>
+                                <button type="submit" name="delete" value="1" class="action-button delete-button">🗑️</button>
                             </form>
                         </div>
                     <?php endif; ?>

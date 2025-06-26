@@ -31,77 +31,7 @@
   box-shadow: 0 0 12px rgba(200, 150, 255, 0.08);
   transition: transform 0.2s ease, box-shadow 0.3s ease;
   text-align: center;
-}
-
-.filter-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 18px rgba(200, 150, 255, 0.25);
-}
-
-.filter-item a {
-  text-decoration: none;
-  color: #f8f8f8;
-  display: block;
-}
-
-.filter-item h1 {
-  font-size: 1.8rem;
-  color: #c084f5;
-  margin-top: 0.8rem;
-}
-
-.filter-item p {
-  color: #ccc;
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-}
-
-/* 💠 Optional class image */
-.class-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 10px;
-  background: #000;
-}
-
-
-
-/* Existing styles */
-.search-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.8rem;
-  padding: 3rem 2rem;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.live-search {
-  grid-column: 1 / -1;
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 10px;
-  background: #311a4c;
-  color: #eee;
-  margin-bottom: 2rem;
-  box-shadow: 0 0 10px rgba(200, 150, 255, 0.2);
-}
-
-.live-search::placeholder {
-  color: #bbb;
-}
-
-.filter-item {
-  background: #24132e;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(200, 150, 255, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  text-align: center;
-  cursor: pointer; /* Indicate clickability */
+  cursor: pointer;
 }
 
 .filter-item:hover {
@@ -127,7 +57,6 @@
   font-size: 0.95rem;
 }
 
-/* Optional class image */
 .class-image {
   width: 100%;
   height: 160px;
@@ -136,7 +65,6 @@
   background: #000;
 }
 
-/* Modal Styles */
 .modal {
   display: none;
   position: fixed;
@@ -211,4 +139,4 @@
     opacity: 1;
     transform: scale(1);
   }
-}
+}   

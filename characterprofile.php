@@ -2,6 +2,7 @@
 include 'inc/functions.php'; // DB connection is in here
 include 'inc/creationsFunctions.php'; // DB connection is in here
 include 'inc/builderFunctions.php'; // DB connection is in here
+require_once 'inc/navFunctions.php';
 
 
 if (!isset($_GET['characterId']) || !is_numeric($_GET['characterId'])) {
@@ -28,7 +29,11 @@ if (!$character) {
 <html>
 <head>
     <title><?= htmlspecialchars($character['characterName']) ?>'s Profile</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/characterprofile.css">
+    <?php
+    displayHeader();
+    ?>
 </head>
 <body>
     <div class="character-profile">

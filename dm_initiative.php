@@ -1,6 +1,7 @@
 <?php
 require_once 'inc/campaignFunctions.php';
 require_once 'inc/dmFunctions.php';
+require_once 'inc/navFunctions.php';
 
 // Get sessionId from URL
 $sessionId = $_GET['sessionId'] ?? null;
@@ -53,25 +54,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DM Corner - Initiative Tracker</title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-    <h1>Initiative Tracker for <?php echo htmlspecialchars($session['sessionName']); ?></h1>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="1800">
+    <title>DM Corner - Notes</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/initiative.css">
+        <link rel="stylesheet" href="css/notes.css">
 
-    <!-- Form to add a new initiative -->
-    <form method="POST">
+    <?php displayHeader(); ?>
+</head>
+    <title>DM Corner - Initiative Tracker</title>
+</head>
+<body><h1>Initiative Tracker for <?php echo htmlspecialchars($session['sessionName']); ?></h1>
+
+<div class="initiative-container">
+
+    <form method="POST" class="initiative-form">
         <input type="text" name="initiativeName" placeholder="Character/NPC Name" required>
         <input type="number" name="initiative" placeholder="Initiative Value" required>
         <label><input type="checkbox" name="isNPC"> Is NPC?</label>
         <button type="submit" name="createInitiative">Add Initiative</button>
     </form>
 
-    <!-- Display initiative table -->
     <?php if (!empty($initiatives)): ?>
         <table>
             <tr>
@@ -85,13 +91,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?php echo htmlspecialchars($initiative['initiativeName']); ?></td>
                     <td><?php echo htmlspecialchars($initiative['initiative']); ?></td>
                     <td><?php echo $initiative['isNPC'] ? 'NPC' : 'Character'; ?></td>
-                    <td>
-                        <a href="edit_initiative.php?initiativeId=<?php echo $initiative['initiativeId']; ?>">Edit</a>
-                        <form method="POST" style="display:inline;">
-                            <input type="hidden" name="initiativeId" value="<?php echo $initiative['initiativeId']; ?>">
-                            <button type="submit" name="deleteInitiative" onclick="return confirm('Delete this initiative entry?')">Delete</button>
-                        </form>
-                    </td>
+                    <td class="actions">
+  <a href="edit_initiative.php?initiativeId=<?php echo $initiative['initiativeId']; ?>">Edit</a>
+  <form method="POST" style="margin:0;">
+    <input type="hidden" name="initiativeId" value="<?php echo $initiative['initiativeId']; ?>">
+    <button type="submit" name="deleteInitiative" onclick="return confirm('Delete this initiative entry?')">Delete</button>
+  </form>
+</td>
+
                 </tr>
             <?php endforeach; ?>
         </table>
@@ -99,6 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>No initiative entries yet. Add one above!</p>
     <?php endif; ?>
 
-    <a href="dm_sessions.php?campaignId=<?php echo $session['campaignId']; ?>">Back to Sessions</a>
-</body>
-</html>
+    <a href="dm_sessions.php?campaignId=<?php echo $session['campaignId']; ?>" class="back-to-sessions">Back to Sessions</a>
+
+</div>

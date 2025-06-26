@@ -39,24 +39,22 @@ function getClassesFromJson() {
 function displayClasses() {
     $classes = getClassesFromJson();
     $search = isset($_GET['search']) ? strtolower(trim($_GET['search'])) : '';
-    $selectedClassId = isset($_GET['classId']) && is_numeric($_GET['classId']) ? (int)$_GET['classId'] : null;
 
     foreach ($classes as $index => $class) {
-        // Skip selected class
-        if ($selectedClassId !== null && $index === $selectedClassId) {
-            continue;
-        }
-
         ?>
         <div class="filter-item"
-            data-name="<?php echo strtolower(htmlspecialchars($class['name'], ENT_QUOTES, 'UTF-8')); ?>"
-            data-source="<?php echo strtolower(htmlspecialchars($class['source'], ENT_QUOTES, 'UTF-8')); ?>">
-            <a href="?classId=<?php echo $index; ?>">
+             data-class-id="<?php echo $index; ?>"
+             data-name="<?php echo strtolower(htmlspecialchars($class['name'], ENT_QUOTES, 'UTF-8')); ?>"
+             data-source="<?php echo strtolower(htmlspecialchars($class['source'], ENT_QUOTES, 'UTF-8')); ?>">
+            <div class="class-card">
                 <h1><?php echo htmlspecialchars($class['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
                 <p>Source: <?php echo htmlspecialchars($class['source'], ENT_QUOTES, 'UTF-8'); ?></p>
-            </a>
+            </div>
         </div>
-
+        <!-- Hidden Class Details -->
+        <div id="class-details-<?php echo $index; ?>" class="class-details" style="display: none;">
+            <?php displayClass($index); ?>
+        </div>
         <?php
     }
 }
@@ -132,6 +130,7 @@ function renderEntries($entries, $depth = 2) {
 
 // display a singular class
 function displayClass($classId) {
+    
     $class = getClassFromJson($classId);
     if (!$class) {
         echo "<p>Class not found.</p>";

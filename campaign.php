@@ -15,11 +15,14 @@ loggedInCheck();
         <title>ඞ</title>
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/campaignModal.css">
+        <link rel="stylesheet" href="css/viewcampaign.css">
     </head>
     <body>
         <?php
         displayHeader();
+        echo '<div class="campaign-container">';
         displaycampaign($campaignId);
+        echo '</div>';
         displayFooter();
         ?>
     </body>

@@ -1,0 +1,415 @@
+.npc-container {
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+/* === Form === */
+.npcform {
+  background-color: var(--color-dark-secondary);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--color-shadow-purple-light);
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form input[type="text"],
+form input[type="file"],
+form textarea,
+form select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-purple-medium);
+  background-color: var(--color-dark-navy);
+  color: var(--color-text-color);
+  font-size: 1rem;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+form label {
+  color: var(--color-text-color);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+form button {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: fit-content;
+}
+
+form button:hover {
+  background-color: var(--color-purple-dark);
+}
+
+/* === Table === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-dark-secondary);
+  color: var(--color-text-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--color-shadow-purple-light);
+  margin-bottom: 2rem;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-purple-dark);
+}
+
+th {
+  background-color: var(--color-purple-dark);
+  color: var(--color-white);
+}
+
+td img {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 2px 4px var(--color-shadow-purple-medium);
+}
+
+/* === Actions === */
+td:last-child {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+td:last-child a {
+  color: var(--color-purple-light);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+td:last-child a:hover {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+}
+
+td:last-child form {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+td:last-child button {
+  background-color: var(--color-purple-dark);
+  color: var(--color-white);
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+td:last-child button:hover {
+  background-color: var(--color-purple-primary);
+}
+
+/* === Navigation Links === */
+a.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background-color: var(--color-dark-navy);
+  color: var(--color-purple-light);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px var(--color-shadow-purple-light);
+}
+
+a.back-link:hover {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+.npc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.npc-card {
+  background-color: var(--color-dark-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px var(--color-shadow-purple-light);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.npc-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--color-shadow-purple);
+}
+
+.npc-details h3 {
+  color: var(--color-purple-light);
+  margin: 0;
+}
+
+.npc-details p {
+  color: var(--color-text-color);
+  font-size: 0.95rem;
+  margin: 0.2rem 0;
+}
+
+.npc-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.npc-actions a {
+  background-color: var(--color-dark-navy);
+  color: var(--color-purple-light);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.npc-actions a:hover {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+}
+
+.npc-actions form {
+  margin: 0;
+}
+
+.npc-actions button {
+  background-color: var(--color-purple-dark);
+  color: var(--color-white);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.npc-actions button:hover {
+  background-color: var(--color-purple-primary);
+}
+
+.npc-container {
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+}
+
+/* === NPC Grid === */
+.npc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* === NPC Card === */
+.npc-card {
+  background-color: var(--color-dark-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px var(--color-shadow-purple-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* === NPC Details === */
+.npc-details {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.npc-details h3 {
+  color: var(--color-purple-light);
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.npc-details p {
+  color: var(--color-text-color);
+  font-size: 0.95rem;
+  margin: 0.3rem 0;
+}
+
+/* === NPC Image === */
+.npc-card img {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 10px;
+  object-fit: contain; /* show full image */
+  background-color: var(--color-dark-navy);
+  padding: 0.5rem;
+  box-shadow: 0 2px 6px var(--color-shadow-purple);
+  margin-top: 1rem;
+}
+
+/* === Actions === */
+.npc-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.npc-actions a {
+  background-color: var(--color-dark-navy);
+  color: var(--color-purple-light);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.npc-actions a:hover {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+}
+
+.npc-actions form {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.npc-actions button {
+  background-color: var(--color-purple-dark);
+  color: var(--color-white);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.npc-actions button:hover {
+  background-color: var(--color-purple-primary);
+}
+
+/* === Form === */
+form[action=""] {
+  background-color: var(--color-dark-secondary);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--color-shadow-purple-light);
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form[action=""] input[type="text"],
+form[action=""] input[type="file"],
+form[action=""] textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-purple-medium);
+  background-color: var(--color-dark-navy);
+  color: var(--color-text-color);
+  font-size: 1rem;
+}
+
+form[action=""] textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+form[action=""] label {
+  color: var(--color-text-color);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+form[action=""] button {
+  background-color: var(--color-purple-primary);
+  color: var(--color-white);
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: fit-content;
+}
+
+form[action=""] button:hover {
+  background-color: var(--color-purple-dark);
+}
+
+
+.backlink-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: -2rem; /* optional tweak to pull closer to form */
+  margin-bottom: 3rem;
+  justify-content: center;
+  color: white;
+}
+
+.backlink-row a {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background-color: var(--color-purple-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px var(--color-shadow-purple-light);
+}
+
+.backlink-row a:hover {
+  background-color: var(--color-dark-navy);
+  transform: translateY(-2px);
+}
+
