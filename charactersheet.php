@@ -44,7 +44,7 @@ foreach ($raceFluff as $fluff) {
     <div class="sheetbody">
     
     <h1><?php echo htmlspecialchars($character['characterName']); ?></h1>
-<button class="go-to-profile-btn" onclick="window.location.href='characterprofile.php?characterId=<?php echo $character['characterId']; ?>'">Go to Character Profile</button>
+<button class="go-to-profile-btn" onclick="window.location.href='characterprofile?characterId=<?php echo $character['characterId']; ?>'">Go to Character Profile</button>
 
     <p><strong>Age:</strong> <?php echo htmlspecialchars($character['characterAge']); ?></p>
     <p><strong>Level:</strong> <?php echo htmlspecialchars($character['level']); ?></p>
@@ -180,7 +180,7 @@ foreach ($raceFluff as $fluff) {
 
     <script>function updateSkillProficiency(skillId, proficiency) {
             const characterId = <?php echo json_encode($characterId); ?>;
-            fetch('inc/skillFunctions.php', {
+            fetch('inc/skillFunctions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'updateSkillProficiency', characterId, skillId, proficiency })
@@ -190,7 +190,7 @@ foreach ($raceFluff as $fluff) {
                     if (data.success) {
                         alert('Skill proficiency updated!');
                         // Fetch the updated modifier for this skill
-                        fetch(`inc/skillFunctions.php?action=getSkillModifier&characterId=${characterId}&skillId=${skillId}`)
+                        fetch(`inc/skillFunctions?action=getSkillModifier&characterId=${characterId}&skillId=${skillId}`)
                             .then(response => response.json())
                             .then(data => {
                                 const modifier = data.modifier;
@@ -229,7 +229,7 @@ foreach ($raceFluff as $fluff) {
             const gp = parseInt(document.getElementById('gp').value) || 0;
             const pp = parseInt(document.getElementById('pp').value) || 0;
 
-            fetch('update_currency.php', {
+            fetch('update_currency', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ characterId, cp, sp, ep, gp, pp, action })
@@ -239,7 +239,7 @@ foreach ($raceFluff as $fluff) {
                     if (data.success) {
                         alert('Currency updated!');
                         // Refresh currency display
-                        fetch('get_currency.php?characterId=' + characterId)
+                        fetch('get_currency?characterId=' + characterId)
                             .then(response => response.json())
                             .then(currency => {
                                 const currencyDiv = document.getElementById('character-currency');
@@ -335,7 +335,7 @@ foreach ($raceFluff as $fluff) {
 
         function addItem(itemName) {
             const characterId = <?php echo json_encode($characterId); ?>;
-            fetch('add_item.php', {
+            fetch('add_item', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ characterId: characterId, itemName: itemName, quantity: 1 })
