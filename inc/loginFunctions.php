@@ -10,7 +10,7 @@ function signup()
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn, $_POST['pass']);
         $cpassword = mysqli_real_escape_string($conn, $_POST['cpass']);
-        $banner = "files/banners/banner_68527a720a7bc1.81326786.jpg";
+        $banner = "files/banners/normalBanner.jpg";
 
         $profilePicture = "images/defaultPFP.png";
 
