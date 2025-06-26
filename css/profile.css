@@ -459,14 +459,11 @@ campaign button:hover {
   }
 
   .profile-picture {
-    position: absolute;
-    top: 300px; 
     left: 50%;
-    transform: translateX(-50%);
-    height: 160px;
-    width: 160px;
-    border: 5px solid #fff;
-    z-index: 10;
+    top: 180px; /* a bit higher for better balance */
+    transform: translate(-50%, 0);
+    height: 180px;
+    width: 180px;
   }
 
   .button-wrapper {
@@ -476,6 +473,7 @@ campaign button:hover {
     gap: 1rem;
     position: relative;
     z-index: 1;
+    margin-left: 10px;
   }
 
   .btn-options,
@@ -487,10 +485,13 @@ campaign button:hover {
   }
 
   .name-wrapper {
+    display: flex;         /* add this */
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* center vertically too */
     padding: 1rem;
     margin-top: 1rem;
+    text-align: center;
   }
 
   .displayname,
@@ -499,5 +500,22 @@ campaign button:hover {
     text-align: center;
     font-size: 1.5rem;
     margin: 0.2rem 0;
+  }
+
+  /* Fix description container padding on small screens */
+  .description-container {
+    padding: 0.5rem;
+  }
+
+  /* Make character list one column on small screens */
+  .character-list {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+    margin: 2rem auto;
+  }
+  .description-container {
+    display: flex;       /* center text container */
+    justify-content: center;
+    padding: 0.5rem;
   }
 }

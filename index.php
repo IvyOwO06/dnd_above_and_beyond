@@ -22,7 +22,6 @@ $posts = getBlogs();
 <div class="hero">
   <div class="hero-overlay">
     <h1>Dungeons and Monsters</h1>
-    <p>Your gateway to unforgettable adventures</p>
   </div>
 </div>
 

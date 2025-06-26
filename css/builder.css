@@ -11,7 +11,7 @@
 h2 {
     text-align: center;
 }
-/* Tabs */
+
 .tab-links {
     background-color: #50377b;
     padding: 20px;
@@ -21,7 +21,7 @@ h2 {
     margin-bottom: 40px;
     justify-content: center;
     max-width: 800px;
-    margin: 1.5rem auto; /* center horizontally */
+    margin: 1.5rem auto; 
 }
 
 .tab-links a {
@@ -44,16 +44,16 @@ h2 {
     width: 0%;
     position: absolute;
     bottom: 0;
-left: 0;
+    left: 0;
 }
 
 .tab-links a:hover::after {
-width: 100%;
+    width: 100%;
 }
 
 .tab-links a:hover {
-background: rgba(111, 66, 193, 0.2);
-color: #ffffff;
+    background: rgba(111, 66, 193, 0.2);
+    color: #ffffff;
 }
 
 .fold-in-button {
@@ -62,8 +62,6 @@ color: #ffffff;
     margin-bottom: 40px;
 }
 
-
-/* Active tab content */
 .tab-content {
     display: none;
     background: rgb(26, 10, 43);
@@ -71,10 +69,10 @@ color: #ffffff;
     border-radius: 12px;
     border: 1px solid var(--border);
     box-shadow: 0 0 10px rgba(159, 107, 255, 0.15);
-    margin: 0 auto 1.5rem auto; /* center horizontally */
+    margin: 0 auto 1.5rem auto; 
     font-size: 0.9rem;
-    max-width: 600px;          /* thinner width */
-    width: 90%;                /* responsive */
+    max-width: 600px;          
+    width: 90%;                
 }
 
 .tab-content label {
@@ -99,7 +97,6 @@ color: #ffffff;
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Form styling */
 label {
     font-size: 0.9rem;
     margin-top: 0.6rem;
@@ -137,7 +134,6 @@ textarea {
     line-height: 1.4;
 }
 
-/* Buttons */
 button,
 input[type="submit"] {
     background: var(--primary);
@@ -157,7 +153,6 @@ input[type="submit"]:hover {
     transform: scale(1.03);
 }
 
-/* Filtered cards */
 .filter-item {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
@@ -171,7 +166,6 @@ input[type="submit"]:hover {
     transform: scale(1.01);
 }
 
-/* Modals */
 .modal {
     position: fixed;
     top: 50%;
@@ -200,7 +194,6 @@ input[type="submit"]:hover {
     color: var(--text-muted);
 }
 
-/* Image previews */
 .preview-image,
 .current-image img {
     max-width: 300px;
@@ -209,7 +202,6 @@ input[type="submit"]:hover {
     border: 2px solid var(--border);
 }
 
-/* Section headers */
 h2, h3 {
     margin-top: 1.5rem;
     color: var(--primary-hover);
