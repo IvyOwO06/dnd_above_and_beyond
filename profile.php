@@ -40,8 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     displayHeader();
     $profile = getProfile($profileId);
 
-
-    ?>        
+    
+    ?> 
+    <div class="profile-header"> 
         <?php if (!empty($profile['profileBanner'])) { ?>
             <img src="<?php echo htmlspecialchars($profile['profileBanner']); ?>" class="profile-banner">
             <?php 
@@ -77,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
     ?>
+    </div>
 
 <body style="background-color: <?php echo htmlspecialchars($profile['profileColor']); ?>">
 

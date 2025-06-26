@@ -1,5 +1,7 @@
 body{
     background-color: rgb(255, 255, 255);
+      overflow-x: hidden;
+
 }
 
 .profile-banner {
@@ -460,13 +462,17 @@ campaign button:hover {
     max-height: 200px;
   }
 
-  .profile-picture {
-    left: 50%;
-    top: 180px; /* a bit higher for better balance */
-    transform: translate(-50%, 0);
-    height: 180px;
-    width: 180px;
-  }
+.profile-picture {
+  position: absolute;
+  bottom: -75px; /* half of image height to hang below */
+  left: 50%;
+  transform: translateX(-50%);
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 2;
+}
 
   .button-wrapper {
     margin-top: 7rem;
