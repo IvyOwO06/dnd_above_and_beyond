@@ -1,21 +1,24 @@
 <?php
 require_once 'functions.php';
 
-function getRacesFromJson() {
+function getRacesFromJson()
+{
     $json = file_get_contents('scripts/js/json/races/races.json');
     $data = json_decode($json, true);
 
     return $data['races'][0]['race']; // returns the array of races
 }
 
-function getRacesFluffFromJson() {
+function getRacesFluffFromJson()
+{
     $json = file_get_contents('scripts/js/json/races/fluff-races.json');
     $data = json_decode($json, true);
-        
+
     return $data['raceFluff']; // returns the array of raceFluff
 }
 
-function getFluffSnippet(array $entries, int $maxParts = 3): string {
+function getFluffSnippet(array $entries, int $maxParts = 3): string
+{
     $snippetParts = [];
 
     foreach ($entries as $entry) {
@@ -42,13 +45,15 @@ function getFluffSnippet(array $entries, int $maxParts = 3): string {
     return $snippet ?: ''; // fallback empty string if no snippet found
 }
 
-function getRaceFromJson($raceId) {
+function getRaceFromJson($raceId)
+{
     $races = getRacesFromJson();
 
     return $races[$raceId] ?? null;
 }
 
-function displayRaces() {
+function displayRaces()
+{
     $races = getRacesFromJson();
     $search = isset($_GET['search']) ? strtolower(trim($_GET['search'])) : '';
 
@@ -62,10 +67,10 @@ function displayRaces() {
             }
         }
         ?>
-        <div class="filter-item"
-             data-name="<?php echo strtolower(htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8')); ?>"
-             data-source="<?php echo strtolower(htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8')); ?>"
-             data-race-id="<?php echo $index; ?>">
+        <div class="filter-item" data-name="<?php echo strtolower(htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8')); ?>"
+            data-source="<?php echo strtolower(htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8')); ?>"
+            data-race-id="<?php echo $index; ?>"
+            data-race-json="<?php echo htmlspecialchars(json_encode($race), ENT_QUOTES, 'UTF-8'); ?>">
             <div class="class-card">
                 <h1><?php echo htmlspecialchars($race['name'], ENT_QUOTES, 'UTF-8'); ?></h1>
                 <p>Source: <?php echo htmlspecialchars($race['source'], ENT_QUOTES, 'UTF-8'); ?></p>
@@ -76,7 +81,8 @@ function displayRaces() {
 }
 
 // New function to output race data as JSON
-function outputRaceJson($raceId) {
+function outputRaceJson($raceId)
+{
     $race = getRaceFromJson($raceId);
     if (!$race) {
         http_response_code(404);
@@ -116,7 +122,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'get_race' && isset($_GET['rac
 }
 
 
-function displayRace($raceId) {
+function displayRace($raceId)
+{
     $race = getRaceFromJson($raceId);
     if (!$race) {
         echo "<p>Race not found.</p>";
@@ -124,7 +131,8 @@ function displayRace($raceId) {
     }
 
     // Inline helper function to recursively render entries safely
-    function renderEntries($entries, $depth = 2) {
+    function renderEntries($entries, $depth = 2)
+    {
         foreach ($entries as $entry) {
             if (is_string($entry)) {
                 echo "<p>" . htmlspecialchars(stripJsonTags($entry), ENT_QUOTES, 'UTF-8') . "</p>";

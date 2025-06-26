@@ -52,6 +52,13 @@ require 'inc/navFunctions.php';
                 });
             });
 
+            // Close modal with ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                    modal.style.display = 'none';
+                }
+            });
+
             // Close modal
             closeBtn.addEventListener('click', () => {
                 modal.style.display = 'none';

@@ -184,7 +184,7 @@ function homeTabBuilder($characterId)
             $health = $_POST['health'];
             $conn = dbConnect();
             
-            $stmt = $conn->prepare('UPDATE characters SET health = ? WHERE characterId = ?');
+            $stmt = $conn->prepare('UPDATE characters SET maxHP = ? WHERE characterId = ?');
             $stmt->execute([$health, $characterId]);
         }
     }
@@ -238,13 +238,13 @@ function toggleSection(id) {
         <!-- General Tab -->
         <div id="general" class="tab-content">
             <label for="characterName">Character Name:</label>
-            <input type="text" cLASS="characterName" name="characterName"
+            <input type="text" cLASS="characterName" name="characterName" id="characterName"
                 value="<?php echo htmlspecialchars($character['characterName']); ?>" required><br>
             <label for="age">Age:</label>
-            <input type="number" class="characterAge" name="age"
+            <input type="number" class="characterAge" name="age" id="characterAge"
                 value="<?php echo htmlspecialchars($character['characterAge']); ?>" required><br>
             <label>Alignment:</label>
-            <select name="alignment" class="alignment" required>
+            <select name="alignment" class="alignment" id="alignment" required>
                 <option value="">--Choose Option--</option>
                 <option value="Chaotic Neutral" <?php if ($character['alignment'] == 'Chaotic Neutral')
                     echo 'selected'; ?>>
@@ -275,11 +275,11 @@ function toggleSection(id) {
             </select><br>
             <form method="POST">
                 <label>Backstory:</label><br>
-                <textarea name="characterBackstory" class="characterBackstory" rows="10"
+                <textarea name="characterBackstory" class="characterBackstory" id="characterBackstory" rows="10"
                     cols="50"><?= htmlspecialchars($character['characterBackstory']) ?></textarea><br><br>
 
                 <label>Personality:</label><br>
-                <textarea name="characterPersonality" class="characterPersonality" rows="6"
+                <textarea name="characterPersonality" class="characterPersonality" id="characterPersonality" rows="6"
                     cols="50"><?= htmlspecialchars($character['characterPersonality']) ?></textarea><br><br>
 
             </form>
