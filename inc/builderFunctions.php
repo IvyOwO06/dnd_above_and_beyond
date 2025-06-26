@@ -168,6 +168,7 @@ function homeTabBuilder($characterId)
     $races = getRacesFromJson();
     $raceFluff = getRacesFluffFromJson();
     $character = getCharacter($characterId);
+    $level = $character['level'];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_FILES['characterImage'])) {
